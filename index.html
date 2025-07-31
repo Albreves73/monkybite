@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monkybite Cloud</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Cloud Storage Service</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <div class="logo">☁️ Home</div>
-    <nav>
-      <a href="#">Features</a>
-      <a href="#">Pricing</a>
-      <a href="#" class="login-btn">Login</a>
+    <nav class="navbar">
+      <div class="logo"><img src="cloud-icon.png" alt="Cloud Icon" /> Home</div>
+      <ul class="nav-links">
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#" class="login-btn">Login</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -20,50 +22,64 @@
     <div class="hero-text">
       <h1>Store with Freedom. Access with Security.</h1>
       <p>A new way to keep your files—simple, scalable, and tailored to you.</p>
-      <div class="buttons">
-        <a href="#" class="btn white">Get Started</a>
-        <a href="#" class="btn outline">View Plans</a>
+      <div class="hero-buttons">
+        <a href="#" class="btn-primary">Get Started</a>
+        <a href="#" class="btn-outline">View Plans</a>
       </div>
     </div>
     <div class="hero-image">
-      <img src="cloud-devices.png" alt="Cloud with devices" />
+      <img src="cloud-illustration.png" alt="Cloud Illustration" />
     </div>
   </section>
 
   <section class="features">
     <h2>Why choose our service?</h2>
     <ul>
-      <li>✔️ No hidden limits: you control your space</li>
-      <li>✔️ Advanced encryption for top-notch security</li>
-      <li>✔️ Fast and intuitive interface</li>
-      <li>✔️ Access from any device, anytime</li>
+      <li>✅ No hidden limits: you control your space</li>
+      <li>✅ Advanced encryption for top-notch security</li>
+      <li>✅ Fast and intuitive interface</li>
+      <li>✅ Access from any device, anytime</li>
     </ul>
   </section>
 
   <section class="how-it-works">
     <h2>How it works</h2>
-    <ol>
-      <li>👤 Create your account</li>
-      <li>📦 Select your plan</li>
-      <li>🔗 Start storing and sharing</li>
-    </ol>
+    <div class="steps">
+      <div class="step">
+        <img src="icon-account.png" alt="Create Account" />
+        <p>Create your account</p>
+      </div>
+      <div class="step">
+        <img src="icon-plan.png" alt="Select Plan" />
+        <p>Select your plan</p>
+      </div>
+      <div class="step">
+        <img src="icon-storage.png" alt="Start Storing" />
+        <p>Start storing and sharing</p>
+      </div>
+    </div>
   </section>
 
   <section class="pricing">
     <h2>Pricing</h2>
     <div class="plans">
-      <div>Free 1GB</div>
-      <div>Pro 100GB</div>
-      <div>Premium 1TB</div>
+      <div class="plan"><h3>Free</h3><p>1GB</p></div>
+      <div class="plan"><h3>Pro</h3><p>100GB</p></div>
+      <div class="plan"><h3>Premium</h3><p>1TB</p></div>
     </div>
-    <a href="#">See all plans</a>
+    <a href="#" class="see-plans">See all plans</a>
   </section>
 
   <footer>
-    <a href="#">Terms</a>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Support</a>
-    <span class="social">🐦</span>
+    <ul class="footer-links">
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Support</a></li>
+    </ul>
+    <div class="social-icons">
+      <a href="#"><img src="twitter.png" alt="Twitter" /></a>
+      <a href="#"><img src="facebook.png" alt="Facebook" /></a>
+    </div>
   </footer>
 </body>
 </html>
