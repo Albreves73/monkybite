@@ -1,125 +1,142 @@
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
+  
+styles.css
 
-    body {
-      background-color: #fef9f6;
-      color: #0a0a0a;
-      line-height: 1.6;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
 
-    header {
-      background-color: #2053a6;
-      color: white;
-      padding: 2rem;
-    }
+body {
+  background-color: #fef9f6;
+  color: #0a0a0a;
+  line-height: 1.6;
+}
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
+header {
+  background-color: #2053a6;
+  color: white;
+  padding: 2rem;
+}
 
-    nav .links a {
-      color: white;
-      margin-left: 2rem;
-      text-decoration: none;
-      font-weight: 500;
-    }
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
 
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-      max-width: 600px;
-    }
+nav .links a {
+  color: white;
+  margin-left: 2rem;
+  text-decoration: none;
+  font-weight: 500;
+}
 
-    .hero h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
+.login-button {
+  border: 1px solid white;
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+}
 
-    .hero p {
-      margin-bottom: 1.5rem;
-    }
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  max-width: 600px;
+}
 
-    .hero-buttons a {
-      background-color: white;
-      color: #2053a6;
-      padding: 0.6rem 1.2rem;
-      margin-right: 1rem;
-      border-radius: 6px;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid #2053a6;
-    }
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
 
-    .graphic {
-      margin-top: 2rem;
-    }
+.hero p {
+  margin-bottom: 1.5rem;
+}
 
-    .section {
-      padding: 2rem;
-      background-color: #f5f7fb;
-    }
+.hero-buttons .btn-primary,
+.hero-buttons .btn-outline {
+  padding: 0.6rem 1.2rem;
+  margin-right: 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+}
 
-    .section h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
+.btn-primary {
+  background-color: white;
+  color: #2053a6;
+  border: 1px solid #2053a6;
+}
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-    }
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
 
-    .features li {
-      list-style: none;
-      padding-left: 1.5rem;
-      position: relative;
-    }
+.graphic {
+  margin-top: 2rem;
+}
 
-    .features li::before {
-      content: '✔';
-      position: absolute;
-      left: 0;
-      color: #2053a6;
-    }
+.section {
+  padding: 2rem;
+  background-color: #f5f7fb;
+}
 
-    .how-it-works {
-      display: flex;
-      justify-content: space-around;
-      text-align: center;
-      margin: 2rem 0;
-    }
+.section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
 
-    .pricing {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
 
-    .pricing h3 {
-      margin-bottom: 1rem;
-    }
+.features li {
+  list-style: none;
+  padding-left: 1.5rem;
+  position: relative;
+}
 
-    .footer {
-      background-color: #1a3a7a;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
+.features li::before {
+  content: '✔';
+  position: absolute;
+  left: 0;
+  color: #2053a6;
+}
 
-    .footer a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-    }
-  </style>
-</head>
+.how-it-works {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.pricing {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pricing h3 {
+  margin-bottom: 1rem;
+}
+
+.footer {
+  background-color: #1a3a7a;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.footer a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
+}
