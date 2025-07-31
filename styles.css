@@ -1,154 +1,125 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #ffffff;
-  color: #1a1a1a;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
 
-header {
-  background-color: #0077cc;
-  padding: 1rem 2rem;
-  color: white;
-}
+    body {
+      background-color: #fef9f6;
+      color: #0a0a0a;
+      line-height: 1.6;
+    }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    header {
+      background-color: #2053a6;
+      color: white;
+      padding: 2rem;
+    }
 
-.logo {
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-}
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
 
-.logo img {
-  height: 24px;
-  margin-right: 8px;
-}
+    nav .links a {
+      color: white;
+      margin-left: 2rem;
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      max-width: 600px;
+    }
 
-.nav-links a {
-  color: white;
-  text-decoration: none;
-}
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
 
-.login-btn {
-  border: 1px solid white;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
+    .hero p {
+      margin-bottom: 1.5rem;
+    }
 
-.hero {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #0077cc;
-  color: white;
-  padding: 3rem 2rem;
-}
+    .hero-buttons a {
+      background-color: white;
+      color: #2053a6;
+      padding: 0.6rem 1.2rem;
+      margin-right: 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid #2053a6;
+    }
 
-.hero-text {
-  max-width: 50%;
-}
+    .graphic {
+      margin-top: 2rem;
+    }
 
-.hero-buttons {
-  margin-top: 1rem;
-}
+    .section {
+      padding: 2rem;
+      background-color: #f5f7fb;
+    }
 
-.btn-primary {
-  background-color: white;
-  color: #0077cc;
-  padding: 10px 20px;
-  border-radius: 20px;
-  text-decoration: none;
-  margin-right: 10px;
-}
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
 
-.btn-outline {
-  border: 1px solid white;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 20px;
-  text-decoration: none;
-}
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
 
-.hero-image img {
-  max-width: 300px;
-}
+    .features li {
+      list-style: none;
+      padding-left: 1.5rem;
+      position: relative;
+    }
 
-.features, .how-it-works, .pricing {
-  padding: 2rem;
-  text-align: center;
-}
+    .features li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: #2053a6;
+    }
 
-.features ul {
-  list-style: none;
-  padding: 0;
-}
+    .how-it-works {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin: 2rem 0;
+    }
 
-.features li {
-  margin: 0.5rem 0;
-}
+    .pricing {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
 
-.steps {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-}
+    .pricing h3 {
+      margin-bottom: 1rem;
+    }
 
-.step img {
-  height: 50px;
-}
+    .footer {
+      background-color: #1a3a7a;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
 
-.plans {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
-}
-
-.plan {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 10px;
-  width: 120px;
-}
-
-.see-plans {
-  display: block;
-  margin-top: 1rem;
-  color: #0077cc;
-  text-decoration: none;
-}
-
-footer {
-  background-color: #0077cc;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-links {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-
-.footer-links a {
-  color: white;
-  text-decoration: none;
-}
-
-.social-icons img {
-  height: 24px;
-  margin-left: 10px;
-}
+    .footer a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+    }
+  </style>
+</head>
