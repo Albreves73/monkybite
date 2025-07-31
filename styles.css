@@ -1,74 +1,86 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #ffffff;
+  background-color: #ffffff;
   color: #1a1a1a;
 }
 
 header {
-  background: #0077cc;
+  background-color: #0077cc;
+  padding: 1rem 2rem;
   color: white;
+}
+
+.navbar {
   display: flex;
   justify-content: space-between;
-  padding: 1rem 2rem;
   align-items: center;
 }
 
 .logo {
-  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
-nav a {
+.logo img {
+  height: 24px;
+  margin-right: 8px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
   color: white;
-  margin-left: 1rem;
   text-decoration: none;
 }
 
 .login-btn {
   border: 1px solid white;
-  padding: 0.3rem 0.7rem;
-  border-radius: 5px;
+  padding: 6px 12px;
+  border-radius: 20px;
 }
 
 .hero {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  padding: 2rem;
-  background: #0077cc;
+  background-color: #0077cc;
   color: white;
+  padding: 3rem 2rem;
 }
 
 .hero-text {
-  flex: 1;
-  min-width: 250px;
+  max-width: 50%;
 }
 
-.hero-image img {
-  max-width: 100%;
-  height: auto;
-}
-
-.buttons {
+.hero-buttons {
   margin-top: 1rem;
 }
 
-.btn {
-  padding: 0.6rem 1.2rem;
-  border-radius: 5px;
-  text-decoration: none;
-  margin-right: 1rem;
-  font-weight: bold;
-}
-
-.white {
-  background: white;
+.btn-primary {
+  background-color: white;
   color: #0077cc;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin-right: 10px;
 }
 
-.outline {
-  border: 2px solid white;
+.btn-outline {
+  border: 1px solid white;
   color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.hero-image img {
+  max-width: 300px;
 }
 
 .features, .how-it-works, .pricing {
@@ -76,36 +88,67 @@ nav a {
   text-align: center;
 }
 
-.features ul, .how-it-works ol {
+.features ul {
   list-style: none;
   padding: 0;
-  margin-top: 1rem;
 }
 
-.features li, .how-it-works li {
+.features li {
   margin: 0.5rem 0;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.step img {
+  height: 50px;
 }
 
 .plans {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin: 1rem 0;
+  margin-top: 1rem;
+}
+
+.plan {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 120px;
+}
+
+.see-plans {
+  display: block;
+  margin-top: 1rem;
+  color: #0077cc;
+  text-decoration: none;
 }
 
 footer {
-  background: #003366;
+  background-color: #0077cc;
   color: white;
+  padding: 1rem 2rem;
   display: flex;
-  justify-content: space-around;
-  padding: 1rem;
+  justify-content: space-between;
+  align-items: center;
 }
 
-footer a {
+.footer-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.footer-links a {
   color: white;
   text-decoration: none;
 }
 
-.social {
-  font-size: 1.2rem;
+.social-icons img {
+  height: 24px;
+  margin-left: 10px;
 }
