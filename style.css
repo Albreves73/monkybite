@@ -37,7 +37,7 @@ nav a {
 .hero {
   display: flex;
   justify-content: space-between;
-  align-items: right;
+  align-items: center;
   padding: 60px 40px;
   background-color: #e8ebf2;
   flex-wrap: wrap;
