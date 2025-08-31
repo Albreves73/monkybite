@@ -178,4 +178,22 @@ footer {
   .feature-grid {
     grid-template-columns: 1fr;
   }
+
+  body {
+  font-size: 16px;
 }
+
+@media (max-width: 480px) {
+  body {
+    font-size: 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
