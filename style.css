@@ -162,6 +162,12 @@ footer {
     padding: 30px 20px;
   }
 
+  .hero-image img {
+  height: 180px;
+  margin-right: 0;
+}
+
+
   .hero-content {
     margin: 0 auto;
     max-width: 100%;
@@ -194,17 +200,3 @@ footer {
   }
 }
 
-@media (max-width: 480px) {
-  body {
-    font-size: 15px;
-  }
-
-  .hero-content h1 {
-    font-size: 1.8rem;
-  }
-
-  .btn {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-}
