@@ -9,7 +9,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 40px;
+  padding: 6px 40px;
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
 }
@@ -107,7 +107,7 @@ nav a {
 }
 
 .features {
-  padding: 60px 40px;
+  padding: 40px 40px;
   background-color: #f5f5f5;
   text-align: center;
 }
