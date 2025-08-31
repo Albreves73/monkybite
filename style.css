@@ -81,6 +81,12 @@ nav a {
   margin-right: 60px;
 }
 
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+
 .trust {
   padding: 60px 40px;
   background-color: #ffffff;
@@ -90,7 +96,7 @@ nav a {
 .trust h2 {
   font-size: 1.8rem;
   margin-bottom: 10px;
-  marfin-top: 10px;
+  margin-top: 10px;
 }
 
 .trust p {
@@ -179,8 +185,13 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  body {
-  font-size: 16px;
+  .hero-content p {
+    margin-left: 0;
+  }
+
+  .btn {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -196,4 +207,4 @@ footer {
     padding: 10px 20px;
     font-size: 0.9rem;
   }
-
+}
