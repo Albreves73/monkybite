@@ -38,19 +38,14 @@ nav a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 40px; /* reduz altura */
+  padding: 40px;
   background-color: #B3BCCC;
   flex-wrap: wrap;
 }
 
 .hero-content {
+  fex: 1;
   max-width: 500px;
-}
-
-.hero-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }
 
 .hero-logo {
@@ -79,11 +74,16 @@ nav a {
   margin-left: 20px;
 }
 
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .hero-image img {
-  height: 200px;
-  margin-top: 20px;
-  margin-right: 80px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 400px; /* ajuste conforme o tamanho desejado */
   height: auto;
 }
 
