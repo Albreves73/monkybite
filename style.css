@@ -38,18 +38,13 @@ nav a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 10px 40px; /* reduz altura */
   background-color: #B3BCCC;
   flex-wrap: wrap;
 }
 
 .hero-content {
   max-width: 500px;
-}
-
-.hero-content h1 {
-  margin-top: 5px;     /* Move o título para cima */
-  margin-left: 20px;     /* Afasta da margem esquerda */
 }
 
 .hero-row {
@@ -59,20 +54,18 @@ nav a {
 }
 
 .hero-logo {
-  height: 80px; /* ou 60px se quiser menor */
+  height: 60px; /* menor para alinhar com texto */
 }
-
 
 .hero-content h1 {
   font-size: 2.0rem;
-  margin-bottom: 20px;
+  margin: 10px 0 20px 20px; /* desce um pouco e afasta da esquerda */
 }
 
 .hero-content p {
   font-size: 1.2rem;
   margin-bottom: 30px;
   margin-left: 20px;
-
 }
 
 .btn {
@@ -90,24 +83,19 @@ nav a {
   height: 200px;
   margin-top: 20px;
   margin-right: 80px;
-}
-
-.hero-image img {
   max-width: 100%;
   height: auto;
 }
 
-
 .trust {
-  padding: 60px 40px;
+  padding: 30px 40px; /* reduz altura */
   background-color: #ffffff;
   text-align: center;
 }
 
 .trust h2 {
   font-size: 1.8rem;
-  margin-bottom: 5px;
-  margin-top: 10px;
+  margin: 0 0 5px 0; /* sobe o título */
 }
 
 .trust p {
@@ -173,20 +161,22 @@ footer {
     padding: 30px 20px;
   }
 
-  .hero-image img {
-  height: 180px;
-  margin-right: 0;
-}
-
-
   .hero-content {
     margin: 0 auto;
     max-width: 100%;
+    text-align: center;
+  }
+
+  .hero-content h1,
+  .hero-content p,
+  .btn {
+    margin-left: 0;
   }
 
   .hero-image img {
     height: 180px;
     margin-top: 20px;
+    margin-right: 0;
   }
 
   nav {
@@ -201,13 +191,4 @@ footer {
   .feature-grid {
     grid-template-columns: 1fr;
   }
-
-  .hero-content p {
-    margin-left: 0;
-  }
-
-  .btn {
-    margin-left: 0;
-  }
 }
-
