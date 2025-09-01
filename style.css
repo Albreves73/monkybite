@@ -76,9 +76,9 @@ nav a {
 }
 
 .hero-image img {
-  height: 300px;
+  height: 200px;
   margin-top: 20px;
-  margin-right: 60px;
+  margin-right: 80px;
 }
 
 .hero-image img {
@@ -95,7 +95,7 @@ nav a {
 
 .trust h2 {
   font-size: 1.8rem;
-  margin-bottom: -10px;
+  margin-bottom: 5px;
   margin-top: 10px;
 }
 
