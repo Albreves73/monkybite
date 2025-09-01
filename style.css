@@ -44,7 +44,7 @@ nav a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 20px;
   background-color: #B3BCCC;
   flex-wrap: wrap;
 }
