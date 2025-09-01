@@ -44,7 +44,7 @@ nav a {
 }
 
 .hero-content {
-  fex: 1;
+  flex: 1;
   max-width: 500px;
 }
 
@@ -85,6 +85,7 @@ nav a {
   width: 100%;
   max-width: 400px; /* ajuste conforme o tamanho desejado */
   height: auto;
+  object-fit: contain;
 }
 
 .trust {
@@ -174,7 +175,7 @@ footer {
   }
 
   .hero-image img {
-    height: 180px;
+    height: 250px;
     margin-top: 20px;
     margin-right: 0;
   }
