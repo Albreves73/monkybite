@@ -187,8 +187,10 @@ footer {
   .hero-content h1,
   .hero-content p,
   .btn {
-    margin-left: 0;
-  }
+  display: block;
+  margin: 0 auto;
+}
+
 
   .hero-image img {
     height: 250px;
