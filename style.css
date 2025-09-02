@@ -76,15 +76,17 @@ nav a {
 }
 
 .btn {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
   padding: 12px 24px;
   background-color: #1a2a4f;
   color: #fff;
   text-decoration: none;
   font-weight: bold;
   border-radius: 6px;
-  margin-left: 20px;
 }
+
 
 .hero-image {
   flex: 1;
@@ -108,9 +110,10 @@ nav a {
 
 
 .trust h2 {
-  font-size: 1.8rem;
-  margin: 0 0 5px 0;
+  margin-top: 0;
+  margin-bottom: 5px;
 }
+
 
 .trust p {
   font-size: 1rem;
