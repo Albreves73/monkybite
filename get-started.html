@@ -25,6 +25,8 @@
     <p>Use your work email to get started with MonkyBite</p>
 
     <div class="auth-options">
+      <button id="google-login" class="auth-btn google">Continue with Google</button>
+
       <button class="auth-btn google">Continue with Google</button>
       <button class="auth-btn apple">Continue with Apple</button>
       <div class="divider">or</div>
@@ -36,6 +38,23 @@
   <footer>
     <p>© 2025 MonkyBite. Made with bite in the U.S.</p>
   </footer>
+
+  <script>
+  document.getElementById("google-login").addEventListener("click", function () {
+    const width = 500;
+    const height = 600;
+    const left = (screen.width / 2) - (width / 2);
+    const top = (screen.height / 2) - (height / 2);
+
+    window.open(
+      "https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=token&scope=email%20profile",
+      "GoogleLogin",
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+  });
+</script>
+
+  
 </body>
 </html>
 
