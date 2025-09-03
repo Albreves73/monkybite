@@ -129,58 +129,69 @@ nav a {
   font-weight: bold;
 }
 
-.get-started-hero {
-  background-color: #B3BCCC;
+.get-started-box {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
-  padding: 60px 20px;
+}
+
+.get-started-box h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
   color: #1a2a4f;
 }
 
-.get-started-hero h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-}
-
-.get-started-hero p {
-  font-size: 1.2rem;
+.get-started-box p {
+  font-size: 1rem;
   margin-bottom: 30px;
+  color: #555;
 }
 
-.get-started-form {
-  padding: 40px;
-  background-color: #ffffff;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.get-started-form h2 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.get-started-form form {
+.auth-options {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.get-started-form input,
-.get-started-form textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.auth-btn {
+  padding: 12px;
   font-size: 1rem;
-}
-
-.get-started-form button {
-  padding: 12px 24px;
-  background-color: #1a2a4f;
-  color: #fff;
   border: none;
   border-radius: 6px;
-  font-weight: bold;
   cursor: pointer;
+  font-weight: bold;
+}
+
+.auth-btn.google {
+  background-color: #4285F4;
+  color: white;
+}
+
+.auth-btn.apple {
+  background-color: #000;
+  color: white;
+}
+
+.auth-btn.primary {
+  background-color: #1a2a4f;
+  color: white;
+}
+
+input[type="email"] {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.divider {
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
 }
 
 
