@@ -188,7 +188,7 @@ footer {
   .hero-content p,
   .btn {
   display: block;
-  margin: 0 auto;
+  margin:  20px auto 0 auto; /* 20px de espaço acima, centralizado */
 }
 
 
