@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Auth Callback</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="auth-callback">
+    <h1>Welcome to MonkyBite!</h1>
+    <p id="status">Processing your login...</p>
+  </main>
+
+  <script>
+    // Captura o token da URL
+    const hash = window.location.hash;
+    const params = new URLSearchParams(hash.substring(1));
+    const accessToken = params.get("access_token");
+
+    if (accessToken) {
+      document.getElementById("status").textContent = "Login successful!";
+      // Aqui você pode salvar o token localmente ou enviar para seu backend
+      console.log("Access Token:", accessToken);
+    } else {
+      document.getElementById("status").textContent = "Login failed or token missing.";
+    }
+  </script>
+</body>
+</html>
