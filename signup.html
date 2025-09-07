@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="signup-box">
+    <h1>Create Your MonkyBite Account</h1>
+    <form>
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Your email" required />
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="Your name" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Create a password" required />
+
+      <button type="submit" class="auth-btn primary">Sign Up</button>
+    </form>
+  </main>
+
+  <script>
+    // Pré-preenche o email se estiver salvo
+    const savedEmail = localStorage.getItem("monkybite_email");
+    if (savedEmail) {
+      document.getElementById("email").value = savedEmail;
+    }
+  </script>
+</body>
+</html>
