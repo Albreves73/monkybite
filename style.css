@@ -183,8 +183,21 @@ nav a {
 
 .auth-btn.apple {
   background-color: #000;
-  color: white;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 1rem;
+  cursor: not-allowed;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
 }
+
+.auth-btn.apple.coming-soon:hover {
+  opacity: 0.65;
+}
+
 
 .auth-btn.primary {
   background-color: #1a2a4f;
