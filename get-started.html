@@ -53,6 +53,23 @@
   });
 </script>
 
+  <script>
+  document.getElementById("email-continue").addEventListener("click", function () {
+    const emailInput = document.getElementById("user-email").value.trim();
+
+    if (!emailInput || !emailInput.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Armazena o email localmente (opcional)
+    localStorage.setItem("monkybite_email", emailInput);
+
+    // Redireciona para a página de cadastro
+    window.location.href = "signup.html";
+  });
+</script>
+
   
 </body>
 </html>
