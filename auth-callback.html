@@ -11,21 +11,22 @@
     <p id="status">Processing your login...</p>
   </main>
 
-  
-<script>
-    // Captura o token da URL
-    const hash = window.location.hash;
-    const params = new URLSearchParams(hash.substring(1));
-    const accessToken = params.get("access_token");
+  <script>
+  const hash = window.location.hash;
+  const params = new URLSearchParams(hash.substring(1));
+  const accessToken = params.get("access_token");
 
-    if (accessToken) {
-      document.getElementById("status").textContent = "Login successful!";
-      // Aqui você pode salvar o token localmente ou enviar para seu backend
-      console.log("Access Token:", accessToken);
-    } else {
-      document.getElementById("status").textContent = "Login failed or token missing.";
-    }
-  </script>
+  if (accessToken) {
+    // Aqui você pode salvar o token ou enviar para backend
+    // E redirecionar para o Nextcloud
+    window.location.href = "https://nextcloud.monkybite.com/login?token=" + accessToken;
+  } else {
+    document.body.innerHTML = "<h1>Login failed</h1>";
+  }
+</script>
+
+  
+
 
   
 </body>
