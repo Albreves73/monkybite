@@ -1,1 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #f4f6f8;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .placeholder-box {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #1a2a4f;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .loading {
+      font-size: 0.9rem;
+      color: #888;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+  <div class="placeholder-box">
+    <h1>Welcome to your MonkyBite Workspace</h1>
+    <p>Your login was successful. We're preparing your environment...</p>
+    <div class="loading">Loading secure workspace...</div>
+  </div>
+
+  <script>
+    // Simula redirecionamento após alguns segundos
+    setTimeout(() => {
+      window.location.href = "https://monkybite.com/dashboard"; // ou o link real do Nextcloud quando estiver pronto
+    }, 3000);
+  </script>
+</body>
+</html>
 
