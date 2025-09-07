@@ -62,13 +62,12 @@
       return;
     }
 
-    // Armazena o email localmente (opcional)
-    localStorage.setItem("monkybite_email", emailInput);
-
-    // Redireciona para a página de cadastro
-    window.location.href = "signup.html";
+    // Redireciona para a página de cadastro do Nextcloud
+    // Quando o Nextcloud estiver pronto, substitua o link abaixo pelo real
+    window.location.href = "https://nextcloud.monkybite.com/signup?email=" + encodeURIComponent(emailInput);
   });
 </script>
+
 
   
 </body>
