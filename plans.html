@@ -4,9 +4,68 @@
   <meta charset="UTF-8" />
   <title>MonkyBite — Choose Your Plan</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .plans-container {
+      padding: 40px;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+
+    .plans-container h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #1a2a4f;
+    }
+
+    .plans-container p {
+      font-size: 1rem;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .plan-card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .plan-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #1a2a4f;
+    }
+
+    .plan-card p {
+      font-size: 0.95rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .plan-card button {
+      padding: 10px 20px;
+      background-color: #1a2a4f;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .plan-card button:hover {
+      background-color: #14203a;
+    }
+  </style>
 </head>
 <body>
-  <!-- ✅ Cabeçalho igual ao da homepage -->
+  <!-- Cabeçalho MonkyBite -->
   <header>
     <div class="logo">
       <img src="logo.png" alt="MonkyBite Logo" />
@@ -19,7 +78,7 @@
     </nav>
   </header>
 
-  <!-- ✅ Conteúdo da página de planos -->
+  <!-- Conteúdo principal -->
   <section class="plans-container">
     <h1>Welcome to MonkyBite!</h1>
     <p>Select your plan to continue:</p>
@@ -43,11 +102,12 @@
     </div>
   </section>
 
-  <!-- ✅ Rodapé igual ao da homepage -->
+  <!-- Rodapé MonkyBite -->
   <footer>
     <p>© 2025 MonkyBite.</p>
   </footer>
 
+  <!-- Script de redirecionamento -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
@@ -59,4 +119,3 @@
   </script>
 </body>
 </html>
-
