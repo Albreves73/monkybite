@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Loading Your Workspace</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="get-started-box">
+    <h1>Welcome to MonkyBite Cloud</h1>
+    <p id="status">Loading your workspace...</p>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    const plan = params.get("plan");
+
+    // Aqui você pode salvar o plano ou token via backend futuramente
+
+    // Redireciona para o Nextcloud (ou proxy)
+    window.location.href = "https://nextcloud.monkybite.com/apps/files/?token=" + token;
+  </script>
+</body>
+</html>
