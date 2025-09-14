@@ -1,1 +1,18 @@
+<h1>Choose your MonkyBite plan</h1>
+<p>Welcome! Select a plan to continue:</p>
+
+<div class="plan-options">
+  <button onclick="continueToCloud('free')">Free</button>
+  <button onclick="continueToCloud('pro')">Pro</button>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get("token");
+
+  function continueToCloud(plan) {
+    // Você pode salvar o plano ou enviar para backend aqui
+    window.location.href = "https://nextcloud.monkybite.com/login?token=" + token;
+  }
+</script>
 
