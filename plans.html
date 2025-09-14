@@ -4,67 +4,23 @@
   <meta charset="UTF-8" />
   <title>MonkyBite — Choose Your Plan</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .plans-container {
-      max-width: 800px;
-      margin: 60px auto;
-      text-align: center;
-    }
-
-    .plans-container h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      color: #1a2a4f;
-    }
-
-    .plans-container p {
-      font-size: 1rem;
-      margin-bottom: 30px;
-      color: #555;
-    }
-
-    .plan-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-    }
-
-    .plan-card {
-      background-color: #aee2ff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .plan-card h2 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #1a2a4f;
-    }
-
-    .plan-card p {
-      font-size: 0.95rem;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .plan-card button {
-      padding: 10px 20px;
-      background-color: #1a2a4f;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .plan-card button:hover {
-      background-color: #14203a;
-    }
-  </style>
 </head>
 <body>
-  <div class="plans-container">
+  <!-- ✅ Cabeçalho igual ao da homepage -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </div>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="get-started.html">LOGIN</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- ✅ Conteúdo da página de planos -->
+  <section class="plans-container">
     <h1>Welcome to MonkyBite!</h1>
     <p>Select your plan to continue:</p>
 
@@ -85,16 +41,22 @@
         <button onclick="continueToCloud('enterprise')">Choose Enterprise</button>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ✅ Rodapé igual ao da homepage -->
+  <footer>
+    <p>© 2025 MonkyBite.</p>
+  </footer>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
 
     function continueToCloud(plan) {
-      // Aqui você pode salvar o plano no backend futuramente
+      // Futuramente você pode salvar o plano no backend
       window.location.href = "https://nextcloud.monkybite.com/login?token=" + token;
     }
   </script>
 </body>
 </html>
+
