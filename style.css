@@ -210,7 +210,8 @@ nav a {
   color: white;
 }
 
-input[type="email"] {
+input[type="email"],
+input[type="password"] {
   width: 100%;
   max-width: 300px;
   padding: 12px;
@@ -219,6 +220,7 @@ input[type="email"] {
   border-radius: 6px;
   text-align: center;
 }
+
 
 .divider {
   text-align: center;
