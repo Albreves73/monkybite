@@ -176,6 +176,12 @@ nav a {
   text-align: center;
 }
 
+.auth-btn.primary {
+  width: 100%;
+  max-width: 300px;
+}
+
+
 .auth-btn.google {
   background-color: #4285F4;
   color: white;
