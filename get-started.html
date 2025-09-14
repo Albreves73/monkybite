@@ -8,6 +8,7 @@
   <link rel="icon" href="favicon.ico" />
 </head>
 <body>
+  <!-- Cabeçalho MonkyBite -->
   <header>
     <div class="logo">
       <img src="logo.png" alt="MonkyBite Logo" />
@@ -20,93 +21,65 @@
     </nav>
   </header>
 
+  <!-- Bloco principal de login -->
   <main class="get-started-box">
     <h1>Sign up or log in</h1>
     <p>We recommend using your main email.</p>
 
     <div class="auth-options">
+      <!-- Botão Google -->
       <button id="google-login" class="auth-btn google">Continue with Google</button>
+
+      <!-- Botão Apple (desativado) -->
       <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
 
+      <!-- Divider -->
       <div class="divider">or</div>
-      <input type="email" id="user-email" placeholder="Work email" required />
-      <button id="email-continue" class="auth-btn primary">Continue</button>
+
+      <!-- Formulário de email/senha -->
+      <form id="emailLoginForm" onsubmit="handleEmailLogin(event)">
+        <input type="email" id="email" placeholder="Work email" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit" class="auth-btn primary">Continue</button>
+      </form>
     </div>
-
-    <div class="get-started-box">
-  <h1>Get Started with MonkyBite</h1>
-  <p>Choose your login method:</p>
-
-  <div class="auth-options">
-    <!-- Botão Google -->
-    <a href="https://accounts.google.com/o/oauth2/v2/auth?...YOUR_PARAMS..." class="auth-btn google">Sign in with Google</a>
-
-    <!-- Divider opcional -->
-    <div class="divider">or</div>
-
-    <!-- Formulário de email/senha -->
-    <form id="emailLoginForm" onsubmit="handleEmailLogin(event)">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit" class="auth-btn primary">Continue</button>
-    </form>
-  </div>
-</div>
-
-    
   </main>
 
+  <!-- Rodapé MonkyBite -->
   <footer>
     <p>© 2025 MonkyBite. Made with bite in the U.S.</p>
   </footer>
 
+  <!-- Scripts -->
   <script>
-  document.getElementById("google-login").addEventListener("click", function () {
-    const width = 500;
-    const height = 600;
-    const left = (screen.width / 2) - (width / 2);
-    const top = (screen.height / 2) - (height / 2);
+    // Login com Google
+    document.getElementById("google-login").addEventListener("click", function () {
+      const width = 500;
+      const height = 600;
+      const left = (screen.width / 2) - (width / 2);
+      const top = (screen.height / 2) - (height / 2);
 
-    window.open(
-      "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
-      "GoogleLogin",
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-  });
-</script>
+      window.open(
+        "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
+        "GoogleLogin",
+        `width=${width},height=${height},top=${top},left=${left}`
+      );
+    });
 
-  <script>
-  document.getElementById("email-continue").addEventListener("click", function () {
-    const emailInput = document.getElementById("user-email").value.trim();
+    // Login com email/senha
+    function handleEmailLogin(event) {
+      event.preventDefault();
 
-    if (!emailInput || !emailInput.includes("@")) {
-      alert("Please enter a valid email address.");
-      return;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      // Simulação de token (futuramente será real)
+      const fakeToken = btoa(email + ":" + password);
+
+      // Redireciona para a página de planos
+      window.location.href = "plans.html?token=" + fakeToken;
     }
-
-    // Redireciona para a página de cadastro do Nextcloud
-    // Quando o Nextcloud estiver pronto, substitua o link abaixo pelo real
-    window.location.href = "https://nextcloud.monkybite.com/signup?email=" + encodeURIComponent(emailInput);
-  });
-</script>
-
-  <script>
-  function handleEmailLogin(event) {
-    event.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    // Simulação de token (futuramente será real)
-    const fakeToken = btoa(email + ":" + password);
-
-    // Redireciona para a página de planos
-    window.location.href = "plans.html?token=" + fakeToken;
-  }
-</script>
-
-
-  
+  </script>
 </body>
 </html>
 
