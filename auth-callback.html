@@ -17,10 +17,10 @@
   const accessToken = params.get("access_token");
 
   if (accessToken) {
-    // Aqui você pode salvar o token ou enviar para backend
-    // E redirecionar para o Nextcloud
-    window.location.href = "https://nextcloud.monkybite.com/login?token=" + accessToken;
-  } else {
+  // Redireciona para sua página de planos
+  window.location.href = "plans.html?token=" + accessToken;
+}
+else {
     document.body.innerHTML = "<h1>Login failed</h1>";
   }
 </script>
