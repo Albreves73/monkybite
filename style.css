@@ -331,4 +331,24 @@ footer {
   .feature-grid {
     grid-template-columns: 1fr;
   }
+
+  .button {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+.button.primary {
+  background-color: #1a2a4f;
+  color: white;
+}
+.button.google {
+  background-color: #4285F4;
+  color: white;
+}
+
+  
 }
