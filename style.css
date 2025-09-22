@@ -332,7 +332,8 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .button {
+/* NOVO ESTILO DE BOTÕES */
+.button {
   display: inline-block;
   padding: 12px 24px;
   border-radius: 6px;
@@ -340,15 +341,23 @@ footer {
   text-align: center;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 0.2s ease;
 }
+
 .button.primary {
   background-color: #1a2a4f;
   color: white;
 }
+
 .button.google {
   background-color: #4285F4;
   color: white;
 }
+
+.button:hover {
+  transform: scale(1.03);
+}
+
 
   
 }
