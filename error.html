@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Oops!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #fff8f0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .error-box {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #d35400;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .emoji {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      background-color: #1a2a4f;
+      color: white;
+      transition: transform 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+  <div class="error-box">
+    <div class="emoji">😿</div>
+    <h1>Oops! Something went wrong.</h1>
+    <p>We couldn’t find your session or plan. Maybe it expired or got lost in the cloud.</p>
+    <a href="get-started.html" class="button">Back to Login</a>
+  </div>
+
+  <script>
+    const token = sessionStorage.getItem("access_token");
+    const plan = sessionStorage.getItem("plan");
+
+    // Se tudo estiver ok, redireciona para o painel
+    if (token && plan) {
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>
