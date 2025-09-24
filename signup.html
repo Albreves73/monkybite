@@ -7,30 +7,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-  <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const selectedPlan = urlParams.get("plan");
-
-  if (selectedPlan) {
-    const planMessage = {
-      free: "You chose the Free plan — let’s get started!",
-      starter: "You chose the Starter plan — let’s finish your signup.",
-      pro: "You chose the Pro plan — welcome aboard!",
-      enterprise: "You chose the Enterprise plan — let’s build something big!"
-    };
-
-    const message = planMessage[selectedPlan] || "Let’s finish your signup.";
-    const banner = document.createElement("div");
-    banner.textContent = message;
-    banner.style.background = "#e0f0ff";
-    banner.style.color = "#1a2a4f";
-    banner.style.padding = "12px";
-    banner.style.textAlign = "center";
-    banner.style.fontWeight = "bold";
-    banner.style.marginBottom = "20px";
-    document.body.insertBefore(banner, document.body.firstChild);
-  }
-</script>
 
   
 <body>
@@ -95,6 +71,33 @@
       window.location.href = "dashboard.html";
     }
   </script>
+
+    <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedPlan = urlParams.get("plan");
+
+  if (selectedPlan) {
+    const planMessage = {
+      free: "You chose the Free plan — let’s get started!",
+      starter: "You chose the Starter plan — let’s finish your signup.",
+      pro: "You chose the Pro plan — welcome aboard!",
+      enterprise: "You chose the Enterprise plan — let’s build something big!"
+    };
+
+    const message = planMessage[selectedPlan] || "Let’s finish your signup.";
+    const banner = document.createElement("div");
+    banner.textContent = message;
+    banner.style.background = "#e0f0ff";
+    banner.style.color = "#1a2a4f";
+    banner.style.padding = "12px";
+    banner.style.textAlign = "center";
+    banner.style.fontWeight = "bold";
+    banner.style.marginBottom = "20px";
+    document.body.insertBefore(banner, document.body.firstChild);
+  }
+</script>
+
+  
 </body>
 </html>
 
