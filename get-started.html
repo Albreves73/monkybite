@@ -27,30 +27,23 @@
     <h1>Sign up or log in</h1>
     <p>We recommend using your main email.</p>
 
-    <div class="auth-options">
+   <div class="auth-options">
+  <!-- Botão Google -->
+  <button id="google-login" class="auth-btn button google">Continue with Google</button>
 
-      <!-- Botão Google -->
-      <button id="google-login" class="auth-btn button google">Continue with Google</button>
+  <!-- Botão Apple (desativado) -->
+  <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
 
+  <!-- Divider -->
+  <div class="divider">or</div>
 
-      <!-- Botão Apple (desativado) -->
-      <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
+  <!-- Botão para novo fluxo de cadastro -->
+  <a href="signup.html" class="button primary">Sign up for free</a>
 
-      <!-- Divider -->
-      <div class="divider">or</div>
-
-      <!-- Formulário de email/senha -->
-      <form id="emailLoginForm" onsubmit="handleEmailLogin(event)">
-  <input type="email" id="email" placeholder="Email" required />
-
-  <input type="password" id="password" placeholder="Create a password" required />
-
-  <button type="submit" class="auth-btn primary" style="margin-top: 20px;">Continue</button>
-</form>
-
-       <!-- Botão de simulação para testes internos -->
+  <!-- Botão de simulação para testes internos -->
   <button class="button primary" onclick="simulateLogin()">Simular Login</button>
 </div>
+
       
   </main>
 
