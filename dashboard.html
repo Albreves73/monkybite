@@ -5,78 +5,41 @@
   <title>MonkyBite — Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      background-color: #f5f5f5;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-
-    .dashboard-box {
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 500px;
-    }
-
-    h1 {
-      font-size: 1.8rem;
-      color: #1a2a4f;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1rem;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      text-decoration: none;
-      background-color: #1a2a4f;
-      color: white;
-      transition: transform 0.2s ease;
-    }
-
-    .button:hover {
-      transform: scale(1.03);
-    }
-  </style>
 </head>
 <body>
-  <div class="dashboard-box">
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </div>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="settings.html">SETTINGS</a>
+      <a href="upgrade.html">UPGRADE</a>
+    </nav>
+  </header>
+
+  <main class="get-started-box">
     <h1>Welcome to MonkyBite Cloud</h1>
-    <p id="plan-info">Loading your plan...</p>
-    <p id="storage-info">Checking your storage...</p>
-    <a href="https://nextcloud.monkybite.com/apps/files/" class="button">Open My Files</a>
-  </div>
+    <p id="plan-info"></p>
+    <p id="usage-info"></p>
+    <a href="https://nextcloud.monkybite.com/apps/files/" class="button primary">Open My Files</a>
+  </main>
 
   <script>
+    const userName = sessionStorage.getItem("user_name") || "User";
     const plan = sessionStorage.getItem("plan") || "free";
 
     const planDetails = {
-      free: { label: "Free", space: "5 GB", used: "1.2 GB" },
-      starter: { label: "Starter", space: "1 TB", used: "80 GB" },
-      pro: { label: "Pro", space: "2 TB", used: "120 GB" },
-      enterprise: { label: "Enterprise", space: "5 TB", used: "340 GB" }
+      free: { label: "Free plan — 5 GB total", used: "1.2 GB" },
+      starter: { label: "Starter plan — 1 TB total", used: "80 GB" },
+      pro: { label: "Pro plan — 2 TB total", used: "320 GB" },
+      enterprise: { label: "Enterprise plan — 5 TB total", used: "1.1 TB" }
     };
 
-    const current = planDetails[plan];
-    document.getElementById("plan-info").innerText = `You're using the ${current.label} plan — ${current.space} total`;
-    document.getElementById("storage-info").innerText = `You've used ${current.used} so far`;
+    document.querySelector("h1").innerText = `Welcome to MonkyBite Cloud, ${userName}`;
+    document.getElementById("plan-info").innerText = `You're using the ${planDetails[plan].label}`;
+    document.getElementById("usage-info").innerText = `You've used ${planDetails[plan].used} so far`;
   </script>
 </body>
 </html>
