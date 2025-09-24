@@ -284,10 +284,16 @@ footer {
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 30px;
-  width: 250px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.2s ease;
+  text-align: center;
 }
+
+.plan-card {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
 
 .plan-card:hover {
   transform: scale(1.03);
