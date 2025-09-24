@@ -26,11 +26,13 @@ header {
   margin-right: 10px;
 }
 
-.logo .brand-name {
+  .logo .brand-name {
   font-size: 1.2rem;
   color: #1a2a4f;
   font-weight: bold;
+  text-decoration: none; /* Garante que o nome também fique sem sublinhado */
 }
+
 
 
 .logo img {
