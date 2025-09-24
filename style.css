@@ -18,14 +18,20 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  text-decoration: none;
 }
 
-.brand-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1a2a4f;
+.logo img {
+  height: 40px;
+  margin-right: 10px;
 }
+
+.logo .brand-name {
+  font-size: 1.2rem;
+  color: #1a2a4f;
+  font-weight: bold;
+}
+
 
 .logo img {
   height: 80px;
