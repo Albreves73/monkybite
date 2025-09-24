@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — My Files</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </div>
+    <nav>
+      <a href="dashboard.html">DASHBOARD</a>
+      <a href="settings.html">SETTINGS</a>
+      <a href="upgrade.html">UPGRADE</a>
+    </nav>
+  </header>
+
+  <main class="get-started-box">
+    <h1>My Files</h1>
+    <p>Welcome, <span id="user-name">User</span>. Here’s a preview of your cloud storage.</p>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <h3>project-plan.pdf</h3>
+        <p>Last modified: Sep 18, 2025</p>
+      </div>
+      <div class="feature">
+        <h3>family-photos.zip</h3>
+        <p>Last modified: Sep 12, 2025</p>
+      </div>
+      <div class="feature">
+        <h3>invoice-october.xlsx</h3>
+        <p>Last modified: Sep 10, 2025</p>
+      </div>
+    </div>
+
+    <button class="button primary" style="margin-top: 30px;">Upload File (coming soon)</button>
+  </main>
+
+  <script>
+    const userName = sessionStorage.getItem("user_name") || "User";
+    document.getElementById("user-name").innerText = userName;
+  </script>
+</body>
+</html>
