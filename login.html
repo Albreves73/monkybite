@@ -5,18 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login — MonkyBite</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .login-container button,
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .login-container .social-login {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+    }
+    .login-container .apple-login {
+      background-color: black;
+      color: white;
+      border: none;
+    }
+    .login-container .email-login {
+      background-color: #0061ff;
+      color: white;
+      border: none;
+    }
+    .login-container .signup-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Login</h1>
-  <p>Choose your login method:</p>
-  <button>Login with Google</button>
-  <button>Login with Apple</button>
-  <form>
-    <label>Email:</label>
-    <input type="email" required />
-    <label>Password:</label>
-    <input type="password" required />
-    <button type="submit">Login</button>
-  </form>
+  <div class="login-container">
+    <h2>Login to MonkyBite</h2>
+    <button class="social-login">Continue with Google</button>
+    <button class="apple-login">Continue with Apple</button>
+    <hr />
+    <form>
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button class="email-login" type="submit">Login</button>
+    </form>
+    <div class="signup-link">
+      <p>New to MonkyBite? <a href="get-started.html">Create an account</a></p>
+    </div>
+  </div>
 </body>
 </html>
