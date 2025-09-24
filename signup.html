@@ -7,28 +7,67 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="signup-box">
-    <h1>Create Your MonkyBite Account</h1>
-    <form>
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Your email" required />
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </div>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="get-started.html">LOGIN</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </header>
 
-      <label for="name">Full Name</label>
-      <input type="text" id="name" placeholder="Your name" required />
+  <main class="get-started-box">
+    <!-- Etapa 1: Email -->
+    <div id="step1">
+      <h1>Start your MonkyBite Cloud</h1>
+      <p>Enter your email to begin</p>
+      <form onsubmit="goToStep2(event)">
+        <input type="email" id="signupEmail" placeholder="Your email" required />
+        <button type="submit" class="button primary">Continue</button>
+      </form>
+    </div>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Create a password" required />
+    <!-- Etapa 2: Detalhes -->
+    <div id="step2" style="display:none;">
+      <h1>Sign up for free</h1>
+      <form onsubmit="submitSignup(event)">
+        <input type="email" id="emailDisplay" readonly />
+        <input type="text" placeholder="First name" required />
+        <input type="text" placeholder="Last name" required />
+        <input type="password" placeholder="Create password" required />
 
-      <button type="submit" class="auth-btn primary">Sign Up</button>
-    </form>
+        <p style="font-size:0.9rem;">
+          By selecting "Agree and sign up" I agree to the MonkyBite Terms and Services Agreement.
+          Learn about how we use and protect your data in our Privacy Policy.
+        </p>
+
+        <button type="submit" class="button primary">Agree and sign up</button>
+      </form>
+    </div>
   </main>
 
+  <footer>
+    <p>© 2025 MonkyBite. Made with bite in the U.S.</p>
+  </footer>
+
   <script>
-    // Pré-preenche o email se estiver salvo
-    const savedEmail = localStorage.getItem("monkybite_email");
-    if (savedEmail) {
-      document.getElementById("email").value = savedEmail;
+    function goToStep2(event) {
+      event.preventDefault();
+      const email = document.getElementById("signupEmail").value;
+      document.getElementById("emailDisplay").value = email;
+      document.getElementById("step1").style.display = "none";
+      document.getElementById("step2").style.display = "block";
+    }
+
+    function submitSignup(event) {
+      event.preventDefault();
+      alert("Signup complete! Welcome to MonkyBite Cloud.");
+      window.location.href = "dashboard.html";
     }
   </script>
 </body>
 </html>
+
