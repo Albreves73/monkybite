@@ -271,6 +271,14 @@ footer {
   font-size: 0.9rem;
 }
 
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+
+
 .plan-card {
   background-color: #ffffff;
   border: 2px solid #ccc;
