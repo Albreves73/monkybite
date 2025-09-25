@@ -242,7 +242,7 @@ input[type="password"] {
 
 .divider {
   text-align: center;
-  margin: 20px 0;
+  margin: 8px 0; /* reduz espaço acima e abaixo */
   font-weight: bold;
   color: #888;
   position: relative;
@@ -258,6 +258,7 @@ input[type="password"] {
   vertical-align: middle;
   margin: 0 10px;
 }
+
 
 .button.primary {
   background-color: #0061ff;
