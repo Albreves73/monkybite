@@ -232,9 +232,23 @@ input[type="password"] {
 
 .divider {
   text-align: center;
-  color: #999;
-  font-size: 0.9rem;
+  margin: 20px 0;
+  font-weight: bold;
+  color: #888;
+  position: relative;
 }
+
+.divider::before,
+.divider::after {
+  content: "";
+  display: inline-block;
+  width: 40%;
+  height: 1px;
+  background-color: #ccc;
+  vertical-align: middle;
+  margin: 0 10px;
+}
+
 
 
 .features {
