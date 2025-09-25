@@ -28,21 +28,17 @@
     <p>We recommend using your main email.</p>
 
    <div class="auth-options">
-  <!-- Botão Google -->
   <button id="google-login" class="auth-btn button google">Continue with Google</button>
 
-  <!-- Botão Apple (desativado) -->
   <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
 
-  <!-- Divider -->
   <div class="divider">or</div>
 
-  <!-- Campo de email -->
   <input type="email" id="email" placeholder="Your email" />
 
-  <!-- Botão de continuar -->
   <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
 </div>
+
 
 
       
@@ -75,17 +71,16 @@
     event.preventDefault();
 
     const email = document.getElementById("email").value;
-
     if (!email) {
       alert("Please enter your email.");
       return;
     }
 
     const fakeToken = btoa(email + ":demo");
-
     window.location.href = "plans.html?token=" + fakeToken;
   }
 </script>
+
 
 
   <script>
