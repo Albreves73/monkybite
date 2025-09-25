@@ -9,10 +9,9 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 40px;
-  background-color: #ffffff;
+  padding: 20px 40px;
+  background-color: #f8f8f8;
   border-bottom: 1px solid #ddd;
-  flex-wrap: wrap; /* permite ajuste em telas menores */
 }
 
 .logo {
@@ -26,32 +25,31 @@ header {
   margin-right: 10px;
 }
 
-  .logo .brand-name {
+  .brand-name {
   font-size: 1.2rem;
   color: #1a2a4f;
   font-weight: bold;
-  text-decoration: none; /* Garante que o nome também fique sem sublinhado */
+  text-decoration: none;
 }
-
 
 
 .logo img {
   height: 80px;
 }
 
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
 nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #1a2a4f;
+  font-weight: bold;
   text-decoration: none;
   color: #1a2a4f;
   font-weight: 600;
   font-size: 1rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 .hero {
