@@ -49,6 +49,57 @@
     <p>© 2025 MonkyBite.</p>
   </footer>
 
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Started — MonkyBite</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" />
+</head>
+<body>
+  <!-- Cabeçalho MonkyBite -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </div>
+    <nav>
+  <a href="index.html">HOME</a>
+  <a href="get-started.html">LOGIN</a>
+  <a href="contact.html">CONTACT</a> <!-- ← agora está funcionando -->
+</nav>
+
+  </header>
+
+  <!-- Bloco principal de login -->
+  <main class="get-started-box">
+    <h1>Sign up or log in</h1>
+    <p>We recommend using your main email.</p>
+
+   <div class="auth-options">
+  <button id="google-login" class="auth-btn button google">Continue with Google</button>
+
+  <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
+
+  <div class="divider">or</div>
+
+  <input type="email" id="email" placeholder="Your email" />
+
+  <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
+</div>
+
+
+
+      
+  </main>
+
+  <!-- Rodapé MonkyBite -->
+  <footer>
+    <p>© 2025 MonkyBite.</p>
+  </footer>
+
   <!-- Scripts -->
   <script>
     // Login com Google
@@ -92,6 +143,9 @@
   }
 </script>
 
+  
+</body>
+</html>
   
 </body>
 </html>
