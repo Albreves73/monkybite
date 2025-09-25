@@ -76,13 +76,17 @@
 
     const email = document.getElementById("email").value;
 
-    // Simulação de token (futuramente será real)
+    if (!email) {
+      alert("Please enter your email.");
+      return;
+    }
+
     const fakeToken = btoa(email + ":demo");
 
-    // Redireciona para a página de planos
     window.location.href = "plans.html?token=" + fakeToken;
   }
 </script>
+
 
   <script>
   function simulateLogin() {
