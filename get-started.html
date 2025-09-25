@@ -37,12 +37,16 @@
   <!-- Divider -->
   <div class="divider">or</div>
 
-  <!-- Botão para novo fluxo de cadastro -->
-  <a href="signup.html" class="button primary">Sign up for free</a>
+  <!-- Campo de email -->
+  <input type="email" id="email" placeholder="Your email" />
+
+  <!-- Botão de continuar -->
+  <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
 
   <!-- Botão de simulação para testes internos -->
   <button class="button primary" onclick="simulateLogin()">Simular Login</button>
 </div>
+
 
       
   </main>
@@ -68,20 +72,20 @@
       );
     });
 
-    // Login com email/senha
-    function handleEmailLogin(event) {
-      event.preventDefault();
+    // Login com email
+    <script>
+  function handleEmailLogin(event) {
+    event.preventDefault();
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
 
-      // Simulação de token (futuramente será real)
-      const fakeToken = btoa(email + ":" + password);
+    // Simulação de token (futuramente será real)
+    const fakeToken = btoa(email + ":demo");
 
-      // Redireciona para a página de planos
-      window.location.href = "plans.html?token=" + fakeToken;
-    }
-  </script>
+    // Redireciona para a página de planos
+    window.location.href = "plans.html?token=" + fakeToken;
+  }
+</script>
 
   <script>
   function simulateLogin() {
