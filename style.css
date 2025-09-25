@@ -221,7 +221,7 @@ nav a:hover {
 }
 
 .divider {
-  margin: 12px 0; /* menos espaço acima e abaixo do "or" */
+  margin: 16px 0; /* menos espaço acima e abaixo do "or" */
 }
 
 input[type="email"] {
@@ -242,7 +242,7 @@ input[type="password"] {
 
 .divider {
   text-align: center;
-  margin: 8px 0; /* reduz espaço acima e abaixo */
+  margin: 16px 0; /* reduz espaço acima e abaixo */
   font-weight: bold;
   color: #888;
   position: relative;
