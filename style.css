@@ -137,8 +137,8 @@ nav a:hover {
 
 .get-started-box {
   max-width: 400px;
-  margin: 80px auto;
-  padding: 40px;
+  margin: 60px auto 40px; /* sobe tudo um pouco */
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -216,6 +216,19 @@ nav a:hover {
   color: white;
 }
 
+.auth-options button {
+  margin-bottom: 12px; /* menos espaço entre botões */
+}
+
+.divider {
+  margin: 12px 0; /* menos espaço acima e abaixo do "or" */
+}
+
+input[type="email"] {
+  margin-top: 12px; /* menos espaço abaixo do "or" */
+}
+
+
 input[type="email"],
 input[type="password"] {
   width: 100%;
@@ -246,6 +259,22 @@ input[type="password"] {
   margin: 0 10px;
 }
 
+.button.primary {
+  background-color: #0061ff;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.button.primary:hover {
+  background-color: #0049c6;
+}
 
 
 
