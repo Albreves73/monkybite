@@ -10,16 +10,15 @@
 <body>
   <!-- Cabeçalho MonkyBite -->
   <header>
-    <div class="logo">
+    <a href="index.html" class="logo">
       <img src="logo.png" alt="MonkyBite Logo" />
       <span class="brand-name">MonkyBite</span>
-    </div>
+    </a>
     <nav>
-  <a href="index.html">HOME</a>
-  <a href="get-started.html">LOGIN</a>
-  <a href="contact.html">CONTACT</a> <!-- ← agora está funcionando -->
-</nav>
-
+      <a href="index.html">HOME</a>
+      <a href="get-started.html">LOGIN</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
   </header>
 
   <!-- Bloco principal de login -->
@@ -27,72 +26,15 @@
     <h1>Sign up or log in</h1>
     <p>We recommend using your main email.</p>
 
-   <div class="auth-options">
-  <button id="google-login" class="auth-btn button google">Continue with Google</button>
+    <div class="auth-options">
+      <button id="google-login" class="auth-btn button google">Continue with Google</button>
+      <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
 
-  <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
+      <div class="divider">or</div>
 
-  <div class="divider">or</div>
-
-  <input type="email" id="email" placeholder="Your email" />
-
-  <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
-</div>
-
-
-
-      
-  </main>
-
-  <!-- Rodapé MonkyBite -->
-  <footer>
-    <p>© 2025 MonkyBite.</p>
-  </footer>
-
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Get Started — MonkyBite</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
-</head>
-<body>
-  <!-- Cabeçalho MonkyBite -->
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="MonkyBite Logo" />
-      <span class="brand-name">MonkyBite</span>
+      <input type="email" id="email" placeholder="Your email" />
+      <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
     </div>
-    <nav>
-  <a href="index.html">HOME</a>
-  <a href="get-started.html">LOGIN</a>
-  <a href="contact.html">CONTACT</a> <!-- ← agora está funcionando -->
-</nav>
-
-  </header>
-
-  <!-- Bloco principal de login -->
-  <main class="get-started-box">
-    <h1>Sign up or log in</h1>
-    <p>We recommend using your main email.</p>
-
-   <div class="auth-options">
-  <button id="google-login" class="auth-btn button google">Continue with Google</button>
-
-  <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
-
-  <div class="divider">or</div>
-
-  <input type="email" id="email" placeholder="Your email" />
-
-  <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
-</div>
-
-
-
-      
   </main>
 
   <!-- Rodapé MonkyBite -->
@@ -117,36 +59,26 @@
     });
 
     // Login com email
-    <script>
-  function handleEmailLogin(event) {
-    event.preventDefault();
+    function handleEmailLogin(event) {
+      event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    if (!email) {
-      alert("Please enter your email.");
-      return;
+      const email = document.getElementById("email").value;
+      if (!email) {
+        alert("Please enter your email.");
+        return;
+      }
+
+      const fakeToken = btoa(email + ":demo");
+      window.location.href = "plans.html?token=" + fakeToken;
     }
 
-    const fakeToken = btoa(email + ":demo");
-    window.location.href = "plans.html?token=" + fakeToken;
-  }
-</script>
-
-
-
-  <script>
-  function simulateLogin() {
-    sessionStorage.setItem("user_name", "Ana");
-    sessionStorage.setItem("plan", "starter");
-    sessionStorage.setItem("access_token", "demo-token-123");
-    window.location.href = "dashboard.html";
-  }
-</script>
-
-  
+    // Simulação de login
+    function simulateLogin() {
+      sessionStorage.setItem("user_name", "Ana");
+      sessionStorage.setItem("plan", "starter");
+      sessionStorage.setItem("access_token", "demo-token-123");
+      window.location.href = "dashboard.html";
+    }
+  </script>
 </body>
 </html>
-  
-</body>
-</html>
-
