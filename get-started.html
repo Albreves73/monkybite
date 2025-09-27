@@ -59,26 +59,38 @@
     });
 
     // Login com email
-    function handleEmailLogin(event) {
-      event.preventDefault();
+  function handleEmailLogin(event) {
+    event.preventDefault();
 
-      const email = document.getElementById("email").value;
-      if (!email) {
-        alert("Please enter your email.");
-        return;
+    const email = document.getElementById("email").value;
+    if (!email) {
+      alert("Please enter your email.");
+      return;
+    }
+
+    const isSignup = sessionStorage.getItem("signup_mode") === "true";
+
+    // Simulação: lista de emails já cadastrados
+    const existingEmails = ["ana@example.com", "user@monkybite.com"];
+
+    const emailExists = existingEmails.includes(email.toLowerCase());
+
+    if (isSignup) {
+      if (emailExists) {
+        alert("This email is already registered. Please log in instead.");
+        window.location.href = "get-started.html?mode=login";
+      } else {
+        window.location.href = `sign-up-form.html?email=${encodeURIComponent(email)}`;
       }
+    } else {
+      if (emailExists) {
+        window.location.href = `password.html?email=${encodeURIComponent(email)}`;
+      } else {
+        alert("Email not found. Please sign up first.");
+        window.location.href = "get-started.html?mode=signup";
+      }
+    
 
-      const fakeToken = btoa(email + ":demo");
-      window.location.href = "plans.html?token=" + fakeToken;
-    }
-
-    // Simulação de login
-    function simulateLogin() {
-      sessionStorage.setItem("user_name", "Ana");
-      sessionStorage.setItem("plan", "starter");
-      sessionStorage.setItem("access_token", "demo-token-123");
-      window.location.href = "dashboard.html";
-    }
   </script>
 </body>
 </html>
