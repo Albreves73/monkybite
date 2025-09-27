@@ -161,7 +161,7 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .auth-btn {
@@ -188,6 +188,7 @@ nav a:hover {
   opacity: 0.85;
   cursor: not-allowed;
   transition: opacity 0.3s ease;
+  margin-bottom: 12px; /* espaço entre Apple e “or” */
 }
 
 .auth-btn.apple.coming-soon:hover {
@@ -226,7 +227,6 @@ input[type="email"] {
   border: 1px solid #ccc;
   border-radius: 6px;
   text-align: center;
-  margin-top: 2px;
 }
 
 /* Buttons */
