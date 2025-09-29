@@ -60,6 +60,7 @@
   });
 
   // Login com email
+<script>
   function handleEmailLogin(event) {
     event.preventDefault();
 
@@ -77,15 +78,14 @@
 
     if (isSignup) {
       if (emailExists) {
-        alert("This email is already registered. Please log in instead.");
-        window.location.href = "get-started.html?mode=login";
+        alert("This email is already registered. Redirecting to login.");
+        window.location.href = `password.html?email=${encodeURIComponent(email)}`;
       } else {
-        window.location.href = `sign-up-form.html?email=${encodeURIComponent(email)}`;
+        window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
       }
     } else {
       if (emailExists) {
-       window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
-
+        window.location.href = `password.html?email=${encodeURIComponent(email)}`;
       } else {
         alert("Email not found. Please sign up first.");
         window.location.href = "get-started.html?mode=signup";
