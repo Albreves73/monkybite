@@ -6,6 +6,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+ <!-- Barra de navegação MonkyBite -->
+<div id="navbar"></div>
+<script>
+  fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+</script>
+ 
+  
   <main class="auth-callback">
     <h1>Welcome to MonkyBite!</h1>
     <p id="status">Processing your login...</p>
