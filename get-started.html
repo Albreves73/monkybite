@@ -8,6 +8,16 @@
   <link rel="icon" href="favicon.ico" />
 </head>
 <body>
+  <!-- Barra de navegação MonkyBite -->
+<div id="navbar"></div>
+<script>
+  fetch("navbar.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("navbar").innerHTML = data;
+    });
+</script>
+
   <!-- Cabeçalho MonkyBite -->
   <header>
     <a href="index.html" class="logo">
