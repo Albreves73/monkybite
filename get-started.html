@@ -84,7 +84,8 @@
       }
     } else {
       if (emailExists) {
-        window.location.href = `password.html?email=${encodeURIComponent(email)}`;
+       window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
+
       } else {
         alert("Email not found. Please sign up first.");
         window.location.href = "get-started.html?mode=signup";
