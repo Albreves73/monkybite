@@ -6,12 +6,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>  
-  <main class="auth-callback">
-    <h1>Welcome to MonkyBite!</h1>
-    <p id="status">Processing your login...</p>
-  </main>
-
-  <script>
   const hash = window.location.hash;
   const params = new URLSearchParams(hash.substring(1));
   const accessToken = params.get("access_token");
