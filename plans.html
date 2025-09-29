@@ -7,26 +7,26 @@
 </head>
 <body>
   <header>
-   <a href="index.html" class="logo">
-  <img src="logo.png" alt="MonkyBite Logo" />
-  <span class="brand-name">MonkyBite</span>
-</a>
-
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </a>
     <nav>
-  <a href="index.html">HOME</a>
-  <a href="get-started.html?mode=login">LOGIN</a>
-  <a href="get-started.html?mode=signup">SIGN UP</a>
-  <a href="contact.html">CONTACT</a>
-</nav>
-
+      <a href="index.html">HOME</a>
+      <a href="get-started.html?mode=login">LOGIN</a>
+      <a href="get-started.html?mode=signup">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
   </header>
 
   <section class="plans-container">
-    <div class="plans-header">
-  <h1>Welcome to MonkyBite!</h1>
-  <p>Select your plan to continue:</p>
-</div>
+    <!-- Banner de boas-vindas para novos usuários -->
+    <div id="welcome-message" class="welcome-banner"></div>
 
+    <div class="plans-header">
+      <h1>Welcome to MonkyBite!</h1>
+      <p>Select your plan to continue:</p>
+    </div>
 
     <div class="plan-grid">
       <div class="plan-card">
@@ -37,13 +37,12 @@
       </div>
 
       <div class="plan-card recommended">
-  <h2>Starter</h2>
-  <span class="badge">Recommended</span>
-  <h3>$4.99/month — 1 TB</h3>
-  <p>Perfect for individuals who need more space without the full Pro features.</p>
-  <button onclick="choosePlan('starter')">Choose Starter</button>
-</div>
-
+        <h2>Starter</h2>
+        <span class="badge">Recommended</span>
+        <h3>$4.99/month — 1 TB</h3>
+        <p>Perfect for individuals who need more space without the full Pro features.</p>
+        <button onclick="choosePlan('starter')">Choose Starter</button>
+      </div>
 
       <div class="plan-card">
         <h2>Pro</h2>
@@ -58,7 +57,6 @@
         <p>Built for teams and organizations with advanced needs and dedicated support.</p>
         <button onclick="choosePlan('enterprise')">Choose Enterprise</button>
       </div>
-      
     </div>
   </section>
 
@@ -67,6 +65,16 @@
   </footer>
 
   <script>
+    // Exibe mensagem de boas-vindas se vier do fluxo de cadastro
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
+    const isNewUser = params.get("new") === "true";
+
+    if (isNewUser && email) {
+      const banner = document.getElementById("welcome-message");
+      banner.textContent = `Welcome, ${email}! Choose your plan to get started.`;
+    }
+
     function choosePlan(plan) {
       const isLoggedIn = sessionStorage.getItem("userLoggedIn") === "true";
 
@@ -80,4 +88,5 @@
   </script>
 </body>
 </html>
+
 
