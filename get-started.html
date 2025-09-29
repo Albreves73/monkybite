@@ -15,12 +15,11 @@
       <span class="brand-name">MonkyBite</span>
     </a>
     <nav>
-  <a href="index.html">HOME</a>
-  <a href="get-started.html?mode=login">LOGIN</a>
-  <a href="get-started.html?mode=signup">SIGN UP</a>
-  <a href="contact.html">CONTACT</a>
-</nav>
-
+      <a href="index.html">HOME</a>
+      <a href="get-started.html?mode=login">LOGIN</a>
+      <a href="get-started.html?mode=signup">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
   </header>
 
   <!-- Bloco principal de login -->
@@ -44,80 +43,64 @@
     <p>© 2025 MonkyBite.</p>
   </footer>
 
+  <!-- Script único e funcional -->
   <script>
-  // Login com Google
-  document.getElementById("google-login").addEventListener("click", function () {
-    const width = 500;
-    const height = 600;
-    const left = (screen.width / 2) - (width / 2);
-    const top = (screen.height / 2) - (height / 2);
-
-    window.open(
-      "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
-      "GoogleLogin",
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-  });
-
-  
-<script>
-  // Detectar modo via URL
-  const params = new URLSearchParams(window.location.search);
-  const mode = params.get("mode");
-  if (mode === "signup") {
-    document.querySelector("h1").textContent = "Create your account";
-    document.querySelector("p").textContent = "Start by choosing your method.";
-    sessionStorage.setItem("signup_mode", "true");
-  } else {
-    sessionStorage.removeItem("signup_mode");
-  }
-
-  // Login com Google
-  document.getElementById("google-login").addEventListener("click", function () {
-    const width = 500;
-    const height = 600;
-    const left = (screen.width / 2) - (width / 2);
-    const top = (screen.height / 2) - (height / 2);
-
-    window.open(
-      "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
-      "GoogleLogin",
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
-  });
-
-  // Login com email
-  function handleEmailLogin(event) {
-    event.preventDefault();
-
-    const email = document.getElementById("email").value;
-    if (!email) {
-      alert("Please enter your email.");
-      return;
-    }
-
-    const isSignup = sessionStorage.getItem("signup_mode") === "true";
-    const existingEmails = ["ana@example.com", "user@monkybite.com"];
-    const emailExists = existingEmails.includes(email.toLowerCase());
-
-    if (isSignup) {
-      if (emailExists) {
-        alert("This email is already registered. Redirecting to login.");
-        window.location.href = `password.html?email=${encodeURIComponent(email)}`;
-      } else {
-        window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
-      }
+    // Detectar modo via URL
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get("mode");
+    if (mode === "signup") {
+      document.querySelector("h1").textContent = "Create your account";
+      document.querySelector("p").textContent = "Start by choosing your method.";
+      sessionStorage.setItem("signup_mode", "true");
     } else {
-      if (emailExists) {
-        window.location.href = `password.html?email=${encodeURIComponent(email)}`;
+      sessionStorage.removeItem("signup_mode");
+    }
+
+    // Login com Google
+    document.getElementById("google-login").addEventListener("click", function () {
+      const width = 500;
+      const height = 600;
+      const left = (screen.width / 2) - (width / 2);
+      const top = (screen.height / 2) - (height / 2);
+
+      window.open(
+        "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
+        "GoogleLogin",
+        `width=${width},height=${height},top=${top},left=${left}`
+      );
+    });
+
+    // Login ou cadastro com email
+    function handleEmailLogin(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      if (!email) {
+        alert("Please enter your email.");
+        return;
+      }
+
+      const isSignup = sessionStorage.getItem("signup_mode") === "true";
+      const existingEmails = ["ana@example.com", "user@monkybite.com"];
+      const emailExists = existingEmails.includes(email.toLowerCase());
+
+      if (isSignup) {
+        if (emailExists) {
+          alert("This email is already registered. Redirecting to login.");
+          window.location.href = `password.html?email=${encodeURIComponent(email)}`;
+        } else {
+          window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
+        }
       } else {
-        alert("Email not found. Please sign up first.");
-        window.location.href = "get-started.html?mode=signup";
+        if (emailExists) {
+          window.location.href = `password.html?email=${encodeURIComponent(email)}`;
+        } else {
+          alert("Email not found. Please sign up first.");
+          window.location.href = "get-started.html?mode=signup";
+        }
       }
     }
-  }
-</script>
-
-
+  </script>
 </body>
 </html>
+
