@@ -61,6 +61,32 @@
 
   // Login com email
 <script>
+  // Detectar modo via URL
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+  if (mode === "signup") {
+    document.querySelector("h1").textContent = "Create your account";
+    document.querySelector("p").textContent = "Start by choosing your method.";
+    sessionStorage.setItem("signup_mode", "true");
+  } else {
+    sessionStorage.removeItem("signup_mode");
+  }
+
+  // Login com Google
+  document.getElementById("google-login").addEventListener("click", function () {
+    const width = 500;
+    const height = 600;
+    const left = (screen.width / 2) - (width / 2);
+    const top = (screen.height / 2) - (height / 2);
+
+    window.open(
+      "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
+      "GoogleLogin",
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+  });
+
+  // Login com email
   function handleEmailLogin(event) {
     event.preventDefault();
 
@@ -71,8 +97,6 @@
     }
 
     const isSignup = sessionStorage.getItem("signup_mode") === "true";
-
-    // Simulação: lista de emails já cadastrados
     const existingEmails = ["ana@example.com", "user@monkybite.com"];
     const emailExists = existingEmails.includes(email.toLowerCase());
 
@@ -92,18 +116,8 @@
       }
     }
   }
-
-  // Detectar modo via URL
-  const params = new URLSearchParams(window.location.search);
-  const mode = params.get("mode");
-  if (mode === "signup") {
-    document.querySelector("h1").textContent = "Create your account";
-    document.querySelector("p").textContent = "Start by choosing your method.";
-    sessionStorage.setItem("signup_mode", "true");
-  } else {
-    sessionStorage.removeItem("signup_mode");
-  }
 </script>
+
 
 </body>
 </html>
