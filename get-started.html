@@ -44,9 +44,9 @@
   </footer>
 
   <!-- Script único e funcional -->
-  <script>
-  // Detectar modo via URL
+<script>
   document.addEventListener("DOMContentLoaded", function () {
+    // Detectar modo via URL
     const params = new URLSearchParams(window.location.search);
     const mode = params.get("mode");
     if (mode === "signup") {
@@ -109,6 +109,7 @@
     };
   });
 </script>
+
 
 </body>
 </html>
