@@ -50,16 +50,16 @@
     const mode = params.get("mode");
     const isSignup = mode === "signup";
 
+    // Atualiza o título e texto com base no modo
     if (isSignup) {
       document.querySelector("h1").textContent = "Create your account";
       document.querySelector("p").textContent = "Start by choosing your method.";
-      sessionStorage.setItem("signup_mode", "true");
     } else {
       document.querySelector("h1").textContent = "Log in to MonkyBite";
       document.querySelector("p").textContent = "Enter your email to continue.";
-      sessionStorage.removeItem("signup_mode");
     }
 
+    // Botão Continue
     window.handleEmailLogin = function (event) {
       event.preventDefault();
 
