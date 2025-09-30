@@ -2,103 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MonkyBite — Sign Up</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
-  <nav>
-  <a href="index.html">HOME</a>
-  <a href="get-started.html?mode=login">LOGIN</a>
-  <a href="get-started.html?mode=signup">SIGN UP</a>
-  <a href="contact.html">CONTACT</a>
-</nav>
-
-</header>
-
-  
-<body>
+  <title>Redirecting to Sign Up — MonkyBite</title>
   <script>
-  window.onload = function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedPlan = urlParams.get("plan");
-
-    if (selectedPlan) {
-      const planMessage = {
-        free: "You chose the Free plan — let’s get started!",
-        starter: "You chose the Starter plan — let’s finish your signup.",
-        pro: "You chose the Pro plan — welcome aboard!",
-        enterprise: "You chose the Enterprise plan — let’s build something big!"
-      };
-
-      const message = planMessage[selectedPlan] || "Let’s finish your signup.";
-      const banner = document.createElement("div");
-      banner.textContent = message;
-      banner.style.background = "#e0f0ff";
-      banner.style.color = "#1a2a4f";
-      banner.style.padding = "12px";
-      banner.style.textAlign = "center";
-      banner.style.fontWeight = "bold";
-      banner.style.marginBottom = "20px";
-      document.body.insertBefore(banner, document.body.firstChild);
-    }
-  };
-</script>
-
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="MonkyBite Logo" />
-      <span class="brand-name">MonkyBite</span>
-    </div>
-    <nav>
-      <a href="index.html">HOME</a>
-      <a href="get-started.html">LOGIN</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </header>
-
-  <main class="get-started-box">
-    <!-- Etapa 1: Email -->
-    <div id="step1">
-      <h1>Start your MonkyBite Cloud</h1>
-      <p>Enter your email to begin</p>
-      <form onsubmit="goToStep2(event)">
-        <input type="email" id="signupEmail" placeholder="Your email" required />
-        <button type="submit" class="button primary">Continue</button>
-      </form>
-    </div>
-
-    <!-- Etapa 2: Detalhes -->
-    <div id="step2" style="display:none;">
-      <h1>Sign up for free</h1>
-      <form onsubmit="submitSignup(event)">
-        <input type="email" id="emailDisplay" readonly />
-        <input type="text" placeholder="First name" required />
-        <input type="text" placeholder="Last name" required />
-        <input type="password" placeholder="Create password" required />
-
-        <p style="font-size:0.9rem;">
-          By selecting "Agree and sign up" I agree to the MonkyBite Terms and Services Agreement.
-          Learn about how we use and protect your data in our Privacy Policy.
-        </p>
-
-        <button type="submit" class="button primary">Agree and sign up</button>
-      </form>
-    </div>
-  </main>
-
-  <footer>
-    <p>© 2025 MonkyBite. Made with bite in the U.S.</p>
-  </footer>
-
-
-
-  
+    window.location.replace("get-started.html?mode=signup");
+  </script>
+</head>
+<body>
+  <p>Redirecting to sign up...</p>
 </body>
 </html>
 
