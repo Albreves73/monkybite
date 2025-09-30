@@ -45,7 +45,8 @@
 
   <!-- Script único e funcional -->
   <script>
-    // Detectar modo via URL
+  // Detectar modo via URL
+  document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
     const mode = params.get("mode");
     if (mode === "signup") {
@@ -57,24 +58,30 @@
     }
 
     // Login com Google
-    document.getElementById("google-login").addEventListener("click", function () {
-      const width = 500;
-      const height = 600;
-      const left = (screen.width / 2) - (width / 2);
-      const top = (screen.height / 2) - (height / 2);
+    const googleBtn = document.getElementById("google-login");
+    if (googleBtn) {
+      googleBtn.addEventListener("click", function () {
+        const width = 500;
+        const height = 600;
+        const left = (screen.width / 2) - (width / 2);
+        const top = (screen.height / 2) - (height / 2);
 
-      window.open(
-        "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
-        "GoogleLogin",
-        `width=${width},height=${height},top=${top},left=${left}`
-      );
-    });
+        window.open(
+          "https://accounts.google.com/o/oauth2/v2/auth?client_id=574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com&redirect_uri=https://monkybite.com/auth-callback.html&response_type=token&scope=email%20profile",
+          "GoogleLogin",
+          `width=${width},height=${height},top=${top},left=${left}`
+        );
+      });
+    }
 
-    // Login ou cadastro com email
-    function handleEmailLogin(event) {
+    // Login com email
+    window.handleEmailLogin = function (event) {
       event.preventDefault();
 
-      const email = document.getElementById("email").value;
+      const emailInput = document.getElementById("email");
+      if (!emailInput) return;
+
+      const email = emailInput.value.trim();
       if (!email) {
         alert("Please enter your email.");
         return;
@@ -99,8 +106,10 @@
           window.location.href = "get-started.html?mode=signup";
         }
       }
-    }
-  </script>
+    };
+  });
+</script>
+
 </body>
 </html>
 
