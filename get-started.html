@@ -48,18 +48,18 @@
   document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
     const mode = params.get("mode");
-    const isSignup = mode === "signup";
 
-    // Atualiza o título e texto com base no modo
-    if (isSignup) {
-      document.querySelector("h1").textContent = "Create your account";
-      document.querySelector("p").textContent = "Start by choosing your method.";
+    const title = document.querySelector("main.get-started-box h1");
+    const subtitle = document.querySelector("main.get-started-box p");
+
+    if (mode === "signup") {
+      title.textContent = "Create your account";
+      subtitle.textContent = "Start by choosing your method.";
     } else {
-      document.querySelector("h1").textContent = "Log in to MonkyBite";
-      document.querySelector("p").textContent = "Enter your email to continue.";
+      title.textContent = "Log in to MonkyBite";
+      subtitle.textContent = "Enter your email to continue.";
     }
 
-    // Botão Continue
     window.handleEmailLogin = function (event) {
       event.preventDefault();
 
@@ -75,7 +75,7 @@
       const existingEmails = ["ana@example.com", "user@monkybite.com"];
       const emailExists = existingEmails.includes(email.toLowerCase());
 
-      if (isSignup) {
+      if (mode === "signup") {
         if (emailExists) {
           alert("This email is already registered. Redirecting to login.");
           window.location.href = `get-started.html?mode=login&email=${encodeURIComponent(email)}`;
