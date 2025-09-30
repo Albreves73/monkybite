@@ -6,9 +6,9 @@
   <title>Get Started — MonkyBite</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <meta name="google-signin-client_id" content="574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com.apps.googleusercontent.com">
 
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <!-- Cabeçalho MonkyBite -->
@@ -30,9 +30,25 @@
     <h1 id="page-title">Sign up or log in</h1>
     <p id="page-subtitle">We recommend using your main email.</p>
 
-
     <div class="auth-options">
-      <button id="google-login" class="auth-btn button google">Continue with Google</button>
+      <!-- Google Sign-In button -->
+      <div id="g_id_onload"
+           data-client_id="574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com"
+           data-context="signup"
+           data-ux_mode="redirect"
+           data-login_uri="https://monkybite.com/oauth-callback.html"
+           data-auto_prompt="false">
+      </div>
+
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rectangular"
+           data-theme="outline"
+           data-text="continue_with"
+           data-size="large"
+           data-logo_alignment="left">
+      </div>
+
       <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
 
       <div class="divider">or</div>
@@ -49,58 +65,55 @@
 
   <!-- Script único e funcional -->
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const params = new URLSearchParams(window.location.search);
-    const mode = params.get("mode");
+    document.addEventListener("DOMContentLoaded", function () {
+      const params = new URLSearchParams(window.location.search);
+      const mode = params.get("mode");
 
-    const title = document.getElementById("page-title");
-    const subtitle = document.getElementById("page-subtitle");
-
-    if (mode === "signup") {
-      title.textContent = "Create your account";
-      subtitle.textContent = "Start by choosing your method.";
-    } else {
-      title.textContent = "Log in to MonkyBite";
-      subtitle.textContent = "Enter your email to continue.";
-    }
-
-    window.handleEmailLogin = function (event) {
-      event.preventDefault();
-
-      const emailInput = document.getElementById("email");
-      if (!emailInput) return;
-
-      const email = emailInput.value.trim();
-      if (!email) {
-        alert("Please enter your email.");
-        return;
-      }
-
-      const existingEmails = ["ana@example.com", "user@monkybite.com"];
-      const emailExists = existingEmails.includes(email.toLowerCase());
+      const title = document.getElementById("page-title");
+      const subtitle = document.getElementById("page-subtitle");
 
       if (mode === "signup") {
-        if (emailExists) {
-          alert("This email is already registered. Redirecting to login.");
-          window.location.href = `get-started.html?mode=login&email=${encodeURIComponent(email)}`;
-        } else {
-          window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
-        }
+        title.textContent = "Create your account";
+        subtitle.textContent = "Start by choosing your method.";
       } else {
-        if (emailExists) {
-          window.location.href = `password.html?email=${encodeURIComponent(email)}`;
-        } else {
-          alert("Email not found. Redirecting to sign up.");
-          window.location.href = `get-started.html?mode=signup&email=${encodeURIComponent(email)}`;
-        }
+        title.textContent = "Log in to MonkyBite";
+        subtitle.textContent = "Enter your email to continue.";
       }
-    };
-  });
-</script>
 
+      window.handleEmailLogin = function (event) {
+        event.preventDefault();
 
+        const emailInput = document.getElementById("email");
+        if (!emailInput) return;
 
+        const email = emailInput.value.trim();
+        if (!email) {
+          alert("Please enter your email.");
+          return;
+        }
 
+        const existingEmails = ["ana@example.com", "user@monkybite.com"];
+        const emailExists = existingEmails.includes(email.toLowerCase());
+
+        if (mode === "signup") {
+          if (emailExists) {
+            alert("This email is already registered. Redirecting to login.");
+            window.location.href = `get-started.html?mode=login&email=${encodeURIComponent(email)}`;
+          } else {
+            window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
+          }
+        } else {
+          if (emailExists) {
+            window.location.href = `password.html?email=${encodeURIComponent(email)}`;
+          } else {
+            alert("Email not found. Redirecting to sign up.");
+            window.location.href = `get-started.html?mode=signup&email=${encodeURIComponent(email)}`;
+          }
+        }
+      };
+    });
+  </script>
 </body>
 </html>
+
 
