@@ -33,22 +33,11 @@
 
     <div class="auth-options">
       <!-- Google Sign-In button -->
-      <div id="g_id_onload"
-           data-client_id="574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com"
-           data-context="signup"
-           data-ux_mode="redirect"
-           data-login_uri="https://monkybite.com/oauth-callback.html"
-           data-auto_prompt="false">
-      </div>
+     <button id="google-login" class="auth-btn button google" onclick="startGoogleLogin()">
+  <img src="google-icon.svg" alt="Google icon" style="height:18px; margin-right:8px;" />
+  Continue with Google
+</button>
 
-      <div class="g_id_signin"
-           data-type="standard"
-           data-shape="rectangular"
-           data-theme="outline"
-           data-text="continue_with"
-           data-size="large"
-           data-logo_alignment="left">
-      </div>
 
       <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
 
@@ -114,6 +103,23 @@
       };
     });
   </script>
+  
+  <script>
+  function startGoogleLogin() {
+    google.accounts.id.initialize({
+      client_id: "574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com",
+      callback: handleGoogleResponse
+    });
+
+    google.accounts.id.prompt(); // Mostra o popup de login
+  }
+
+  function handleGoogleResponse(response) {
+    console.log("Google token:", response.credential);
+    window.location.href = "plans.html"; // ou dashboard, etc.
+  }
+</script>
+
 </body>
 </html>
 
