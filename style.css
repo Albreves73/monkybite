@@ -244,6 +244,12 @@ nav a[href="sign-up.html"]:hover {
 }
 
 /* Input Fields */
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
 .input-field {
   width: 100%;
   padding: 12px 16px;
@@ -253,12 +259,15 @@ nav a[href="sign-up.html"]:hover {
   font-family: inherit;
   margin-bottom: 16px;
   box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
 }
 
 .textarea-field {
-  height: 120px;
+  height: 140px;
   resize: vertical;
 }
+
 
 
 /* Buttons */
@@ -283,6 +292,7 @@ nav a[href="sign-up.html"]:hover {
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
+  transition: background-color 0.3s ease;
 }
 
 
@@ -291,7 +301,7 @@ nav a[href="sign-up.html"]:hover {
 }
 
 .button.google {
-  background-color: #4285F4;
+  background-color: #1669c1;
   color: white;
 }
 
