@@ -248,6 +248,9 @@ nav a[href="sign-up.html"]:hover {
   max-width: 500px;
   margin: 0 auto;
   padding: 24px 16px;
+  text-align: center;
+}
+
 }
 
 .contact-input {
@@ -279,6 +282,9 @@ nav a[href="sign-up.html"]:hover {
   box-sizing: border-box;
   background-color: #fff;
   color: #1a2a4f;
+  text-align: center;
+}
+
 }
 
 
