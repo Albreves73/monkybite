@@ -250,7 +250,7 @@ nav a[href="sign-up.html"]:hover {
   padding: 24px 16px;
 }
 
-.input-field {
+.contact-input {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid #ccc;
@@ -263,10 +263,11 @@ nav a[href="sign-up.html"]:hover {
   color: #333;
 }
 
-.textarea-field {
+.contact-textarea {
   height: 140px;
   resize: vertical;
 }
+
 
 
 
