@@ -214,6 +214,7 @@ nav a[href="sign-up.html"]:hover {
   cursor: not-allowed;
   transition: opacity 0.3s ease;
   margin-bottom: 12px; /* espaço entre Apple e “or” */
+  margin-top: 12px;
 }
 
 .auth-btn.apple.coming-soon:hover {
