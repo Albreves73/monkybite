@@ -190,10 +190,20 @@ nav a[href="sign-up.html"]:hover {
   text-align: center;
 }
 
-.auth-btn.google {
-  background-color: #4285F4;
-  color: white;
+..auth-btn.google {
+  background-color: #e0f0ff;
+  border: 1px solid #1a73e8;
+  color: #1a73e8;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  cursor: pointer;
 }
+
 
 .auth-btn.apple {
   background-color: #000;
