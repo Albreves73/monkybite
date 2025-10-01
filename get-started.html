@@ -12,6 +12,8 @@
   <meta name="google-signin-client_id" content="574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com">
 </head>
 <body>
+  <div id="google-wrapper" style="display: none;"></div>
+
   <!-- Cabeçalho MonkyBite -->
   <header>
     <a href="index.html" class="logo">
@@ -101,22 +103,42 @@
       };
     });
   </script>
-  
-  <script>
-  function startGoogleLogin() {
+<script>
+  let googleButton;
+
+  window.onload = function () {
     google.accounts.id.initialize({
       client_id: "574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com",
       callback: handleGoogleResponse
     });
 
-    google.accounts.id.prompt(); // Mostra o popup de login
+    google.accounts.id.renderButton(
+      document.getElementById("google-wrapper"),
+      {
+        type: "standard",
+        theme: "outline",
+        size: "large"
+      }
+    );
+
+    // Captura o botão real renderizado
+    googleButton = document.querySelector("#google-wrapper div[role=button]");
+  };
+
+  function startGoogleLogin() {
+    if (googleButton) {
+      googleButton.click();
+    } else {
+      alert("Google login not ready yet.");
+    }
   }
 
   function handleGoogleResponse(response) {
     console.log("Google token:", response.credential);
-    window.location.href = "plans.html"; // ou dashboard, etc.
+    window.location.href = "plans.html"; // ou outro destino
   }
 </script>
+
 
 </body>
 </html>
