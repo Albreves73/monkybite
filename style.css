@@ -190,7 +190,7 @@ nav a[href="sign-up.html"]:hover {
   text-align: center;
 }
 
-..auth-btn.google {
+.auth-btn.google {
   background-color: #e0f0ff;
   border: 1px solid #1a73e8;
   color: #1a73e8;
