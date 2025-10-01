@@ -244,15 +244,22 @@ nav a[href="sign-up.html"]:hover {
 }
 
 /* Input Fields */
-input[type="email"] {
+.input-field {
   width: 100%;
-  max-width: 300px;
-  padding: 4px;
-  font-size: 1rem;
+  padding: 12px 16px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  text-align: center;
+  font-size: 16px;
+  font-family: inherit;
+  margin-bottom: 16px;
+  box-sizing: border-box;
 }
+
+.textarea-field {
+  height: 120px;
+  resize: vertical;
+}
+
 
 /* Buttons */
 .button {
@@ -268,11 +275,16 @@ input[type="email"] {
 }
 
 .button.primary {
-  background-color: #0061ff;
+  background-color: #1a73e8;
   color: #fff;
+  font-weight: bold;
+  padding: 12px 20px;
   border: none;
-  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
 }
+
 
 .button.primary:hover {
   background-color: #0049c6;
