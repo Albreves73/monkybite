@@ -195,14 +195,13 @@ nav a[href="sign-up.html"]:hover {
   border: 1px solid #1a73e8;
   color: #1a73e8;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   padding: 12px 16px;
   border-radius: 6px;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
 }
+
 
 
 .auth-btn.apple {
