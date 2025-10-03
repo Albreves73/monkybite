@@ -73,28 +73,7 @@
     <p>© 2025 MonkyBite.</p>
   </footer>
 
-  <script>
-    // Exibe mensagem de boas-vindas se vier do fluxo de cadastro
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get("email");
-    const isNewUser = params.get("new") === "true";
-
-    if (isNewUser && email) {
-      const banner = document.getElementById("welcome-message");
-      banner.textContent = `Welcome, ${email}! Choose your plan to get started.`;
-    }
-
-    function choosePlan(plan) {
-      const isLoggedIn = sessionStorage.getItem("userLoggedIn") === "true";
-
-      if (isLoggedIn) {
-        sessionStorage.setItem("plan", plan);
-        window.location.href = "dashboard.html";
-      } else {
-        window.location.href = "signup.html?plan=" + plan;
-      }
-    }
-  </script>
+  
 </body>
 </html>
 
