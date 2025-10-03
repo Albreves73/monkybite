@@ -471,8 +471,8 @@ nav a[href="sign-up.html"]:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
   max-width: 300px;
   box-sizing: border-box;
 }
@@ -507,8 +507,11 @@ nav a[href="sign-up.html"]:hover {
   display: inline-block;
   box-sizing: border-box;
   max-width: 180px;
-  align-self: flex-start;
-  text-align: left;
+
+  /* 👇 Centraliza horizontalmente */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
   
 }
