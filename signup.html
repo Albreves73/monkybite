@@ -5,21 +5,20 @@
   <title>Redirecting to Sign Up — MonkyBite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
-    window.location.replace("get-started.html?mode=signup");
+    // Captura o plano da URL, se houver
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedPlan = urlParams.get("plan");
+
+    // Redireciona para get-started.html com modo=signup e plano (se houver)
+    let redirectURL = "get-started.html?mode=signup";
+    if (selectedPlan) {
+      redirectURL += `&plan=${selectedPlan}`;
+    }
+
+    window.location.replace(redirectURL);
   </script>
 </head>
 <body>
   <p>Redirecting to sign up...</p>
-
-  <script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const selectedPlan = urlParams.get("plan");
-
-  if (selectedPlan) {
-    document.getElementById("plan-display").textContent = `Selected Plan: ${selectedPlan}`;
-    document.getElementById("hidden-plan").value = selectedPlan;
-  }
-</script>
-
 </body>
 </html>
