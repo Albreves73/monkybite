@@ -10,5 +10,16 @@
 </head>
 <body>
   <p>Redirecting to sign up...</p>
+
+  <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedPlan = urlParams.get("plan");
+
+  if (selectedPlan) {
+    document.getElementById("plan-display").textContent = `Selected Plan: ${selectedPlan}`;
+    document.getElementById("hidden-plan").value = selectedPlan;
+  }
+</script>
+
 </body>
 </html>
