@@ -49,5 +49,28 @@
       alert("Thanks for reaching out! We'll get back to you soon.");
     });
   </script>
+
+  <script>
+  function handleContactSubmit(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("contact-name").value.trim();
+    const email = document.getElementById("contact-email").value.trim();
+    const message = document.getElementById("contact-message").value.trim();
+    const feedback = document.getElementById("contact-feedback");
+
+    if (!name || !email || !message) {
+      feedback.textContent = "Oops, Ana — all fields are required before we can reply 💌";
+      feedback.style.color = "#d93025";
+      return;
+    }
+
+    feedback.textContent = "Thanks, Ana — we’ll be in touch soon!";
+    feedback.style.color = "#1a73e8";
+  }
+</script>
+</body>
+
+  
 </body>
 </html>
