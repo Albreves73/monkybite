@@ -27,13 +27,15 @@
   <h1>Contact Us</h1>
   <p>We’d love to hear from you. Whether it’s feedback, support, or partnership ideas — reach out!</p>
 
-  <form class="contact-form">
-    <input type="text" placeholder="Your name" class="contact-input" />
-    <input type="email" placeholder="Your email" class="contact-input" />
-    <textarea placeholder="Your message" class="contact-input contact-textarea"></textarea>
+  <form class="contact-form" onsubmit="handleContactSubmit(event)">
+    <input type="text" id="contact-name" placeholder="Your name" class="contact-input" />
+    <input type="email" id="contact-email" placeholder="Your email" class="contact-input" />
+    <textarea id="contact-message" placeholder="Your message" class="contact-input contact-textarea"></textarea>
     <button type="submit" class="contact-button">Send Message</button>
+    <p id="contact-feedback" class="contact-feedback"></p>
   </form>
 </main>
+
 
 
 
