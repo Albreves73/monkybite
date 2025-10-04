@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MonkyBite — Choose Your Plan</title>
+  <title>Plans — MonkyBite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- 🔷 Barra de navegação -->
   <header>
     <a href="index.html" class="logo">
       <img src="logo.png" alt="MonkyBite Logo" />
@@ -13,57 +16,41 @@
     </a>
     <nav>
       <a href="index.html">HOME</a>
-      <a href="login.html?mode=login">LOGIN</a>
-     <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>  
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
     </nav>
-
-    
   </header>
 
-  <section class="plans-container">
+  <!-- 🔷 Conteúdo principal -->
+  <main class="plans-container">
     <div class="plans-header">
-      <h1>Welcome to MonkyBite!</h1>
-      <p>Select your plan to continue:</p>
+      <h1>Choose Your Plan</h1>
+      <p>Pick the one that fits you best</p>
     </div>
 
     <div class="plan-grid">
       <div class="plan-card">
-        <h2>Basic</h2>
-        <h3>Free — 5 GB</h3>
-        <p>Basic storage and collaboration tools. Great for individuals.</p>
-        <a href="sign-up.html?plan=free" class="plan-button">Choose Free</a>
-      </div>
-
-      <div class="plan-card recommended">
         <h2>Starter</h2>
-        <span class="badge">Recommended</span>
-        <h3>$4.99/month — 1 TB</h3>
-        <p>Perfect for individuals who need more space without the full Pro features.</p>
-        <a href="sign-up.html?plan=starter" class="plan-button">Choose Starter</a>
+        <h3>1TB Storage</h3>
+        <p>Perfect for individuals who want secure, private cloud space.</p>
+        <a href="get-started.html?plan=starter" class="plan-button">Choose Starter</a>
       </div>
 
       <div class="plan-card">
         <h2>Pro</h2>
-        <h3>$9.99/month — 2 TB</h3>
-        <p>Ideal for professionals who need secure, scalable storage with priority support.</p>
-        <a href="sign-up.html?plan=pro" class="plan-button">Choose Pro</a>
-      </div>
-
-      <div class="plan-card">
-        <h2>Enterprise</h2>
-        <h3>$19.20/month — 5 TB</h3>
-        <p>Built for teams and organizations with advanced needs and dedicated support.</p>
-        <a href="sign-up.html?plan=enterprise" class="plan-button">Choose Enterprise</a>
+        <h3>2TB Storage</h3>
+        <p>Ideal for teams, creators, and professionals who need more space and control.</p>
+        <a href="get-started.html?plan=pro" class="plan-button">Choose Pro</a>
       </div>
     </div>
-  </section>
+  </main>
 
+  <!-- 🔷 Rodapé -->
   <footer>
-    <p>© 2025 MonkyBite.</p>
+    <p>© 2025 MonkyBite</p>
   </footer>
+
 </body>
 </html>
-
-
 
