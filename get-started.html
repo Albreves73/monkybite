@@ -8,87 +8,70 @@
 </head>
 <body>
 
-  <!-- 🔷 Barra de navegação -->
- <header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
-  <nav>
-    <a href="index.html">HOME</a>
-    <a href="login.html">LOGIN</a>
-    <a href="plans.html">SIGN UP</a>
-    <a href="contact.html">CONTACT</a>
-  </nav>
-</header>
-
+  <!-- 🔷 Cabeçalho -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </a>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </header>
 
   <!-- 🔷 Conteúdo principal -->
-  <main class="get-started-box">
-    <h1>Create Your MonkyBite Account</h1>
-    <p>Let’s get you started with your chosen plan</p>
+  <main class="signup-container">
+    <h1>Create Your Account</h1>
+    <p id="selected-plan">Loading plan...</p>
 
-    <p id="plan-display" class="welcome-banner"></p>
+    <form action="dashboard.html" method="POST" class="signup-form">
+      <!-- Dados pessoais -->
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required />
 
-    <form id="signup-form" onsubmit="handleSignup(event)">
-      <input type="text" id="name" placeholder="Full name" required />
-      <input type="email" id="email" placeholder="Email address" required />
-      <input type="password" id="password" placeholder="Create a password" required />
-      <input type="text" id="country" placeholder="Country (optional)" />
-      <input type="hidden" id="plan" name="plan" />
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required />
 
-      <button type="submit" class="button primary">Create Account</button>
-      <p id="signup-feedback" class="contact-feedback"></p>
+      <label for="password">Create Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <!-- Pagamento -->
+      <h2>Payment Details</h2>
+
+      <label for="card">Card Number</label>
+      <input type="text" id="card" name="card" placeholder="1234 5678 9012 3456" required />
+
+      <label for="expiry">Expiry Date</label>
+      <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required />
+
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" name="cvv" placeholder="123" required />
+
+      <button type="submit" class="plan-button">Create Account</button>
     </form>
   </main>
 
-  <!-- 🔷 Rodapé fixo -->
+  <!-- 🔷 Rodapé -->
   <footer>
     <p>© 2025 MonkyBite</p>
   </footer>
 
-  <!-- 🔷 Script para capturar plano e validar -->
+  <!-- 🔷 Script para mostrar plano escolhido -->
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedPlan = urlParams.get("plan");
-    const planDisplay = document.getElementById("plan-display");
-    const hiddenPlan = document.getElementById("plan");
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+    const planDisplay = document.getElementById("selected-plan");
 
-    if (selectedPlan) {
-      planDisplay.textContent = `You're signing up for the ${selectedPlan} plan — great choice!`;
-      hiddenPlan.value = selectedPlan;
+    if (plan) {
+      const formatted = plan.charAt(0).toUpperCase() + plan.slice(1);
+      planDisplay.textContent = `You selected the ${formatted} plan.`;
     } else {
-      planDisplay.textContent = "No plan selected. Please go back and choose one.";
-    }
-
-    function handleSignup(event) {
-      event.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const country = document.getElementById("country").value.trim();
-      const plan = document.getElementById("plan").value;
-      const feedback = document.getElementById("signup-feedback");
-
-      if (!name || !email || !password || !plan) {
-        feedback.textContent = "Please fill in all required fields.";
-        feedback.style.color = "#d93025";
-        return;
-      }
-
-      feedback.textContent = `Welcome, ${name}! We're setting up your MonkyBite space...`;
-      feedback.style.color = "#1a73e8";
-
-      // Etapa 2: aqui vamos chamar a API do Nextcloud
-      console.log({ name, email, password, country, plan });
-
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 2000);
+      planDisplay.textContent = "No plan selected.";
     }
   </script>
 
 </body>
 </html>
-
