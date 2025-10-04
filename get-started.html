@@ -2,19 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>Sign Up — MonkyBite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Get Started — MonkyBite</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
-
-  <!-- Google Identity Services -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <meta name="google-signin-client_id" content="574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com">
 </head>
 <body>
-  <div id="google-wrapper" style="display: none;"></div>
 
-  <!-- Cabeçalho MonkyBite -->
   <header>
     <a href="index.html" class="logo">
       <img src="logo.png" alt="MonkyBite Logo" />
@@ -22,125 +15,77 @@
     </a>
     <nav>
       <a href="index.html">HOME</a>
-      <a href="get-started.html?mode=login">LOGIN</a>
-      <a href="signup.html">SIGN UP</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">PLANS</a>
       <a href="contact.html">CONTACT</a>
     </nav>
   </header>
 
-  <!-- Bloco principal de login -->
   <main class="get-started-box">
-    <h1 id="page-title">Sign up or log in</h1>
-    <p id="page-subtitle">We recommend using your main email.</p>
+    <h1>Create Your MonkyBite Account</h1>
+    <p>Let’s get you started with your chosen plan</p>
 
-    
-      <!-- Google Sign-In button -->
-     <button id="google-login" class="auth-btn button google" onclick="startGoogleLogin()">
-  Continue with Google
-</button>
+    <p id="plan-display" class="welcome-banner"></p>
 
-      <button class="auth-btn apple coming-soon" disabled title="Coming soon">Continue with Apple</button>
+    <form id="signup-form" onsubmit="handleSignup(event)">
+      <input type="text" id="name" placeholder="Full name" required />
+      <input type="email" id="email" placeholder="Email address" required />
+      <input type="password" id="password" placeholder="Create a password" required />
+      <input type="text" id="country" placeholder="Country (optional)" />
+      <input type="hidden" id="plan" name="plan" />
 
-      <div class="divider">or</div>
-
-      <input type="email" id="email" placeholder="Your email" class="input-field" />
-      <button class="button primary" onclick="handleEmailLogin(event)">Continue</button>
-    </div>
+      <button type="submit" class="button primary">Create Account</button>
+      <p id="signup-feedback" class="contact-feedback"></p>
+    </form>
   </main>
 
-  <!-- Rodapé MonkyBite -->
   <footer>
-    <p>© 2025 MonkyBite.</p>
+    <p>© 2025 MonkyBite</p>
   </footer>
 
-  <!-- Script único e funcional -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const params = new URLSearchParams(window.location.search);
-      const mode = params.get("mode");
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedPlan = urlParams.get("plan");
+    const planDisplay = document.getElementById("plan-display");
+    const hiddenPlan = document.getElementById("plan");
 
-      const title = document.getElementById("page-title");
-      const subtitle = document.getElementById("page-subtitle");
-
-      if (mode === "signup") {
-        title.textContent = "Create your account";
-        subtitle.textContent = "Start by choosing your method.";
-      } else {
-        title.textContent = "Log in to MonkyBite";
-        subtitle.textContent = "Enter your email to continue.";
-      }
-
-      window.handleEmailLogin = function (event) {
-        event.preventDefault();
-
-        const emailInput = document.getElementById("email");
-        if (!emailInput) return;
-
-        const email = emailInput.value.trim();
-        if (!email) {
-          alert("Please enter your email.");
-          return;
-        }
-
-        const existingEmails = ["ana@example.com", "user@monkybite.com"];
-        const emailExists = existingEmails.includes(email.toLowerCase());
-
-        if (mode === "signup") {
-          if (emailExists) {
-            alert("This email is already registered. Redirecting to login.");
-            window.location.href = `get-started.html?mode=login&email=${encodeURIComponent(email)}`;
-          } else {
-            window.location.href = `plans.html?email=${encodeURIComponent(email)}&new=true`;
-          }
-        } else {
-          if (emailExists) {
-            window.location.href = `password.html?email=${encodeURIComponent(email)}`;
-          } else {
-            alert("Email not found. Redirecting to sign up.");
-            window.location.href = `get-started.html?mode=signup&email=${encodeURIComponent(email)}`;
-          }
-        }
-      };
-    });
-  </script>
-<script>
-  let googleButton;
-
-  window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: "574985924505-q4kmp3ml64kh86bjpvc49jfksi363ldv.apps.googleusercontent.com",
-      callback: handleGoogleResponse
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById("google-wrapper"),
-      {
-        type: "standard",
-        theme: "outline",
-        size: "large"
-      }
-    );
-
-    // Captura o botão real renderizado
-    googleButton = document.querySelector("#google-wrapper div[role=button]");
-  };
-
-  function startGoogleLogin() {
-    if (googleButton) {
-      googleButton.click();
+    if (selectedPlan) {
+      planDisplay.textContent = `You're signing up for the ${selectedPlan} plan — great choice!`;
+      hiddenPlan.value = selectedPlan;
     } else {
-      alert("Google login not ready yet.");
+      planDisplay.textContent = "No plan selected. Please go back and choose one.";
     }
-  }
 
-  function handleGoogleResponse(response) {
-    console.log("Google token:", response.credential);
-    window.location.href = "plans.html"; // ou outro destino
-  }
-</script>
+    function handleSignup(event) {
+      event.preventDefault();
 
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const country = document.getElementById("country").value.trim();
+      const plan = document.getElementById("plan").value;
+      const feedback = document.getElementById("signup-feedback");
+
+      if (!name || !email || !password || !plan) {
+        feedback.textContent = "Please fill in all required fields.";
+        feedback.style.color = "#d93025";
+        return;
+      }
+
+      feedback.textContent = `Welcome, ${name}! We're setting up your MonkyBite space...`;
+      feedback.style.color = "#1a73e8";
+
+      // Etapa 2: aqui vamos chamar a API do Nextcloud
+      // Por enquanto, simulação:
+      console.log({ name, email, password, country, plan });
+
+      // Redirecionamento fictício
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 2000);
+    }
+  </script>
 
 </body>
 </html>
-
 
