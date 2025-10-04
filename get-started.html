@@ -16,73 +16,74 @@
     <nav>
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
-      <a href="plans.html">PLANS</a>
-      <a href="contact.html">CONTACT</a>
+      <a href="sign-up.html">SIGN UP</a>
     </nav>
   </header>
 
   <main class="get-started-box">
-    <h1>Create Your MonkyBite Account</h1>
-    <p>Let’s get you started with your chosen plan</p>
+    <h1>Sign Up</h1>
+    <p>Let’s get you started with MonkyBite</p>
 
+    <!-- Plano escolhido ou opções -->
     <p id="plan-display" class="welcome-banner"></p>
 
-    <form id="signup-form" onsubmit="handleSignup(event)">
-      <input type="text" id="name" placeholder="Full name" required />
-      <input type="email" id="email" placeholder="Email address" required />
-      <input type="password" id="password" placeholder="Create a password" required />
-      <input type="text" id="country" placeholder="Country (optional)" />
-      <input type="hidden" id="plan" name="plan" />
+    <div id="plan-options" style="display: none;">
+      <p>Please choose a plan:</p>
+      <button onclick="selectPlan('starter')" class="button primary">Starter</button>
+      <button onclick="selectPlan('pro')" class="button primary">Pro</button>
+    </div>
 
-      <button type="submit" class="button primary">Create Account</button>
+    <!-- Formulário de cadastro -->
+    <form class="signup-form" onsubmit="handleSignup(event)">
+      <input type="email" id="email" placeholder="Your email" class="input-field" />
+      <input type="hidden" id="hidden-plan" name="plan" />
+      <button type="submit" class="button primary">Continue</button>
       <p id="signup-feedback" class="contact-feedback"></p>
     </form>
   </main>
 
   <footer>
-    <p>© 2025 MonkyBite</p>
+    <p>© 2023 MonkyBite</p>
   </footer>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const selectedPlan = urlParams.get("plan");
+
     const planDisplay = document.getElementById("plan-display");
-    const hiddenPlan = document.getElementById("plan");
+    const hiddenPlan = document.getElementById("hidden-plan");
+    const planOptions = document.getElementById("plan-options");
 
     if (selectedPlan) {
       planDisplay.textContent = `You're signing up for the ${selectedPlan} plan — great choice!`;
       hiddenPlan.value = selectedPlan;
     } else {
-      planDisplay.textContent = "No plan selected. Please go back and choose one.";
+      planOptions.style.display = "block";
+    }
+
+    function selectPlan(plan) {
+      hiddenPlan.value = plan;
+      planDisplay.textContent = `You're signing up for the ${plan} plan — great choice!`;
+      planOptions.style.display = "none";
     }
 
     function handleSignup(event) {
       event.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const country = document.getElementById("country").value.trim();
-      const plan = document.getElementById("plan").value;
+      const plan = hiddenPlan.value;
       const feedback = document.getElementById("signup-feedback");
 
-      if (!name || !email || !password || !plan) {
-        feedback.textContent = "Please fill in all required fields.";
+      if (!email || !plan) {
+        feedback.textContent = "Please enter your email and choose a plan before continuing.";
         feedback.style.color = "#d93025";
         return;
       }
 
-      feedback.textContent = `Welcome, ${name}! We're setting up your MonkyBite space...`;
+      feedback.textContent = `Welcome, Ana — you're all set for the ${plan} plan!`;
       feedback.style.color = "#1a73e8";
 
-      // Etapa 2: aqui vamos chamar a API do Nextcloud
-      // Por enquanto, simulação:
-      console.log({ name, email, password, country, plan });
-
-      // Redirecionamento fictício
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 2000);
+      // Simulação de envio — aqui você pode redirecionar ou enviar via fetch
+      // window.location.href = "plans.html";
     }
   </script>
 
