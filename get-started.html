@@ -13,6 +13,39 @@
       padding: 0;
     }
 
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 32px;
+      margin-right: 10px;
+    }
+
+    .brand-name {
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #007ee5;
+      font-weight: 500;
+    }
+
     .signup-wrapper {
       max-width: 480px;
       margin: 60px auto;
@@ -58,13 +91,17 @@
       flex: 1;
     }
 
-    .signup-wrapper .terms {
+    .terms {
       font-size: 13px;
       color: #555;
       margin-bottom: 20px;
     }
 
-    .signup-wrapper button {
+    .terms input {
+      margin-right: 6px;
+    }
+
+    button {
       width: 100%;
       padding: 12px;
       background-color: #007ee5;
@@ -75,13 +112,28 @@
       cursor: pointer;
     }
 
-    .signup-wrapper button:hover {
+    button:hover {
       background-color: #005bb5;
     }
   </style>
 </head>
 <body>
 
+  <!-- 🔷 Barra de navegação -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </a>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- 🔷 Formulário de cadastro -->
   <div class="signup-wrapper">
     <h1>Create your MonkyBite account</h1>
     <p class="plan-message" id="selected-plan">Loading plan...</p>
@@ -113,6 +165,7 @@
     </form>
   </div>
 
+  <!-- 🔷 Script -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const selectedPlan = params.get("plan") || "free";
