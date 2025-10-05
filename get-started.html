@@ -5,30 +5,72 @@
   <title>Sign Up — MonkyBite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .signup-wrapper {
+      max-width: 480px;
+      margin: 60px auto;
+      padding: 40px;
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      font-family: sans-serif;
+    }
+
+    .signup-wrapper h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .signup-wrapper p.plan-message {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .signup-wrapper label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .signup-wrapper input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .signup-wrapper button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007ee5;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .signup-wrapper button:hover {
+      background-color: #005bb5;
+    }
+
+    .signup-wrapper .terms {
+      font-size: 12px;
+      color: #777;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- 🔷 Cabeçalho -->
-  <header>
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="MonkyBite Logo" />
-      <span class="brand-name">MonkyBite</span>
-    </a>
-    <nav>
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </header>
+  <div class="signup-wrapper">
+    <h1>Create your MonkyBite account</h1>
+    <p class="plan-message" id="selected-plan">Loading plan...</p>
 
-  <!-- 🔷 Conteúdo principal -->
-  <main class="signup-container">
-    <h1>Create Your Account</h1>
-    <p id="selected-plan">Loading plan...</p>
-
-    <form action="dashboard.html" method="POST" class="signup-form">
-      <!-- Dados pessoais -->
+    <form id="signup-form">
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" required />
 
@@ -37,9 +79,6 @@
 
       <label for="password">Create Password</label>
       <input type="password" id="password" name="password" required />
-
-      <!-- Pagamento -->
-      <h2>Payment Details</h2>
 
       <label for="card">Card Number</label>
       <input type="text" id="card" name="card" placeholder="1234 5678 9012 3456" required />
@@ -50,74 +89,32 @@
       <label for="cvv">CVV</label>
       <input type="text" id="cvv" name="cvv" placeholder="123" required />
 
-      <button type="submit" class="plan-button">Create Account</button>
+      <button type="submit">Agree and Sign Up</button>
+      <p class="terms">By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
     </form>
-  </main>
+  </div>
 
-  <!-- 🔷 Rodapé -->
-  <footer>
-    <p>© 2025 MonkyBite</p>
-  </footer>
-
-  <!-- 🔷 Script para mostrar plano escolhido -->
   <script>
     const params = new URLSearchParams(window.location.search);
-    const plan = params.get("plan");
-    const planDisplay = document.getElementById("selected-plan");
+    const selectedPlan = params.get("plan") || "free";
 
-    if (plan) {
-      const formatted = plan.charAt(0).toUpperCase() + plan.slice(1);
-      planDisplay.textContent = `You selected the ${formatted} plan.`;
+    const planDisplay = document.getElementById("selected-plan");
+    if (selectedPlan) {
+      const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+      planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
     } else {
       planDisplay.textContent = "No plan selected.";
     }
+
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      sessionStorage.setItem("user_name", name);
+      sessionStorage.setItem("plan", selectedPlan);
+      window.location.href = "dashboard.html";
+    });
   </script>
-
-  <form id="signup-form" class="signup-form">
-  <label for="name">Full Name</label>
-  <input type="text" id="name" name="name" required />
-
-  <label for="email">Email Address</label>
-  <input type="email" id="email" name="email" required />
-
-  <label for="password">Create Password</label>
-  <input type="password" id="password" name="password" required />
-
-  <h2>Payment Details</h2>
-  <label for="card">Card Number</label>
-  <input type="text" id="card" name="card" required />
-
-  <label for="expiry">Expiry Date</label>
-  <input type="text" id="expiry" name="expiry" required />
-
-  <label for="cvv">CVV</label>
-  <input type="text" id="cvv" name="cvv" required />
-
-  <button type="submit" class="plan-button">Create Account</button>
-</form>
-
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const selectedPlan = params.get("plan") || "free";
-
-  document.getElementById("signup-form").addEventListener("submit", function(e) {
-    e.preventDefault(); // impede envio automático
-
-    const name = document.getElementById("name").value;
-    sessionStorage.setItem("user_name", name);
-    sessionStorage.setItem("plan", selectedPlan);
-
-    window.location.href = "dashboard.html";
-  });
-
-  // Mostrar plano escolhido
-  const planDisplay = document.getElementById("selected-plan");
-  if (planDisplay) {
-    const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-    planDisplay.textContent = `You selected the ${formatted} plan.`;
-  }
-</script>
-
 
 </body>
 </html>
+
