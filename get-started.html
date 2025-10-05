@@ -73,5 +73,51 @@
     }
   </script>
 
+  <form id="signup-form" class="signup-form">
+  <label for="name">Full Name</label>
+  <input type="text" id="name" name="name" required />
+
+  <label for="email">Email Address</label>
+  <input type="email" id="email" name="email" required />
+
+  <label for="password">Create Password</label>
+  <input type="password" id="password" name="password" required />
+
+  <h2>Payment Details</h2>
+  <label for="card">Card Number</label>
+  <input type="text" id="card" name="card" required />
+
+  <label for="expiry">Expiry Date</label>
+  <input type="text" id="expiry" name="expiry" required />
+
+  <label for="cvv">CVV</label>
+  <input type="text" id="cvv" name="cvv" required />
+
+  <button type="submit" class="plan-button">Create Account</button>
+</form>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const selectedPlan = params.get("plan") || "free";
+
+  document.getElementById("signup-form").addEventListener("submit", function(e) {
+    e.preventDefault(); // impede envio automático
+
+    const name = document.getElementById("name").value;
+    sessionStorage.setItem("user_name", name);
+    sessionStorage.setItem("plan", selectedPlan);
+
+    window.location.href = "dashboard.html";
+  });
+
+  // Mostrar plano escolhido
+  const planDisplay = document.getElementById("selected-plan");
+  if (planDisplay) {
+    const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+    planDisplay.textContent = `You selected the ${formatted} plan.`;
+  }
+</script>
+
+
 </body>
 </html>
