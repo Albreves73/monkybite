@@ -595,5 +595,14 @@ footer {
   .hero-content {
     margin: 0 auto;
     max-width: 100
-
   }
+
+  .signup-wrapper {
+  max-width: 480px;
+  margin: 60px auto; /* ← isso centraliza horizontalmente */
+  padding: 40px;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.08);
+  border-radius: 8px;
+}
+
