@@ -56,6 +56,10 @@
 
   <!-- 🔷 Script para salvar dados e mostrar plano -->
   <script>
+    if (!params.get("plan")) {
+  window.location.href = "plans.html";
+}
+
     const params = new URLSearchParams(window.location.search);
     const selectedPlan = params.get("plan") || "free";
 
