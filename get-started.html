@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sign Up — MonkyBite</title>
+  <title>Create your MonkyBite account</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  
-
 </head>
 <body>
 
@@ -24,10 +22,10 @@
     </nav>
   </header>
 
-  <!-- 🔷 Formulário de cadastro -->
-  <div class="signup-wrapper">
+  <!-- 🔷 Formulário centralizado -->
+  <main class="get-started-box">
     <h1>Create your MonkyBite account</h1>
-    <p class="plan-message" id="selected-plan">Loading plan...</p>
+    <p id="selected-plan">Loading plan...</p>
 
     <form id="signup-form">
       <label for="email">Email Address</label>
@@ -52,11 +50,11 @@
         <label for="agree">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</label>
       </div>
 
-      <button type="submit">Agree and Sign Up</button>
+      <button type="submit" class="primary-button">Agree and Sign Up</button>
     </form>
-  </div>
+  </main>
 
-  <!-- 🔷 Script -->
+  <!-- 🔷 Script para salvar dados e mostrar plano -->
   <script>
     const params = new URLSearchParams(window.location.search);
     const selectedPlan = params.get("plan") || "free";
@@ -80,3 +78,4 @@
 
 </body>
 </html>
+
