@@ -56,12 +56,27 @@
 
   <!-- 🔷 Script para salvar dados e mostrar plano -->
   <script>
-    if (!params.get("plan")) {
-  window.location.href = "plans.html";
-}
+    <script>
+  const params = new URLSearchParams(window.location.search);
+  const selectedPlan = params.get("plan");
 
-    const params = new URLSearchParams(window.location.search);
-    const selectedPlan = params.get("plan") || "free";
+  if (!selectedPlan) {
+    window.location.href = "plans.html";
+  }
+
+  const planDisplay = document.getElementById("selected-plan");
+  const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+  planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+
+  document.getElementById("signup-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
+    sessionStorage.setItem("user_name", fullName);
+    sessionStorage.setItem("plan", selectedPlan);
+    window.location.href = "dashboard.html";
+  });
+</script>
+
 
     const planDisplay = document.getElementById("selected-plan");
     if (selectedPlan) {
