@@ -238,11 +238,6 @@ nav a[href="sign-up.html"]:hover {
   margin-bottom: 12px;
 }
 
-  font-weight: 500;
-  color: #888;
-  font-size: 0.9rem;
-}
-
 .divider::before,
 .divider::after {
   content: "";
@@ -578,14 +573,19 @@ nav a[href="sign-up.html"]:hover {
 
 /* Footer */
 footer {
+  display: block;
+  width: 100%;
   text-align: center;
   padding: 20px;
   background-color: #e8ebf2;
   font-size: 0.9rem;
+  color: #1a2a4f;
 }
+
 footer p {
   margin: 0;
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {
