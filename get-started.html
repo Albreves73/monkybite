@@ -53,9 +53,8 @@
       <button type="submit" class="primary-button">Agree and Sign Up</button>
     </form>
   </main>
-
-  <!-- 🔷 Script para salvar dados e mostrar plano -->
-  <script>
+<!-- 🔷 Script para salvar dados e mostrar plano -->
+<script>
   const params = new URLSearchParams(window.location.search);
   const selectedPlan = params.get("plan");
 
@@ -76,23 +75,6 @@
   });
 </script>
 
-<script>
-    const planDisplay = document.getElementById("selected-plan");
-    if (selectedPlan) {
-      const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-      planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
-    } else {
-      planDisplay.textContent = "No plan selected.";
-    }
-
-    document.getElementById("signup-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
-      sessionStorage.setItem("user_name", fullName);
-      sessionStorage.setItem("plan", selectedPlan);
-      window.location.href = "dashboard.html";
-    });
-  </script>
 
 </body>
 </html>
