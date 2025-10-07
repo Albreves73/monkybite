@@ -56,7 +56,6 @@
 
   <!-- 🔷 Script para salvar dados e mostrar plano -->
   <script>
-    <script>
   const params = new URLSearchParams(window.location.search);
   const selectedPlan = params.get("plan");
 
@@ -77,7 +76,7 @@
   });
 </script>
 
-
+<script>
     const planDisplay = document.getElementById("selected-plan");
     if (selectedPlan) {
       const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
