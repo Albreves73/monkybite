@@ -2,57 +2,153 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Login to MonkyBite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — MonkyBite</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1a2a4f;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #333;
+      padding: 8px 12px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #e0e0e0;
+      border-radius: 6px;
+    }
+
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      margin: 60px auto;
+    }
+
+    .login-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .login-container button,
+    .login-container input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .social-login {
+      background-color: #4285F4;
+      color: white;
+      border: none;
+    }
+
+    .apple-login {
+      background-color: black;
+      color: white;
+      border: none;
+    }
+
+    .email-login {
+      background-color: #0061ff;
+      color: white;
+      border: none;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- 🔷 Header -->
-  <header>
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="MonkyBite Logo" />
-      <span class="brand-name">MonkyBite</span>
-    </a>
-    <nav>
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </header>
+  <!-- ✅ Barra de navegação dentro do body -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="login.html">LOGIN</a>
+    <a href="plans.html">SIGN UP</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
+</header>
 
-  <!-- 🔷 Login Box -->
-  <main class="get-started-box">
-    <h1>Welcome Back</h1>
-    <p>Please enter your login details</p>
 
-    <form id="login-form">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" class="input-field" required />
-
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" class="input-field" required />
-
-      <button type="submit" class="primary-button">Login</button>
+  <!-- ✅ Conteúdo principal -->
+  <div class="login-container">
+    <h2>Login to MonkyBite</h2>
+    <button class="social-login">Continue with Google</button>
+    <button class="apple-login">Continue with Apple</button>
+    <hr />
+    <form>
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button class="email-login" type="submit">Login</button>
     </form>
-  </main>
+    <div class="signup-link">
+      <p>New to MonkyBite? <a href="get-started.html">Create an account</a></p>
+    </div>
+  </div>
 
-  <!-- 🔷 Footer -->
+  <!-- ✅ Rodapé -->
   <footer>
-    <p>© 2025 MonkyBite.</p>
+    <p>© 2025 MonkyBite</p>
   </footer>
-
-  <!-- 🔷 Script: Handle login -->
-  <script>
-    document.getElementById("login-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const name = email.split("@")[0];
-      sessionStorage.setItem("user_name", name);
-      window.location.href = "dashboard.html";
-    });
-  </script>
 
 </body>
 </html>
