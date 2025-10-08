@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- 🔷 Barra de navegação -->
+  <!-- 🔷 Header -->
   <header>
     <a href="index.html" class="logo">
       <img src="logo.png" alt="MonkyBite Logo" />
@@ -22,7 +22,7 @@
     </nav>
   </header>
 
-  <!-- 🔷 Formulário centralizado -->
+  <!-- 🔷 Signup Form -->
   <main class="get-started-box">
     <h1>Create your MonkyBite account</h1>
     <p id="selected-plan">Loading plan...</p>
@@ -30,7 +30,6 @@
     <form id="signup-form">
       <label for="email">Email Address</label>
       <input type="email" id="email" name="email" class="input-field" required />
-
 
       <div class="name-row">
         <div>
@@ -45,37 +44,41 @@
 
       <label for="password">Create Password</label>
       <input type="password" id="password" name="password" class="input-field" required />
+
       <div class="terms">
         <input type="checkbox" id="agree" required />
-        <label for="agree">I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</label>
+        <label for="agree">
+          I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+        </label>
       </div>
 
       <button type="submit" class="primary-button">Agree and Sign Up</button>
     </form>
   </main>
-<!-- 🔷 Script para salvar dados e mostrar plano -->
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const selectedPlan = params.get("plan");
 
-  if (!selectedPlan) {
-    window.location.href = "plans.html";
-  }
+  <!-- 🔷 Script: Load selected plan and handle form -->
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const selectedPlan = params.get("plan");
 
-  const planDisplay = document.getElementById("selected-plan");
-  const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-  planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+    if (!selectedPlan) {
+      window.location.href = "plans.html";
+    }
 
-  document.getElementById("signup-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
-    sessionStorage.setItem("user_name", fullName);
-    sessionStorage.setItem("plan", selectedPlan);
-    window.location.href = "dashboard.html";
-  });
-</script>
+    const planDisplay = document.getElementById("selected-plan");
+    const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+    planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
 
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
+      sessionStorage.setItem("user_name", fullName);
+      sessionStorage.setItem("plan", selectedPlan);
+      window.location.href = "dashboard.html";
+    });
+  </script>
 
 </body>
 </html>
+
 
