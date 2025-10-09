@@ -72,34 +72,35 @@
     <p>© 2025 MonkyBite.</p>
   </footer>
 
-  <!-- 🔷 Script: Handle dynamic fields and submission -->
-  <script>
-    const plan = sessionStorage.getItem("plan");
-    document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
+<!-- 🔷 Script: Handle dynamic fields and submission -->
+<script>
+  const plan = sessionStorage.getItem("plan");
+  document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
 
-    const methodSelect = document.getElementById("payment-method");
-    const sections = {
-      card: document.getElementById("card-fields"),
-      paypal: document.getElementById("paypal-fields"),
-      crypto: document.getElementById("crypto-fields")
-    };
+  const methodSelect = document.getElementById("payment-method");
+  const sections = {
+    card: document.getElementById("card-fields"),
+    paypal: document.getElementById("paypal-fields"),
+    crypto: document.getElementById("crypto-fields")
+  };
 
-    methodSelect.addEventListener("change", () => {
-      Object.values(sections).forEach(div => div.style.display = "none");
-      const selected = methodSelect.value;
-      if (sections[selected]) {
-        sections[selected].style.display = "block";
-      }
-    });
+  methodSelect.addEventListener("change", () => {
+    Object.values(sections).forEach(div => div.style.display = "none");
+    const selected = methodSelect.value;
+    if (sections[selected]) {
+      sections[selected].style.display = "block";
+    }
 
-    document.getElementById("billing-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      // Simulate payment success
-      window.location.href = "dashboard.html";
-    });
-  </script>
+    // Mostrar ou ocultar botão de envio
+    const submitBtn = document.querySelector(".primary-button");
+    submitBtn.style.display = selected === "paypal" ? "none" : "block";
+  });
 
-  <script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD"></script>
+  document.getElementById("billing-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    window.location.href = "dashboard.html";
+  });
+</script>
 
 </body>
 </html>
