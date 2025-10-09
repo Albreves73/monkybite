@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Billing Info</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- 🔷 Header -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </a>
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </header>
+
+  <!-- 🔷 Billing Form -->
+  <main class="get-started-box">
+    <h1>Billing Information</h1>
+    <p id="billing-plan">Loading plan...</p>
+
+    <form id="billing-form">
+      <label for="card-name">Name on Card</label>
+      <input type="text" id="card-name" class="input-field" required />
+
+      <label for="card-number">Card Number</label>
+      <input type="text" id="card-number" class="input-field" maxlength="16" required />
+
+      <label for="expiry">Expiration Date</label>
+      <input type="text" id="expiry" class="input-field" placeholder="MM/YY" required />
+
+      <label for="cvv">CVV</label>
+      <input type="text" id="cvv" class="input-field" maxlength="4" required />
+
+      <button type="submit" class="primary-button">Submit Payment</button>
+    </form>
+  </main>
+
+  <!-- 🔷 Footer -->
+  <footer>
+    <p>© 2025 MonkyBite.</p>
+  </footer>
+
+  <!-- 🔷 Script: Load plan and handle payment -->
+  <script>
+    const plan = sessionStorage.getItem("plan");
+    const billingDisplay = document.getElementById("billing-plan");
+    billingDisplay.textContent = `You're subscribing to the ${plan} plan.`;
+
+    document.getElementById("billing-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      // Simulate payment success
+      window.location.href = "dashboard.html";
+    });
+  </script>
+
+</body>
+</html>
