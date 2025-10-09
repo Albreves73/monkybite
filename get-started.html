@@ -74,7 +74,11 @@
       const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
       sessionStorage.setItem("user_name", fullName);
       sessionStorage.setItem("plan", selectedPlan);
-      window.location.href = "dashboard.html";
+      if (selectedPlan === "free") {
+  window.location.href = "dashboard.html";
+} else {
+  window.location.href = "billing.html";
+}
     });
   </script>
 
