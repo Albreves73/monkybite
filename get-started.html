@@ -58,29 +58,33 @@
 
   <!-- 🔷 Script: Load selected plan and handle form -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const selectedPlan = params.get("plan");
+  const params = new URLSearchParams(window.location.search);
+  const selectedPlan = params.get("plan");
 
-    if (!selectedPlan) {
-      window.location.href = "plans.html";
+  if (!selectedPlan) {
+    window.location.href = "plans.html"; // fallback se não houver plano
+  }
+
+  const planDisplay = document.getElementById("selected-plan");
+  const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+  planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+
+  document.getElementById("signup-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
+    sessionStorage.setItem("user_name", fullName);
+    sessionStorage.setItem("plan", selectedPlan);
+
+    const paidPlans = ["starter", "pro", "enterprise"];
+    if (paidPlans.includes(selectedPlan)) {
+      window.location.href = "billing.html";
+    } else {
+      window.location.href = "dashboard.html";
     }
+  });
+</script>
 
-    const planDisplay = document.getElementById("selected-plan");
-    const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-    planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
-
-    document.getElementById("signup-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
-      sessionStorage.setItem("user_name", fullName);
-      sessionStorage.setItem("plan", selectedPlan);
-      if (selectedPlan === "free") {
-  window.location.href = "dashboard.html";
-} else {
-  window.location.href = "billing.html";
-}
-    });
-  </script>
 
 </body>
 </html>
