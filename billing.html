@@ -28,7 +28,7 @@
     <p id="billing-plan">Loading plan...</p>
 
     <!-- 🅿️ PayPal Buttons -->
-    <div id="paypal-button-container"></div>
+    <div id="paypal-button-container" style="margin-top: 20px;"></div>
   </main>
 
   <!-- 🔷 Footer -->
@@ -39,35 +39,37 @@
   <!-- 🔷 PayPal SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD"></script>
 
-
   <!-- 🔷 Script: Show plan and render PayPal button -->
   <script>
-    const plan = sessionStorage.getItem("plan") || "Starter";
-    document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
+    document.addEventListener("DOMContentLoaded", function () {
+      const plan = sessionStorage.getItem("plan") || "Starter";
+      document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
 
-    const planPrices = {
-      Starter: "4.99",
-      Pro: "9.99",
-      Premium: "14.99"
-    };
-    const price = planPrices[plan];
+      const planPrices = {
+        Starter: "4.99",
+        Pro: "9.99",
+        Premium: "14.99"
+      };
+      const price = planPrices[plan];
 
-    paypal.Buttons({
-      createOrder: function(data, actions) {
-        return actions.order.create({
-          purchase_units: [{
-            amount: { value: price }
-          }]
-        });
-      },
-      onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-          alert("Payment completed by " + details.payer.name.given_name);
-          window.location.href = "dashboard.html";
-        });
-      }
-    }).render("#paypal-button-container");
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: { value: price }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert("Payment completed by " + details.payer.name.given_name);
+            window.location.href = "dashboard.html";
+          });
+        }
+      }).render("#paypal-button-container");
+    });
   </script>
 
 </body>
 </html>
+
