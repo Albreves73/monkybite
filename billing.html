@@ -27,16 +27,8 @@
     <h1>Billing Information</h1>
     <p id="billing-plan">Loading plan...</p>
 
-    <form id="billing-form">
-
-
-      <!-- 🅿️ PayPal -->
-      <div id="paypal-fields" style="display: none;">
-        <div id="paypal-button-container"></div>
-      </div>
-
-      <button type="submit" class="primary-button">Submit Payment</button>
-    </form>
+    <!-- 🅿️ PayPal Buttons -->
+    <div id="paypal-button-container"></div>
   </main>
 
   <!-- 🔷 Footer -->
@@ -44,47 +36,26 @@
     <p>© 2025 MonkyBite.</p>
   </footer>
 
-  <!-- 🔷 Script: Handle dynamic fields and submission -->
+  <!-- 🔷 PayPal SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
+
+  <!-- 🔷 Script: Show plan and render PayPal button -->
   <script>
-    const plan = sessionStorage.getItem("plan") || "Basic";
+    const plan = sessionStorage.getItem("plan") || "Starter";
     document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
 
-    const methodSelect = document.getElementById("payment-method");
-    const sections = {
-      card: document.getElementById("card-fields"),
-      paypal: document.getElementById("paypal-fields"),
-      crypto: document.getElementById("crypto-fields")
+    const planPrices = {
+      Starter: "4.99",
+      Pro: "9.99",
+      Premium: "14.99"
     };
+    const price = planPrices[plan];
 
-    methodSelect.addEventListener("change", () => {
-      Object.values(sections).forEach(div => div.style.display = "none");
-      const selected = methodSelect.value;
-      if (sections[selected]) {
-        sections[selected].style.display = "block";
-      }
-
-      const submitBtn = document.querySelector(".primary-button");
-      submitBtn.style.display = selected === "paypal" ? "none" : "block";
-    });
-
-    document.getElementById("billing-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      window.location.href = "dashboard.html";
-    });
-  </script>
-
-  <!-- 🔷 PayPal SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD"></script>
-
-  <!-- 🔷 Renderizar botão PayPal -->
-  <script>
     paypal.Buttons({
       createOrder: function(data, actions) {
         return actions.order.create({
           purchase_units: [{
-            amount: {
-              value: "4.99" // ajuste conforme o plano
-            }
+            amount: { value: price }
           }]
         });
       },
