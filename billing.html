@@ -28,38 +28,11 @@
     <p id="billing-plan">Loading plan...</p>
 
     <form id="billing-form">
-      <label for="payment-method">Choose Payment Method</label>
-      <select id="payment-method" class="input-field" required>
-        <option value="">Select...</option>
-        <option value="card">Credit/Debit Card</option>
-        <option value="paypal">PayPal</option>
-        <option value="crypto">Cryptocurrency</option>
-      </select>
 
-      <!-- 💳 Card Fields -->
-      <div id="card-fields" style="display: none;">
-        <label for="card-name">Name on Card</label>
-        <input type="text" id="card-name" class="input-field" />
-
-        <label for="card-number">Card Number</label>
-        <input type="text" id="card-number" class="input-field" maxlength="16" />
-
-        <label for="expiry">Expiration Date</label>
-        <input type="text" id="expiry" class="input-field" placeholder="MM/YY" />
-
-        <label for="cvv">CVV</label>
-        <input type="text" id="cvv" class="input-field" maxlength="4" />
-      </div>
 
       <!-- 🅿️ PayPal -->
       <div id="paypal-fields" style="display: none;">
         <div id="paypal-button-container"></div>
-      </div>
-
-      <!-- 🪙 Crypto -->
-      <div id="crypto-fields" style="display: none;">
-        <p>Send your payment to our wallet address:</p>
-        <code>0x123abc456def7890fedcba9876543210monkybite</code>
       </div>
 
       <button type="submit" class="primary-button">Submit Payment</button>
