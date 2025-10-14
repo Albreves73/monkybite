@@ -308,7 +308,7 @@ nav a[href="sign-up.html"]:hover {
 .contact-button {
   padding: 14px;
   font-size: 16px;
-  background-color: #ff6600;
+  background-color: #1a73e8; /* azul MonkyBite */
   color: white;
   border: none;
   border-radius: 6px;
@@ -317,8 +317,9 @@ nav a[href="sign-up.html"]:hover {
 }
 
 .contact-button:hover {
-  background-color: #e65c00;
+  background-color: #0049c6; /* azul mais escuro no hover */
 }
+
 
 .contact-feedback {
   font-size: 14px;
