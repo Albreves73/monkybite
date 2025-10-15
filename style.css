@@ -143,10 +143,22 @@ nav a[href="sign-up.html"]:hover {
 }
 
 .learn-more {
-  text-decoration: underline;
-  color: #1a2a4f;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #1a73e8;
+  color: white;
+  text-decoration: none;
   font-weight: bold;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  text-align: center;
 }
+
+.learn-more:hover {
+  background-color: #0049c6;
+}
+
 
 
 /* ===================== FEATURES ===================== */
