@@ -306,6 +306,20 @@ nav a[href="sign-up.html"]:hover {
   background-color: #0049c6;
 }
 
+.get-started-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+#signup-form {
+  max-width: 500px;
+  width: 100%;
+}
+
+
 .contact-section {
   display: flex;
   flex-direction: column;
