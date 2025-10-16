@@ -474,41 +474,46 @@ footer p {
   flex: 1;
 }
 
-.terms {
-  margin-bottom: 20px;
-  font-size: 0.95rem;
-  color: #444;
-}
-
-.terms label {
+.terms-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  line-height: 1.4;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  color: #444;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.terms input[type="checkbox"] {
+.terms-row input[type="checkbox"] {
   transform: scale(1.2);
   accent-color: #1a73e8;
   margin: 0;
 }
 
-.plan-button {
+.terms-row label {
+  line-height: 1.4;
+}
+
+.primary-button {
   background-color: #1a73e8;
   color: #fff;
   font-weight: bold;
   padding: 12px 20px;
   border-radius: 6px;
-  text-decoration: none;
   font-size: 1rem;
-  display: inline-block;
+  border: none;
+  cursor: pointer;
   width: 100%;
   max-width: 500px;
-  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
   transition: background-color 0.3s ease;
 }
 
-.plan-button:hover {
+.primary-button:hover {
   background-color: #0049c6;
 }
 
