@@ -504,14 +504,11 @@ footer p {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
-  font-size: 0.95rem;
-  color: #444;
 }
-
 
 .terms-row label {
   display: inline-flex !important;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   font-size: 0.95rem;
   color: #444;
@@ -524,9 +521,9 @@ footer p {
   transform: scale(1.1);
   accent-color: #1a73e8;
   margin: 0;
-  position: relative;
-  top: 0.15em;
+  vertical-align: middle;
 }
+
 
 
 
