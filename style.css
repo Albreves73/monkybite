@@ -510,6 +510,7 @@ footer p {
   max-width: 500px;
   width: 100%;
   text-align: left;
+  margin-bottom: 0 !important;
 }
 
 
