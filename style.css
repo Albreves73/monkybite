@@ -491,6 +491,7 @@ footer p {
   display: flex;
   gap: 20px;
 }
+
 .terms-row {
   display: flex;
   justify-content: center;
@@ -518,6 +519,8 @@ footer p {
 .terms-label a {
   white-space: nowrap;
 }
+
+
 
 
 
