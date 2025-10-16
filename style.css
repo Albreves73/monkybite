@@ -523,16 +523,15 @@ footer p {
   flex-wrap: wrap;
 }
 
-
-
-
-
 .terms-row input[type="checkbox"] {
-  transform: scale(1.2);
+  transform: scale(1.1);
   accent-color: #1a73e8;
   margin: 0;
   position: relative;
+  top: 0.15em;
 }
+
+
 
 
 .primary-button {
