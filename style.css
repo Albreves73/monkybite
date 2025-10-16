@@ -470,12 +470,13 @@ footer p {
   color: #555;
 }
 
-.signup-form label {
+.signup-form label:not([for="agree"]) {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
   color: #333;
 }
+
 
 .signup-form input {
   width: 100%;
