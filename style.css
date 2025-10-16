@@ -512,14 +512,11 @@ footer p {
   line-height: 1.4;
   max-width: 500px;
   text-align: left;
-  flex: 1;
 }
 
 .terms-row input[type="checkbox"] {
-  transform: scale(1.1);
   accent-color: #1a73e8;
   margin: 0;
-  vertical-align: middle;
   flex-shrink: 0;
 }
 
