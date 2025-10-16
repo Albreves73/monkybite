@@ -475,29 +475,42 @@ footer p {
 }
 
 .terms {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
   margin-bottom: 20px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #444;
 }
 
-.terms input[type="checkbox"] {
-  margin-top: 4px;
-  transform: scale(1.1);
-  accent-color: #1a73e8;
-}
-
 .terms label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   line-height: 1.4;
 }
 
-.terms a {
-  color: #1a73e8;
-  text-decoration: underline;
+.terms input[type="checkbox"] {
+  transform: scale(1.2);
+  accent-color: #1a73e8;
+  margin: 0;
 }
 
+.plan-button {
+  background-color: #1a73e8;
+  color: #fff;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1rem;
+  display: inline-block;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.plan-button:hover {
+  background-color: #0049c6;
+}
 
 
 
