@@ -497,16 +497,22 @@ footer p {
 
 .terms-row {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 10px;
   margin-bottom: 20px;
   font-size: 0.95rem;
   color: #444;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
 }
+
+.terms-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 500px;
+  width: 100%;
+  text-align: left;
+}
+
+
 
 .terms-row input[type="checkbox"] {
   transform: scale(1.2);
@@ -514,12 +520,6 @@ footer p {
   margin: 0;
 }
 
-.terms-row label {
-  line-height: 1.4;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
 .primary-button {
   background-color: #1a73e8;
