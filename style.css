@@ -475,52 +475,27 @@ footer p {
 }
 
 .terms {
-  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   margin-bottom: 20px;
+  font-size: 0.9rem;
   color: #444;
+}
+
+.terms input[type="checkbox"] {
+  margin-top: 4px;
+  transform: scale(1.1);
+  accent-color: #1a73e8;
+}
+
+.terms label {
+  line-height: 1.4;
 }
 
 .terms a {
   color: #1a73e8;
   text-decoration: underline;
-}
-
-.primary-button {
-  width: 100%;
-  padding: 14px;
-  background-color: #1a73e8;
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.primary-button:hover {
-  background-color: #0049c6;
-}
-
-.terms {
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-  color: #444;
-  display: flex;
-  align-items: flex-start;
-}
-
-.terms label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  line-height: 1.4;
-}
-
-.terms input[type="checkbox"] {
-  margin: 0;
-  transform: scale(1.1);
-  accent-color: #1a73e8; /* azul MonkyBite */
 }
 
 
