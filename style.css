@@ -531,6 +531,7 @@ footer p {
   transform: scale(1.2);
   accent-color: #1a73e8;
   margin: 0;
+  position: relative;
 }
 
 
