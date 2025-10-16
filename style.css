@@ -496,6 +496,10 @@ footer p {
   flex: 1;
 }
 
+.terms-row a {
+  white-space: nowrap;
+}
+
 .terms-row {
   display: flex;
   justify-content: center;
@@ -504,17 +508,21 @@ footer p {
   color: #444;
 }
 
+
 .terms-row label {
   display: inline-flex !important;
-  align-items: baseline;
-  gap: 06px;
+  align-items: center;
+  gap: 8px;
   max-width: 500px;
   width: 100%;
   text-align: left;
   margin-bottom: 0 !important;
   font-size: 0.95rem;
   color: #444;
+  white-space: normal;
+  flex-wrap: wrap;
 }
+
 
 
 
