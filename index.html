@@ -10,18 +10,33 @@
 <body>
 
   <!-- 🔷 Header -->
-  <header>
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="MonkyBite Logo" />
-      <span class="brand-name">MonkyBite</span>
-    </a>
-    <nav>
+<!-- 🔷 Header com menu responsivo -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
+
+  <div class="nav-wrapper">
+    <!-- Desktop menu -->
+    <nav class="nav-desktop">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
       <a href="plans.html">SIGN UP</a>
       <a href="contact.html">CONTACT</a>
     </nav>
-  </header>
+
+    <!-- Mobile menu -->
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <nav class="nav-mobile hidden" id="mobile-nav">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
 
   <!-- 🔷 Hero Section -->
   <section class="hero">
@@ -86,6 +101,17 @@
   <footer>
     <p>© 2025 MonkyBite.</p>
   </footer>
+
+  <!-- 🔷 Script no final da página -->
+<script>
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  hamburgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("hidden");
+  });
+</script>
+
 
 </body>
 </html>
