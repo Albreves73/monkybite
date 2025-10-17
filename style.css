@@ -554,18 +554,105 @@ footer p {
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px) {
-  .hero {
+  header {
     flex-direction: column;
-    text-align: center;
-    padding: 30px 20px;
+    align-items: flex-start;
+    padding: 20px;
   }
 
-  .hero-content {
-    margin: 0 auto;
+  nav {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .signup-wrapper,
+  .contact-section,
+  .learn-more-section,
+  .get-started-box,
+  .plan-form {
+    margin: 40px 20px;
+    padding: 30px 20px;
+    border-radius: 8px;
+  }
+
+  .signup-title,
+  .plans-header h1,
+  .learn-more-section h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  #selected-plan,
+  .plans-header p,
+  .learn-more-section p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .name-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  input,
+  .contact-input,
+  .contact-textarea {
+    font-size: 1rem;
+    padding: 12px;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+
+  .signup-button,
+  .primary-button,
+  .contact-button,
+  .plan-button {
+    font-size: 1rem;
+    padding: 12px;
+    width: 100%;
     max-width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .terms-row {
+    justify-content: flex-start;
+    padding-left: 10px;
+  }
+
+  .terms-consent,
+  .terms-label {
+    flex-direction: row;
+    align-items: flex-start;
+    font-size: 0.9rem;
+  }
+
+  .terms-consent input[type="checkbox"],
+  .terms-label input[type="checkbox"] {
+    margin-top: 4px;
+  }
+
+  .consent-notice {
+    font-size: 0.85rem;
+    margin: 16px auto 10px;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  .go-back-wrapper {
+    padding: 20px;
+  }
+
+  .go-back {
+    font-size: 0.9rem;
+  }
+
+  footer {
+    font-size: 0.85rem;
+    padding: 16px;
+  }
 }
 
-  
-}
 
 
