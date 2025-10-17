@@ -22,83 +22,74 @@
     </nav>
   </header>
 
-<div class="go-back-wrapper">
-  <a href="plans.html" class="go-back">Go Back</a>
-</div>
-
+  <!-- 🔷 Go Back Button -->
+  <div class="go-back-wrapper">
+    <a href="plans.html" class="go-back">Go Back</a>
+  </div>
 
   <!-- 🔷 Signup Form -->
   <main class="signup-wrapper">
-  <h1 class="signup-title">Create your MonkyBite account</h1>
-  <p id="selected-plan">You're signing up for the Free plan.</p>
+    <h1 class="signup-title">Create your MonkyBite account</h1>
+    <p id="selected-plan">You're signing up for the Free plan.</p>
 
-  <form id="signup-form" class="signup-form">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" required />
+    <form id="signup-form" class="signup-form">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required />
 
-    <div class="name-row">
-      <div>
-        <label for="first-name">First Name</label>
-        <input type="text" id="first-name" name="first-name" required />
+      <div class="name-row">
+        <div>
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" name="first-name" required />
+        </div>
+        <div>
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" name="last-name" required />
+        </div>
       </div>
-      <div>
-        <label for="last-name">Last Name</label>
-        <input type="text" id="last-name" name="last-name" required />
+
+      <label for="password">Create Password</label>
+      <input type="password" id="password" name="password" required />
+
+      <!-- ✅ Terms Checkbox -->
+      <div class="terms-row">
+        <label class="terms-label">
+          <input type="checkbox" id="agree" required />
+          <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</span>
+        </label>
       </div>
-    </div>
 
-    <label for="password">Create Password</label>
-    <input type="password" id="password" name="password" required />
-
-    <div class="terms-row">
-  <div class="terms-label">
-    <input type="checkbox" id="agree" required />
-    <label for="agree">
-      I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-    </label>
-  </div>
-</div>
-
-
-
-
-
-
-
-<button type="submit" class="signup-button">Agree and Sign Up</button>
-
-
-
+      <button type="submit" class="signup-button">Agree and Sign Up</button>
+    </form>
+  </main>
 
   <!-- 🔷 Script: Load selected plan and handle form -->
   <script>
-  const params = new URLSearchParams(window.location.search);
-  const selectedPlan = params.get("plan");
+    const params = new URLSearchParams(window.location.search);
+    const selectedPlan = params.get("plan");
 
-  if (!selectedPlan) {
-    window.location.href = "plans.html"; // fallback se não houver plano
-  }
-
-  const planDisplay = document.getElementById("selected-plan");
-  const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-  planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
-
-  document.getElementById("signup-form").addEventListener("submit", function(e) {
-    e.preventDefault();
-
-    const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
-    sessionStorage.setItem("user_name", fullName);
-    sessionStorage.setItem("plan", selectedPlan);
-
-    const paidPlans = ["starter", "pro", "enterprise"];
-    if (paidPlans.includes(selectedPlan)) {
-      window.location.href = "billing.html";
-    } else {
-      window.location.href = "dashboard.html";
+    if (!selectedPlan) {
+      window.location.href = "plans.html";
     }
-  });
-</script>
 
+    const planDisplay = document.getElementById("selected-plan");
+    const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+    planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+
+    document.getElementById("signup-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
+      sessionStorage.setItem("user_name", fullName);
+      sessionStorage.setItem("plan", selectedPlan);
+
+      const paidPlans = ["starter", "pro", "enterprise"];
+      if (paidPlans.includes(selectedPlan)) {
+        window.location.href = "billing.html";
+      } else {
+        window.location.href = "dashboard.html";
+      }
+    });
+  </script>
 
 </body>
 </html>
