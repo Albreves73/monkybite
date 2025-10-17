@@ -500,7 +500,7 @@ footer p {
 }
 
 .terms-label {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
   font-size: 0.95rem;
@@ -508,24 +508,23 @@ footer p {
   line-height: 1.4;
   max-width: 500px;
   text-align: left;
+  margin-bottom: 0;
 }
 
 .terms-label input[type="checkbox"] {
   accent-color: #1a73e8;
   margin: 0;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
-.terms-label label {
-  margin: 0;
-  font-weight: normal;
+.terms-label span {
+  display: inline;
 }
 
 .terms-label a {
   white-space: nowrap;
 }
-
-
 
 
 
