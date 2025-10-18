@@ -672,15 +672,15 @@ footer p {
     max-width: 280px;
     text-align: center;
   }
-/* 🔧 Reposiciona o logo abaixo do texto em mobile */
 
   .hero {
-    flex-direction: column;
+    flex-direction: column !important;
     align-items: center;
     text-align: center;
   }
 
   .hero-content {
+    order: 1;
     margin: 0 auto;
     padding: 0 20px;
   }
@@ -688,12 +688,16 @@ footer p {
   .hero-image {
     order: 2;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
 
   .hero-image img {
-    width: 120px;
+    width: 100px;
     height: auto;
   }
+}
+
 }
 
 
