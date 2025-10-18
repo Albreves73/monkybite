@@ -672,7 +672,27 @@ footer p {
     max-width: 280px;
     text-align: center;
   }
+
+  /* 🔷 Logo visual centralizado só em mobile */
+.hero-logo {
+  display: none;
 }
+
+  .hero-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .hero-logo img {
+    width: 160px;
+    max-width: 80%;
+    height: auto;
+  }
+}
+
+
 
 
 
