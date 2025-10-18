@@ -553,24 +553,21 @@ footer p {
 /* 🔷 Padrão: desktop e tablet */
 .nav-desktop {
   display: flex;
-  gap: 20px;/* 🔷 Comportamento padrão (desktop e tablet) */
-.nav-desktop {
-  display: flex;
   gap: 20px;
 }
 
 .nav-mobile {
-  display: none; /* Esconde o menu mobile em telas grandes */
+  display: none;
 }
 
 .hamburger {
-  display: none; /* Esconde o botão ☰ em telas grandes */
+  display: none;
 }
 
 /* 🔷 Comportamento em telas pequenas (celular) */
 @media (max-width: 768px) {
   .nav-desktop {
-    display: none; /* Esconde o menu desktop */
+    display: none;
   }
 
   .nav-mobile {
@@ -602,7 +599,11 @@ footer p {
     border: none;
     cursor: pointer;
     color: #1a2a4f;
+    margin-left: auto;
   }
+}
+
+
 }
 
 
