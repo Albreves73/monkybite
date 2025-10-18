@@ -630,7 +630,20 @@ footer p {
     flex-direction: column;
     gap: 10px;
   }
+
+  .login-container {
+    padding: 20px;
+    margin: 40px 20px;
+    box-sizing: border-box;
+  }
+
+  .login-container input,
+  .login-container button {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
+
 
 
 
