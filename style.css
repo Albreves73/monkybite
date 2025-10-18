@@ -425,6 +425,33 @@ footer p {
   color: #333;
 }
 
+.social-signup {
+  margin-bottom: 20px;
+}
+
+.social-signup a {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.social-login {
+  background-color: #4285F4;
+  color: white;
+}
+
+.apple-login {
+  background-color: #000;
+  color: white;
+}
+
+
 .signup-button {
   background-color: #1a73e8;
   color: #fff;
@@ -693,6 +720,11 @@ footer p {
   .hero-image img {
     width: 100px;
     height: auto;
+  }
+
+  social-signup a {
+    width: 100%;
+    box-sizing: border-box;
   }
 
 }
