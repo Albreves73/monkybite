@@ -608,7 +608,31 @@ footer p {
   .nav-mobile {
     display: flex;
   }
+
+  /* 🔧 Corrige campos cortados em telas pequenas */
+@media (max-width: 768px) {
+  .contact-form,
+  .signup-form,
+  #signup-form {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .contact-input,
+  .signup-form input,
+  .contact-textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .name-row {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
+
+
 
 
 
