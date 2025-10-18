@@ -495,11 +495,23 @@ footer p {
 }
 
 .divider {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
   font-weight: bold;
   color: #666;
-  margin: 10px 0;
+  font-size: 16px;
 }
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+  margin: 0 10px;
+}
+
 
 
 #selected-plan {
