@@ -549,61 +549,8 @@ footer p {
 .primary-button:hover {
   background-color: #0049c6;
 
-
-  
-/* 🔷 Padrão: desktop e tablet */
-.nav-desktop {
-  display: flex;
-  gap: 20px;
 }
-
-.nav-mobile {
-  display: none;
 }
-
-.hamburger {
-  display: none;
-}
-
-/* 🔷 Comportamento em telas pequenas (celular) */
-@media (max-width: 768px) {
-  .nav-desktop {
-    display: none;
-  }
-
-  .nav-mobile {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: #f8f8f8;
-    padding: 10px 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-
-  .nav-mobile.hidden {
-    display: none !important;
-  }
-
-  .nav-mobile a {
-    padding: 10px 0;
-    font-size: 1rem;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .hamburger {
-    display: block;
-    font-size: 1.6rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #1a2a4f;
-    margin-left: auto;
-  }
-}
-
 
 
 
