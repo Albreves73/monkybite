@@ -9,7 +9,6 @@
 <body>
 
   <!-- 🔷 Header -->
- <!-- 🔷 Header com menu responsivo -->
 <header>
   <a href="index.html" class="logo">
     <img src="logo.png" alt="MonkyBite Logo" />
@@ -36,7 +35,6 @@
   </div>
 </header>
 
-
   <!-- 🔷 Go Back Button -->
   <div class="go-back-wrapper">
     <a href="plans.html" class="go-back">Go Back</a>
@@ -48,39 +46,40 @@
     <p id="selected-plan">You're signing up for the Free plan.</p>
 
     <div class="social-signup">
-  <a href="#" class="social-login">Sign up with Google</a>
-  <a href="#" class="apple-login">Sign up with Apple</a>
-</div>
+      <a href="#" class="social-login">Sign up with Google</a>
+      <a href="#" class="apple-login">Sign up with Apple</a>
+    </div>
 
-<div class="divider">or</div>
+    <div class="divider">or</div>
 
+    <form id="signup-form" class="signup-form">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required />
 
       <div class="name-row">
         <div>
-                    <label for="first-name">First Name</label>
-
+          <label for="first-name">First Name</label>
           <input type="text" id="first-name" name="first-name" required />
         </div>
         <div>
           <label for="last-name">Last Name</label>
           <input type="text" id="last-name" name="last-name" required />
-          <label for="password">Create Password</label>
-<input type="password" id="password" name="password" required minlength="10">
-<small>Password must be at least 10 characters long.</small>
-
         </div>
       </div>
 
-      
+      <label for="password">Create Password</label>
+      <input type="password" id="password" name="password" required minlength="10">
+      <small>Password must be at least 10 characters long.</small>
 
-      <!-- 🔷 Consent notice (Dropbox-style) -->
-<p class="consent-notice">
-  By clicking <strong>Agree and Sign Up</strong>, you agree to our
-  <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-</p>
-<p class="consent-notice">...</p>
-<button type="submit" class="signup-button">Agree and Sign Up</button>
+      <!-- 🔷 Consent notice -->
+      <p class="consent-notice">
+        By clicking <strong>Agree and Sign Up</strong>, you agree to our
+        <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+      </p>
 
+      <button type="submit" class="signup-button">Agree and Sign Up</button>
+    </form>
+  </main>
 
   <!-- 🔷 Script: Load selected plan and handle form -->
   <script>
@@ -111,18 +110,15 @@
     });
   </script>
 
-      <!-- 🔷 Script no final da página -->
-<script>
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const mobileNav = document.getElementById("mobile-nav");
+  <!-- 🔷 Script no final da página -->
+  <script>
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileNav = document.getElementById("mobile-nav");
 
-  hamburgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("hidden");
-  });
-</script>
-
+    hamburgerBtn.addEventListener("click", () => {
+      mobileNav.classList.toggle("hidden");
+    });
+  </script>
 
 </body>
 </html>
-
-
