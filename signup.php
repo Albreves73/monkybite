@@ -4,9 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Replace with your Nextcloud details
-$NEXTCLOUD_BASE_URL = "https://YOUR_NEXTCLOUD_DOMAIN"; // e.g., https://cloud.monkybite.com
+$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com"; // e.g., https://cloud.monkybite.com
 $ADMIN_USER = "admin";
-$ADMIN_PASS = "YOUR_ADMIN_PASSWORD";
+$ADMIN_PASS = "Cu214200@@$";
 
 // Helper: send an error and stop
 function fail($message, $httpCode = 400) {
