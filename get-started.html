@@ -124,5 +124,22 @@
     });
   </script>
 
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const selectedPlan = params.get("plan");
+
+  if (!selectedPlan) {
+    window.location.href = "plans.html";
+  }
+
+  const planDisplay = document.getElementById("selected-plan");
+  const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+  planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+
+  // 🔷 Preenche o campo oculto para enviar ao PHP
+  document.getElementById("plan").value = selectedPlan;
+</script>
+
+
 </body>
 </html>
