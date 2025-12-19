@@ -102,20 +102,7 @@
     const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
     planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
 
-    document.getElementById("signup-form").addEventListener("submit", function(e) {
-      e.preventDefault();
 
-      const fullName = document.getElementById("first-name").value + " " + document.getElementById("last-name").value;
-      sessionStorage.setItem("user_name", fullName);
-      sessionStorage.setItem("plan", selectedPlan);
-
-      const paidPlans = ["starter", "pro", "enterprise"];
-      if (paidPlans.includes(selectedPlan)) {
-        window.location.href = "billing.html";
-      } else {
-        window.location.href = "dashboard.html";
-      }
-    });
   </script>
 
   <!-- 🔷 Script no final da página -->
