@@ -89,33 +89,8 @@
     </form>
   </main>
 
-  <!-- 🔷 Script: Load selected plan and handle form -->
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const selectedPlan = params.get("plan");
-
-    if (!selectedPlan) {
-      window.location.href = "plans.html";
-    }
-
-    const planDisplay = document.getElementById("selected-plan");
-    const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-    planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
-
-
-  </script>
-
-  <!-- 🔷 Script no final da página -->
-  <script>
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const mobileNav = document.getElementById("mobile-nav");
-
-    hamburgerBtn.addEventListener("click", () => {
-      mobileNav.classList.toggle("hidden");
-    });
-  </script>
-
-  <script>
+  // 🔷 Carrega o plano da URL
   const params = new URLSearchParams(window.location.search);
   const selectedPlan = params.get("plan");
 
@@ -127,34 +102,44 @@
   const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
   planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
 
-  // 🔷 Preenche o campo oculto para enviar ao PHP
+  // 🔷 Preenche o campo oculto
   document.getElementById("plan").value = selectedPlan;
-</script>
 
-  <script>
-document.addEventListener("DOMContentLoaded", function() {
-  const form = document.querySelector("form");
-  const passwordInput = document.getElementById("password");
-  const errorBox = document.getElementById("passwordError");
+  // 🔷 Validação de senha
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("signup-form");
+    const passwordInput = document.getElementById("password");
+    const errorBox = document.getElementById("passwordError");
 
-  form.addEventListener("submit", function(e) {
-    const password = passwordInput.value;
+    form.addEventListener("submit", function (e) {
+      const password = passwordInput.value;
 
-    const hasLength = password.length >= 10;
-    const hasUpper = /[A-Z]/.test(password);
-    const hasLower = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      const hasLength = password.length >= 10;
+      const hasUpper = /[A-Z]/.test(password);
+      const hasLower = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-    if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSymbol) {
-      e.preventDefault();
-      errorBox.textContent = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., !@#$), and be at least 8 characters long.";
-    } else {
-      errorBox.textContent = "";
-    }
+      if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSymbol) {
+        e.preventDefault();
+        errorBox.textContent =
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., !@#$), and be at least 10 characters long.";
+      } else {
+        errorBox.textContent = "";
+      }
+    });
   });
-});
+
+  // 🔷 Menu mobile
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  hamburgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("hidden");
+  });
 </script>
+
+
 
 
 
