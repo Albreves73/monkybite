@@ -140,6 +140,25 @@
   document.getElementById("plan").value = selectedPlan;
 </script>
 
+  <script>
+document.querySelector("form").addEventListener("submit", function(e) {
+  const password = document.querySelector("input[name='password']").value;
+  const errorBox = document.getElementById("passwordError");
+
+  const hasLength = password.length >= 10;
+  const hasUpper = /[A-Z]/.test(password);
+  const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  if (!hasLength || !hasUpper || !hasSymbol) {
+    e.preventDefault(); // impede envio do formulário
+    errorBox.textContent = "Password must be at least 10 characters, include a capital letter and a symbol.";
+    errorBox.style.color = "red";
+  } else {
+    errorBox.textContent = ""; // limpa erro se tudo estiver certo
+  }
+});
+</script>
+
 
 </body>
 </html>
