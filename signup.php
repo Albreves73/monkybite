@@ -1,92 +1,95 @@
 <?php
 
-// Permite resposta JSON
-header('Content-Type: application/json');
+// Enable error reporting (useful during setup; you can disable later)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Verifica se os campos obrigatórios vieram
-if (!isset($_POST['email'], $_POST['firstName'], $_POST['lastName'], $_POST['password'], $_POST['plan'])) {
-    echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
+// Replace with your Nextcloud details
+$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
+$ADMIN_USER = "admin";
+$ADMIN_PASS = "Cu214200@@$";
+
+// Helper: send an error and stop
+function fail($message, $httpCode = 400) {
+    http_response_code($httpCode);
+    echo "<h1>Sign Up Error</h1><p>$message</p>";
     exit;
 }
 
-// Dados do formulário
-$email = trim($_POST['email']);
-$firstName = trim($_POST['firstName']);
-$lastName = trim($_POST['lastName']);
-$password = $_POST['password'];
-$plan = ucfirst(strtolower($_POST['plan'])); // free → Free
+// Ensure request method is POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    fail("Invalid request method.");
+}
 
-// Username será o email completo
-$username = $email;
+// Collect POST fields
+$email     = trim($_POST['email'] ?? '');
+$firstName = trim($_POST['first-name'] ?? '');
+$lastName  = trim($_POST['last-name'] ?? '');
+$password  = $_POST['password'] ?? '';
+$plan      = $_POST['plan'] ?? 'free';
 
-// URL base do Nextcloud
-$nextcloudUrl = "https://cloud.monkybite.com/ocs/v1.php/cloud/users";
+// Basic validations
+if ($email === '' || $firstName === '' || $lastName === '' || $password === '') {
+    fail("Missing required fields.");
+}
 
-// Credenciais do admin do Nextcloud
-$adminUser = "admin";
-$adminPass = "Cu214200@@$"; // <-- coloque sua senha real aqui
+// Password validations
+if (strlen($password) < 10) {
+    fail("Password must be at least 10 characters long.");
+}
+if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
+    fail("Password must contain both letters and numbers.");
+}
 
-// -----------------------------
-// ✅ Verificar se o usuário já existe no Nextcloud
-// -----------------------------
-$checkUser = curl_init();
-curl_setopt($checkUser, CURLOPT_URL, "https://cloud.monkybite.com/ocs/v1.php/cloud/users/$username");
-curl_setopt($checkUser, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($checkUser, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
-curl_setopt($checkUser, CURLOPT_USERPWD, "$adminUser:$adminPass");
+// Prepare Nextcloud OCS API request
+$displayName = $firstName . " " . $lastName;
+$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users";
 
-$responseCheck = curl_exec($checkUser);
-curl_close($checkUser);
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+    CURLOPT_USERPWD        => $ADMIN_USER . ":" . $ADMIN_PASS,
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => [
+        'userid'      => $email,
+        'password'    => $password,
+        'displayName' => $displayName
+    ],
+    CURLOPT_HTTPHEADER     => ["OCS-APIRequest: true"],
+    CURLOPT_RETURNTRANSFER => true,
+]);
 
-// Se o usuário já existe, Nextcloud retorna statuscode 100
-if (strpos($responseCheck, '<statuscode>100</statuscode>') !== false) {
-    echo "<script>alert('This email is already registered. Please use another one.'); window.history.back();</script>";
+$response = curl_exec($ch);
+$curlErr  = curl_error($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+if ($response === false) {
+    fail("Server connection error: " . htmlspecialchars($curlErr));
+}
+
+// Parse OCS XML response to read statuscode
+libxml_use_internal_errors(true);
+$xml = simplexml_load_string($response);
+if ($xml === false) {
+    fail("Unexpected response from server (not XML). Code: $httpCode");
+}
+
+$statuscode = (string)($xml->meta->statuscode ?? '');
+
+// Handle common outcomes
+if ($statuscode !== '100') {
+    $status = (string)($xml->meta->status ?? 'error');
+    $message = (string)($xml->meta->message ?? 'Unknown error');
+    fail("Nextcloud returned $status (code $statuscode): " . htmlspecialchars($message), 400);
+}
+
+// Success: redirect based on plan
+if (in_array(strtolower($plan), ['starter', 'pro', 'enterprise'])) {
+    header("Location: billing.html");
+    exit;
+} else {
+    header("Location: dashboard.html");
     exit;
 }
 
-
-// -----------------------------// ✅ 1. Criar o usuário no Nextcloud
-// -----------------------------
-$createUser = curl_init();
-curl_setopt($createUser, CURLOPT_URL, $nextcloudUrl);
-curl_setopt($createUser, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($createUser, CURLOPT_POST, true);
-curl_setopt($createUser, CURLOPT_POSTFIELDS, http_build_query([
-    'userid' => $username,
-    'password' => $password,
-    'email' => $email,
-    'displayname' => $firstName . " " . $lastName
-]));
-curl_setopt($createUser, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
-curl_setopt($createUser, CURLOPT_USERPWD, "$adminUser:$adminPass");
-
-$responseUser = curl_exec($createUser);
-curl_close($createUser);
-
-// Verifica se houve erro na criação
-if (strpos($responseUser, '<statuscode>') !== false && !strpos($responseUser, '<statuscode>100</statuscode>')) {
-    echo json_encode(['status' => 'error', 'message' => 'Failed to create user', 'debug' => $responseUser]);
-    exit;
-}
-
-// -----------------------------
-// ✅ 2. Adicionar o usuário ao grupo correto
-// -----------------------------
-$addGroup = curl_init();
-curl_setopt($addGroup, CURLOPT_URL, "https://cloud.monkybite.com/ocs/v1.php/cloud/users/$username/groups");
-curl_setopt($addGroup, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($addGroup, CURLOPT_POST, true);
-curl_setopt($addGroup, CURLOPT_POSTFIELDS, http_build_query(['groupid' => $plan]));
-curl_setopt($addGroup, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
-curl_setopt($addGroup, CURLOPT_USERPWD, "$adminUser:$adminPass");
-
-$responseGroup = curl_exec($addGroup);
-curl_close($addGroup);
-
-// -----------------------------
-// ✅ 3. Resposta final
-// -----------------------------
-
-header("Location: https://cloud.monkybite.com/index.php/login");
-exit;
 
