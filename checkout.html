@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- 🔷 Header (same as all pages) -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
+
+  <div class="nav-wrapper">
+    <!-- Desktop menu -->
+    <nav class="nav-desktop">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+
+    <!-- Mobile menu -->
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <nav class="nav-mobile hidden" id="mobile-nav">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 🔷 Go Back Button -->
+<div class="go-back-wrapper">
+  <a href="javascript:history.back()" class="go-back">Go Back</a>
+</div>
+
+<!-- 🔷 Checkout Section -->
+<main class="checkout-wrapper">
+  <h1 class="checkout-title">Complete Your Subscription</h1>
+
+  <p id="plan-info">Loading plan...</p>
+  <p id="email-info">Loading email...</p>
+
+  <div class="checkout-box">
+    <h2>Payment</h2>
+    <p>Your subscription will start immediately after payment.</p>
+
+    <!-- 🔷 Square Payment Button Placeholder -->
+    <div id="payment-container">
+      <p>Payment button will appear here.</p>
+    </div>
+  </div>
+</main>
+
+<!-- 🔷 Footer -->
+<footer>
+  <p>© 2025 MonkyBite.</p>
+</footer>
+
+<!-- 🔷 Mobile Menu Script -->
+<script>
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  hamburgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("hidden");
+  });
+</script>
+
+<!-- 🔷 Load plan + email from URL -->
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+  const email = params.get("email");
+
+  if (!plan || !email) {
+    document.getElementById("plan-info").textContent = "Invalid checkout link.";
+    document.getElementById("email-info").textContent = "";
+  } else {
+    const formattedPlan = plan.charAt(0).toUpperCase() + plan.slice(1);
+    document.getElementById("plan-info").textContent = `Selected Plan: ${formattedPlan}`;
+    document.getElementById("email-info").textContent = `Account Email: ${email}`;
+  }
+</script>
+
+</body>
+</html>
