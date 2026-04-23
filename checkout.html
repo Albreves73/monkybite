@@ -51,10 +51,14 @@
     <h2>Payment</h2>
     <p>Your subscription will start immediately after payment.</p>
 
-    <!-- 🔷 Square Payment Button Placeholder -->
-    <div id="payment-container">
-      <p>Payment button will appear here.</p>
-    </div>
+    <!-- 🔷 Square Payment Form -->
+    <div id="card-container"></div>
+
+    <button id="card-button" class="plan-button" style="margin-top: 20px;">
+      Pay Now
+    </button>
+
+    <p id="payment-status" style="margin-top: 15px; color: red;"></p>
   </div>
 </main>
 
@@ -87,6 +91,85 @@
     document.getElementById("plan-info").textContent = `Selected Plan: ${formattedPlan}`;
     document.getElementById("email-info").textContent = `Account Email: ${email}`;
   }
+</script>
+
+<!-- 🔷 Square Web Payments SDK -->
+<script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+
+<!-- 🔷 Square Payment Logic -->
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get("plan");
+    const email = params.get("email");
+
+    // Square credentials (replace with your real keys)
+    const appId = "YOUR_APPLICATION_ID";
+    const locationId = "YOUR_LOCATION_ID";
+
+    if (!window.Square) {
+      document.getElementById("payment-status").textContent =
+        "Payment system failed to load.";
+      return;
+    }
+
+    let payments;
+    try {
+      payments = window.Square.payments(appId, locationId);
+    } catch (e) {
+      document.getElementById("payment-status").textContent =
+        "Square initialization error.";
+      return;
+    }
+
+    // Create card form
+    const card = await payments.card();
+    await card.attach("#card-container");
+
+    // Handle payment
+    const cardButton = document.getElementById("card-button");
+    cardButton.addEventListener("click", async function () {
+      cardButton.disabled = true;
+
+      const status = document.getElementById("payment-status");
+      status.textContent = "Processing payment...";
+
+      try {
+        const result = await card.tokenize();
+        if (result.status === "OK") {
+          // Send token to backend
+          const response = await fetch("process-payment.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body:
+              "token=" +
+              encodeURIComponent(result.token) +
+              "&email=" +
+              encodeURIComponent(email) +
+              "&plan=" +
+              encodeURIComponent(plan),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            status.style.color = "green";
+            status.textContent = "Payment successful! Redirecting...";
+            window.location.href = data.redirect;
+          } else {
+            status.textContent = "Payment failed: " + data.message;
+            cardButton.disabled = false;
+          }
+        } else {
+          status.textContent = "Card validation failed.";
+          cardButton.disabled = false;
+        }
+      } catch (e) {
+        status.textContent = "Payment error.";
+        cardButton.disabled = false;
+      }
+    });
+  });
 </script>
 
 </body>
