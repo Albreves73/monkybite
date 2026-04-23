@@ -1,77 +1,72 @@
-<?php
-session_start();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment Successful — MonkyBite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-// Enable error reporting (opcional, pode tirar depois)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+<!-- 🔷 Header (same as all pages) -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
 
-// 🔷 CONFIGURAÇÕES DO NEXTCLOUD
-$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
-$ADMIN_USER = "admin";
-$ADMIN_PASS = "Cu214200@@$"; // mesmo que você usava no signup.php antigo
+  <div class="nav-wrapper">
+    <nav class="nav-desktop">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
 
-// Se não houver dados de usuário na sessão, não tem o que fazer
-if (!isset($_SESSION['pending_user'])) {
-    die("No pending user data found. Please contact support.");
-}
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <nav class="nav-mobile hidden" id="mobile-nav">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
 
-$user = $_SESSION['pending_user'];
-$email     = $user['email'];
-$firstName = $user['firstName'];
-$lastName  = $user['lastName'];
-$password  = $user['password'];
-$plan      = $user['plan'] ?? 'free';
+<!-- 🔷 Go Back Button -->
+<div class="go-back-wrapper">
+  <a href="index.html" class="go-back">Home</a>
+</div>
 
-$displayName = $firstName . " " . $lastName;
+<!-- 🔷 Success Message -->
+<main class="checkout-wrapper">
+  <h1 class="checkout-title">Payment Successful!</h1>
 
-// 🔷 SE VOCÊ QUISER, AQUI VOCÊ PODE VALIDAR SE O PAGAMENTO FOI REALMENTE APROVADO
-// Por enquanto vamos assumir que se chegou aqui, o Square já aprovou.
+  <div class="checkout-box">
+    <p>Thank you for your purchase.</p>
+    <p>Your subscription is being activated.</p>
+    <p>You will receive an email once your MonkyBite account is ready.</p>
 
-// 🔷 CRIAR USUÁRIO NO NEXTCLOUD VIA OCS API
-$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users";
+    <a href="login.html" class="plan-button" style="margin-top: 20px;">
+      Go to Login
+    </a>
+  </div>
+</main>
 
-$ch = curl_init($endpoint);
-curl_setopt_array($ch, [
-    CURLOPT_USERPWD        => $ADMIN_USER . ":" . $ADMIN_PASS,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => [
-        'userid'      => $email,
-        'password'    => $password,
-        'displayName' => $displayName
-    ],
-    CURLOPT_HTTPHEADER     => ["OCS-APIRequest: true"],
-    CURLOPT_RETURNTRANSFER => true,
-]);
+<!-- 🔷 Footer -->
+<footer>
+  <p>© 2025 MonkyBite.</p>
+</footer>
 
-$response = curl_exec($ch);
-$curlErr  = curl_error($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+<!-- 🔷 Mobile Menu Script -->
+<script>
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileNav = document.getElementById("mobile-nav");
 
-if ($response === false) {
-    die("Server connection error: " . htmlspecialchars($curlErr));
-}
+  hamburgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("hidden");
+  });
+</script>
 
-// Parse OCS XML response
-libxml_use_internal_errors(true);
-$xml = simplexml_load_string($response);
-if ($xml === false) {
-    die("Unexpected response from server (not XML). Code: $httpCode");
-}
-
-$statuscode = (string)($xml->meta->statuscode ?? '');
-
-if ($statuscode !== '100') {
-    $status  = (string)($xml->meta->status ?? 'error');
-    $message = (string)($xml->meta->message ?? 'Unknown error');
-    die("Nextcloud returned $status (code $statuscode): " . htmlspecialchars($message));
-}
-
-// 🔷 SE CHEGOU AQUI, USUÁRIO FOI CRIADO COM SUCESSO
-
-// Opcional: você pode limpar os dados da sessão
-unset($_SESSION['pending_user']);
-
-// 🔷 REDIRECIONAR PARA O NEXTCLOUD (LOGIN MANUAL POR ENQUANTO)
-header("Location: " . $NEXTCLOUD_BASE_URL);
-exit;
+</body>
+</html>
