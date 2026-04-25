@@ -4,8 +4,8 @@ header("Content-Type: application/json");
 // -------------------------------
 // 1. Square API credentials
 // -------------------------------
-$accessToken = "YOUR_SQUARE_ACCESS_TOKEN"; // SECRET — do Square Dashboard
-$locationId  = "YOUR_LOCATION_ID";
+$accessToken = "EAAAl4t1IxaAmz6YxxT8UAcNpIU2Y_fhmj-eooVFxQtEgY2OtsesFCU40X8Rvtc3"; // SECRET — do Square Dashboard
+$locationId  = "LTZ1WY5B11Q9Q";
 
 // -------------------------------
 // 2. Receive POST data
@@ -61,7 +61,7 @@ $body = [
 // -------------------------------
 // 5. Send request to Square
 // -------------------------------
-$ch = curl_init("https://connect.squareupsandbox.com/v2/payments");
+$ch = curl_init("https://connect.squareup.com/v2/payments");
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
