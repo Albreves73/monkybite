@@ -2,12 +2,13 @@
 // -----------------------------------------
 // 1. Validate Square Webhook Signature
 // -----------------------------------------
-$signatureKey = "YOUR_WEBHOOK_SIGNATURE_KEY";
+$signatureKey = "rU-xnQos0hKvb_IQx9BFyg";
 
 $payload = file_get_contents("php://input");
 $signature = $_SERVER["HTTP_X_SQUARE_SIGNATURE"] ?? "";
 
-$valid = hash_hmac("sha1", $payload, $signatureKey);
+// Square uses HMAC-SHA256 + Base64
+$valid = base64_encode(hash_hmac("sha256", $payload, $signatureKey, true));
 
 if (!hash_equals($valid, $signature)) {
     http_response_code(400);
@@ -46,7 +47,7 @@ if ($eventType !== "payment.updated" || $paymentStatus !== "COMPLETED") {
 // -----------------------------------------
 // 3. Prepare Nextcloud user data
 // -----------------------------------------
-$ncUser = $email; // username = email
+$ncUser = $email;
 $displayName = explode("@", $email)[0];
 
 $ncAdmin = "NEXTCLOUD_ADMIN_USER";
@@ -60,7 +61,7 @@ $quota = [
 ][$plan] ?? "5 GB";
 
 // -----------------------------------------
-// 4. Create user in Nextcloud (WITHOUT PASSWORD)
+// 4. Create user in Nextcloud
 // -----------------------------------------
 $createUser = curl_init("https://cloud.monkybite.com/ocs/v1.php/cloud/users");
 curl_setopt_array($createUser, [
@@ -68,6 +69,7 @@ curl_setopt_array($createUser, [
     CURLOPT_POSTFIELDS => http_build_query([
         "userid" => $ncUser,
         "displayName" => $displayName,
+        "email" => $email,
         "quota" => $quota
     ]),
     CURLOPT_HTTPHEADER => ["OCS-APIRequest: true"],
