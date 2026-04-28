@@ -59,7 +59,8 @@ $conn->close();
 // -------------------------------
 // 5. Redirect to checkout
 // -------------------------------
-header("Location: checkout?plan=$plan&email=$email");
+header("Location: /checkout/?plan=$plan&email=$email");
+
 exit;
 
 ?>
