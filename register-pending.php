@@ -61,6 +61,7 @@ $conn->close();
 // -------------------------------
 header("Location: /checkout/?plan=$plan&email=$email");
 
+
 exit;
 
 ?>
