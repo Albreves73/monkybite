@@ -1,23 +1,50 @@
 <?php
 // -----------------------------------------
-// 1. Validate Square Webhook Signature
+// CONFIGURAÇÕES
 // -----------------------------------------
-$signatureKey = "rU-xnQos0hKvb_IQx9BFyg";
 
+// Signature Key do Square (Production)
+$signatureKey = "SrU-xnQos0hKvb_IQx9BFyg";
+
+// URL EXATA configurada no Square
+$notificationUrl = "https://monkybite.com/webhook-square.php";
+
+// Nextcloud Admin
+$ncAdmin = "admin";
+$ncAdminPass = "Cu214200@@$";
+
+// Arquivo de log
+$logFile = "/var/www/monkybite/webhook.log";
+
+function logMsg($msg) {
+    global $logFile;
+    file_put_contents($logFile, "[" . date("Y-m-d H:i:s") . "] " . $msg . "\n", FILE_APPEND);
+}
+
+// -----------------------------------------
+// 1. Ler payload e assinatura
+// -----------------------------------------
 $payload = file_get_contents("php://input");
 $signature = $_SERVER["HTTP_X_SQUARE_SIGNATURE"] ?? "";
 
-// Square uses HMAC-SHA256 + Base64
-$valid = base64_encode(hash_hmac("sha256", $payload, $signatureKey, true));
+logMsg("Recebido payload: " . $payload);
 
-if (!hash_equals($valid, $signature)) {
+// -----------------------------------------
+// 2. Validar assinatura (Square HMAC-SHA1)
+// -----------------------------------------
+$computed = base64_encode(hash_hmac("sha1", $notificationUrl . $payload, $signatureKey, true));
+
+if (!hash_equals($computed, $signature)) {
+    logMsg("Assinatura inválida");
     http_response_code(400);
     echo "Invalid signature";
     exit;
 }
 
+logMsg("Assinatura válida");
+
 // -----------------------------------------
-// 2. Decode webhook JSON
+// 3. Decodificar JSON
 // -----------------------------------------
 $data = json_decode($payload, true);
 
@@ -25,6 +52,7 @@ $eventType = $data["type"] ?? "";
 $payment = $data["data"]["object"]["payment"] ?? null;
 
 if (!$payment) {
+    logMsg("Sem dados de pagamento");
     http_response_code(200);
     echo "No payment data";
     exit;
@@ -34,69 +62,20 @@ $paymentStatus = $payment["status"] ?? "";
 $email = strtolower($payment["buyer_email_address"] ?? "");
 $note = strtolower($payment["note"] ?? "");
 
-// Extract plan from note
-$plan = str_replace("monkybite subscription - ", "", $note);
+logMsg("Evento: $eventType | Status: $paymentStatus | Email: $email");
 
-// Only process successful payments
+// -----------------------------------------
+// 4. Verificar se é pagamento COMPLETED
+// -----------------------------------------
 if ($eventType !== "payment.updated" || $paymentStatus !== "COMPLETED") {
+    logMsg("Evento ignorado");
     http_response_code(200);
     echo "Ignored";
     exit;
 }
 
 // -----------------------------------------
-// 3. Prepare Nextcloud user data
+// 5. Extrair plano
 // -----------------------------------------
-$ncUser = $email;
-$displayName = explode("@", $email)[0];
+$plan = str_replace("monkybite subscription - ", "", $note);
 
-$ncAdmin = "NEXTCLOUD_ADMIN_USER";
-$ncAdminPass = "NEXTCLOUD_ADMIN_PASSWORD";
-
-$quota = [
-    "free" => "5 GB",
-    "starter" => "1 TB",
-    "pro" => "2 TB",
-    "enterprise" => "5 TB"
-][$plan] ?? "5 GB";
-
-// -----------------------------------------
-// 4. Create user in Nextcloud
-// -----------------------------------------
-$createUser = curl_init("https://cloud.monkybite.com/ocs/v1.php/cloud/users");
-curl_setopt_array($createUser, [
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => http_build_query([
-        "userid" => $ncUser,
-        "displayName" => $displayName,
-        "email" => $email,
-        "quota" => $quota
-    ]),
-    CURLOPT_HTTPHEADER => ["OCS-APIRequest: true"],
-    CURLOPT_USERPWD => "$ncAdmin:$ncAdminPass",
-    CURLOPT_RETURNTRANSFER => true
-]);
-
-$response = curl_exec($createUser);
-curl_close($createUser);
-
-// -----------------------------------------
-// 5. Send "Set Password" email
-// -----------------------------------------
-$sendMail = curl_init("https://cloud.monkybite.com/ocs/v1.php/cloud/users/$ncUser/mail");
-curl_setopt_array($sendMail, [
-    CURLOPT_POST => true,
-    CURLOPT_HTTPHEADER => ["OCS-APIRequest: true"],
-    CURLOPT_USERPWD => "$ncAdmin:$ncAdminPass",
-    CURLOPT_RETURNTRANSFER => true
-]);
-
-curl_exec($sendMail);
-curl_close($sendMail);
-
-// -----------------------------------------
-// 6. Respond to Square
-// -----------------------------------------
-http_response_code(200);
-echo "OK";
-?>
