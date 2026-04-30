@@ -4,7 +4,7 @@
 // -----------------------------------------
 
 // Signature Key do Square (Production)
-$signatureKey = "SrU-xnQos0hKvb_IQx9BFyg";
+$signatureKey = "rU-xnQos0hKvb_IQx9BFyg";
 
 // URL EXATA configurada no Square
 $notificationUrl = "https://monkybite.com/webhook-square.php";
@@ -79,3 +79,60 @@ if ($eventType !== "payment.updated" || $paymentStatus !== "COMPLETED") {
 // -----------------------------------------
 $plan = str_replace("monkybite subscription - ", "", $note);
 
+$quota = [
+    "free" => "5 GB",
+    "starter" => "1 TB",
+    "pro" => "2 TB",
+    "enterprise" => "5 TB"
+][$plan] ?? "5 GB";
+
+logMsg("Plano detectado: $plan | Quota: $quota");
+
+// -----------------------------------------
+// 6. Criar usuário no Nextcloud
+// -----------------------------------------
+$ncUser = $email;
+$displayName = explode("@", $email)[0];
+
+$createUser = curl_init("https://cloud.monkybite.com/ocs/v1.php/cloud/users");
+curl_setopt_array($createUser, [
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => http_build_query([
+        "userid" => $ncUser,
+        "displayName" => $displayName,
+        "email" => $email,
+        "quota" => $quota
+    ]),
+    CURLOPT_HTTPHEADER => ["OCS-APIRequest: true"],
+    CURLOPT_USERPWD => "$ncAdmin:$ncAdminPass",
+    CURLOPT_RETURNTRANSFER => true
+]);
+
+$response = curl_exec($createUser);
+curl_close($createUser);
+
+logMsg("Resposta criação usuário: " . $response);
+
+// -----------------------------------------
+// 7. Enviar e-mail de set-password
+// -----------------------------------------
+$sendMail = curl_init("https://cloud.monkybite.com/ocs/v1.php/cloud/users/$ncUser/mail");
+curl_setopt_array($sendMail, [
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => ["OCS-APIRequest: true"],
+    CURLOPT_USERPWD => "$ncAdmin:$ncAdminPass",
+    CURLOPT_RETURNTRANSFER => true
+]);
+
+$mailResponse = curl_exec($sendMail);
+curl_close($sendMail);
+
+logMsg("Resposta envio e-mail: " . $mailResponse);
+
+// -----------------------------------------
+// 8. Responder ao Square
+// -----------------------------------------
+logMsg("Webhook finalizado com sucesso");
+http_response_code(200);
+echo "OK";
+?>
