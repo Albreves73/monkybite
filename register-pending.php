@@ -3,8 +3,8 @@
 // 1. Database connection
 // -------------------------------
 $host = "localhost";
-$user = "root";
-$pass = "";
+$user = "monky";
+$pass = "Cu123!";
 $dbname = "monkybite";
 
 $conn = new mysqli($host, $user, $pass, $dbname);
@@ -23,24 +23,40 @@ $lastName  = trim($_POST['lastName']);
 $plan      = trim($_POST['plan']);
 
 // -------------------------------
-// 3. Validate email
+// 3. Validate email (professional logic)
 // -------------------------------
-$check = $conn->prepare("SELECT id FROM users WHERE email = ?");
+$check = $conn->prepare("SELECT id, status FROM users WHERE email = ?");
 $check->bind_param("s", $email);
 $check->execute();
 $check->store_result();
+$check->bind_result($existingId, $existingStatus);
+$check->fetch();
 
 if ($check->num_rows > 0) {
-    echo "<script>
-            alert('This email is already registered.');
-            window.location.href = 'get-started.html?plan=$plan';
-          </script>";
-    exit;
+
+    if ($existingStatus === "active") {
+        // Usuário já existe e já pagou → bloquear
+        echo "<script>
+                alert('This email is already registered.');
+                window.location.href = 'get-started.html?plan=$plan';
+              </script>";
+        exit;
+    }
+
+    if ($existingStatus === "pending") {
+        // Usuário já existe mas não pagou → continuar fluxo
+        // Não cria novo usuário, apenas segue para o checkout
+        $userId = $existingId;
+
+        header("Location: /checkout/?plan=$plan&email=$email");
+        exit;
+    }
 }
+
 $check->close();
 
 // -------------------------------
-// 4. Insert pending user (NO PASSWORD YET)
+// 4. Insert pending user (first time)
 // -------------------------------
 $stmt = $conn->prepare("
     INSERT INTO users (email, firstName, lastName, plan, status, created_at)
@@ -60,8 +76,7 @@ $conn->close();
 // 5. Redirect to checkout
 // -------------------------------
 header("Location: /checkout/?plan=$plan&email=$email");
-
-
 exit;
 
 ?>
+
