@@ -13,14 +13,14 @@ use Square\Exceptions\ApiException;
 // ------------------------------------------------------------
 
 // Square Webhook Signature Key (Production)
-$signatureKey = "COLOQUE_AQUI_SUA_SIGNATURE_KEY";
+$signatureKey = "rU-xnQos0hKvb_IQx9BFyg";
 
 // URL configurada no painel da Square
 $webhookUrl = "https://monkybite.com/webhooks/square.php";
 
 // Nextcloud Admin
 $ncAdmin = "admin";
-$ncAdminPass = "COLOQUE_AQUI_A_SENHA";
+$ncAdminPass = "Cu214200@@$";
 
 // Log
 $logFile = "/var/www/monkybite/webhook.log";
