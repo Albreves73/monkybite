@@ -37,7 +37,7 @@ $_SESSION['pending_user'] = [
 // 🔷 Redirect to Square checkout based on plan
 switch ($plan) {
     case 'starter':
-        header("Location: https://square.link/u/amBipBoE");
+        header("Location: https://square.link/u/ObSxOe10");
         exit;
 
     case 'pro':
