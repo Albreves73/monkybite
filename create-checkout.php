@@ -12,7 +12,8 @@ use Square\Environment;
 use Square\Models\Money;
 use Square\Models\CreatePaymentLinkRequest;
 
-$accessToken = 'EAAAl4tIxaAmz6YxxT8XXXXXXXXXXXXXXXXXXXXXXXX2OtsesFCU40X8Rvtc3';
+$accessToken = 'EAAAl4t1IxaAmz6YxxT8UAcNpIU2Y_fhmj-eooVFxQtEgY2OtsesFCU40X8Rvtc3';
+
 $locationId  = 'sq0idp-JHruqkfGcQdQfmgDQYjnUQ';
 
 // 1. Pega dados do formulário
