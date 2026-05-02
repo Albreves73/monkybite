@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require 'vendor/autoload.php'; // se estiver usando Composer para o SDK da Square
+require 'vendor/autoload.php';
 
 use Square\SquareClient;
 use Square\Environment;
@@ -23,7 +23,7 @@ if (!$email || !$firstName || !$lastName || !$password) {
     die('Missing required fields.');
 }
 
-// 2. Guarda dados na sessão para usar depois (quando o pagamento for confirmado)
+// 2. Guarda dados na sessão
 $_SESSION['pending_user'] = [
     'email'     => $email,
     'firstName' => $firstName,
@@ -35,10 +35,10 @@ $_SESSION['pending_user'] = [
 // 3. Define valor do plano (em cents)
 switch ($plan) {
     case 'starter':
-        $amount = 99; // $0.99
+        $amount = 99;
         break;
     case 'pro':
-        $amount = 999; // $9.99
+        $amount = 999;
         break;
     default:
         $amount = 99;
@@ -50,7 +50,7 @@ $client = new SquareClient([
     'environment' => Environment::PRODUCTION,
 ]);
 
-$checkoutApi = $client->getCheckoutApi();
+$paymentLinksApi = $client->getPaymentLinksApi();
 
 // 5. Monta o pedido
 $money = new Money();
@@ -70,7 +70,7 @@ $body = new CreatePaymentLinkRequest([
 ]);
 
 // 6. Cria o link de pagamento
-$response = $checkoutApi->createPaymentLink($body);
+$response = $paymentLinksApi->createPaymentLink($body);
 
 if ($response->isSuccess()) {
     $result = $response->getResult();
