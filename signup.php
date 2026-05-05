@@ -1,57 +1,56 @@
 <?php
 session_start();
+require 'square-config.php';
 
-// Enable error reporting (optional)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// ===============================
+//  CONEXÃO COM O BANCO
+// ===============================
+$pdo = new PDO("mysql:host=localhost;dbname=monkybite;charset=utf8", "root", "");
 
-// Collect POST fields
+// ===============================
+//  COLETA DOS CAMPOS DO FORM
+// ===============================
 $email     = trim($_POST['email'] ?? '');
 $firstName = trim($_POST['firstName'] ?? '');
 $lastName  = trim($_POST['lastName'] ?? '');
 $password  = $_POST['password'] ?? '';
 $plan      = $_POST['plan'] ?? 'free';
 
-// Basic validations
+// ===============================
+//  VALIDAÇÕES
+// ===============================
 if ($email === '' || $firstName === '' || $lastName === '' || $password === '') {
     die("Missing required fields.");
 }
 
-// Password validations
 if (strlen($password) < 10) {
     die("Password must be at least 10 characters long.");
 }
+
 if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
     die("Password must contain both letters and numbers.");
 }
 
-// 🔷 Save user data in session (temporary until payment)
-$_SESSION['pending_user'] = [
-    'email'     => $email,
-    'firstName' => $firstName,
-    'lastName'  => $lastName,
-    'password'  => $password,
-    'plan'      => $plan
-];
+// ===============================
+//  HASH DA SENHA
+// ===============================
+$passwordHash = password_hash($password, PASSWORD_DEFAULT);
 
-// 🔷 Redirect to Square checkout based on plan
-switch ($plan) {
-    case 'starter':
-        header("Location: https://square.link/u/ObSxOe10");
-        exit;
+// ===============================
+//  SALVA NO BANCO (STATUS = pending)
+// ===============================
+$stmt = $pdo->prepare("
+    INSERT INTO users (email, firstName, lastName, password, plan, status)
+    VALUES (?, ?, ?, ?, ?, 'pending')
+");
+$stmt->execute([$email, $firstName, $lastName, $passwordHash, $plan]);
 
-    case 'pro':
-        header("Location: https://square.link/u/zLUQxpol");
-        exit;
+// ID do usuário recém-criado
+$userId = $pdo->lastInsertId();
 
-    case 'enterprise':
-        header("Location: https://square.link/u/mwyQZlNb");
-        exit;
-
-    case 'free':
-    default:
-        // Free plan → no payment → go directly to success page
-        header("Location: payment-success.php?free=1");
-        exit;
-}
+// ===============================
+//  REDIRECIONA PARA CRIAR PAYMENT LINK
+// ===============================
+header("Location: create-payment-link.php?user_id=" . $userId);
+exit;
 ?>
