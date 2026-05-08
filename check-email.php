@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 
 if (!isset($_POST['email'])) {
     echo json_encode(['exists' => false]);
@@ -6,22 +7,21 @@ if (!isset($_POST['email'])) {
 }
 
 $email = trim($_POST['email']);
-$username = $email;
 
-$adminUser = "admin";
-$adminPass = "Cu214200@@$"; // ← sua senha real
+$conn = new mysqli("localhost", "DB_USER", "DB_PASS", "DB_NAME");
 
-$checkUser = curl_init();
-curl_setopt($checkUser, CURLOPT_URL, "https://cloud.monkybite.com/ocs/v1.php/cloud/users/$username");
-curl_setopt($checkUser, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($checkUser, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
-curl_setopt($checkUser, CURLOPT_USERPWD, "$adminUser:$adminPass");
-
-$response = curl_exec($checkUser);
-curl_close($checkUser);
-
-if (strpos($response, '<statuscode>100</statuscode>') !== false) {
-    echo json_encode(['exists' => true]);
-} else {
+if ($conn->connect_error) {
     echo json_encode(['exists' => false]);
+    exit;
 }
+
+$stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+echo json_encode(['exists' => $result->num_rows > 0]);
+
+$stmt->close();
+$conn->close();
+?>
