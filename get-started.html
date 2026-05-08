@@ -140,7 +140,29 @@ document.getElementById("email").addEventListener("blur", function () {
     mobileNav.classList.toggle("hidden");
   });
 </script>
+<script>
+document.getElementById("email").addEventListener("blur", function () {
+    const email = this.value.trim();
 
+    if (email === "") return;
+
+    // Faz a checagem chamando o próprio signup.php em modo "check"
+    fetch("signup.php?check_email=" + encodeURIComponent(email))
+        .then(response => response.text())
+        .then(result => {
+            const msg = document.getElementById("email-error");
+
+            if (result === "exists") {
+                msg.textContent = "This email is already registered.";
+                msg.style.color = "red";
+            } else {
+                msg.textContent = "";
+            }
+        });
+});
+</script>
+
+  
 </body>
 </html>
 
