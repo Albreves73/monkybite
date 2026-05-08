@@ -5,42 +5,48 @@
   <title>Create your MonkyBite account</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    #emailError,
+    #passwordError {
+      color: red;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- 🔷 Header -->
-<header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
+  <!-- Header -->
+  <header>
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="MonkyBite Logo" />
+      <span class="brand-name">MonkyBite</span>
+    </a>
 
-  <div class="nav-wrapper">
-    <!-- Desktop menu -->
-    <nav class="nav-desktop">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
+    <div class="nav-wrapper">
+      <nav class="nav-desktop">
+        <a href="index.html">HOME</a>
+        <a href="login.html">LOGIN</a>
+        <a href="plans.html">SIGN UP</a>
+        <a href="contact.html">CONTACT</a>
+      </nav>
 
-    <!-- Mobile menu -->
-    <button class="hamburger" id="hamburger-btn">☰</button>
-    <nav class="nav-mobile hidden" id="mobile-nav">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </div>
-</header>
+      <button class="hamburger" id="hamburger-btn">☰</button>
+      <nav class="nav-mobile hidden" id="mobile-nav">
+        <a href="index.html">HOME</a>
+        <a href="login.html">LOGIN</a>
+        <a href="plans.html">SIGN UP</a>
+        <a href="contact.html">CONTACT</a>
+      </nav>
+    </div>
+  </header>
 
-  <!-- 🔷 Go Back Button -->
+  <!-- Go Back Button -->
   <div class="go-back-wrapper">
     <a href="plans.html" class="go-back">Go Back</a>
   </div>
 
-  <!-- 🔷 Signup Form -->
+  <!-- Signup Form -->
   <main class="signup-wrapper">
     <h1 class="signup-title">Create your MonkyBite account</h1>
     <p id="selected-plan">You're signing up for the Free plan.</p>
@@ -50,15 +56,12 @@
       <a href="#" class="apple-login">Sign up with Apple</a>
     </div>
 
-<div class="divider">or</div>
+    <div class="divider">or</div>
 
-<form id="signup-form" class="signup-form" method="post" action="signup.php">
-  <label for="email">Email Address</label>
-  <input type="email" id="email" name="email" required />
-
-  <p id="emailError" style="color: red; font-size: 14px; display: none;"></p>
-
-
+    <form id="signup-form" class="signup-form" method="post" action="signup.php">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required />
+      <p id="emailError" style="display: none;"></p>
 
       <div class="name-row">
         <div>
@@ -72,20 +75,16 @@
       </div>
 
       <label for="password">Create Password</label>
-<input type="password" id="password" name="password" required minlength="10" />
+      <input type="password" id="password" name="password" required minlength="10" />
 
-<small style="display: block; margin-top: 4px;">
-  Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 10 characters long.
-</small>
+      <small style="display: block; margin-top: 4px;">
+        Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 10 characters long.
+      </small>
 
-<p id="passwordError" style="color: red; font-size: 14px; margin-top: 4px;"></p>
+      <p id="passwordError"></p>
 
+      <input type="hidden" id="plan" name="plan">
 
-
-      <!-- 🔷 Campo oculto para enviar o plano -->
-  <input type="hidden" id="plan" name="plan">
-
-      <!-- 🔷 Consent notice -->
       <p class="consent-notice">
         By clicking <strong>Agree and Sign Up</strong>, you agree to our
         <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
@@ -96,90 +95,88 @@
   </main>
 
   <script>
-  // 🔷 Carrega o plano da URL
-  const params = new URLSearchParams(window.location.search);
-  const selectedPlan = params.get("plan");
+    const params = new URLSearchParams(window.location.search);
+    const selectedPlan = params.get("plan");
 
-  if (!selectedPlan) {
-    window.location.href = "plans.html";
-  }
+    if (!selectedPlan) {
+      window.location.href = "plans.html";
+    } else {
+      const planDisplay = document.getElementById("selected-plan");
+      const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
+      planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+      document.getElementById("plan").value = selectedPlan;
+    }
+  </script>
 
-  const planDisplay = document.getElementById("selected-plan");
-  const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-  planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("signup-form");
+      const passwordInput = document.getElementById("password");
+      const passwordError = document.getElementById("passwordError");
+      const emailInput = document.getElementById("email");
+      const emailError = document.getElementById("emailError");
+      const hamburgerBtn = document.getElementById("hamburger-btn");
+      const mobileNav = document.getElementById("mobile-nav");
 
-  // 🔷 Preenche o campo oculto
-  document.getElementById("plan").value = selectedPlan;
-</script>
+      hamburgerBtn.addEventListener("click", () => {
+        mobileNav.classList.toggle("hidden");
+      });
 
-<script>
-  // 🔷 Validação de senha
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("signup-form");
-    const passwordInput = document.getElementById("password");
-    const errorBox = document.getElementById("passwordError");
+      emailInput.addEventListener("blur", function () {
+        const email = this.value.trim();
 
-    form.addEventListener("submit", function (e) {
-      const password = passwordInput.value;
+        if (!email) {
+          emailError.textContent = "";
+          emailError.style.display = "none";
+          return;
+        }
 
-      const hasLength = password.length >= 10;
-      const hasUpper = /[A-Z]/.test(password);
-      const hasLower = /[a-z]/.test(password);
-      const hasNumber = /[0-9]/.test(password);
-      const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        fetch("check-email.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: "email=" + encodeURIComponent(email),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.exists) {
+              emailError.textContent = "This email is already registered.";
+              emailError.style.display = "block";
+            } else {
+              emailError.textContent = "";
+              emailError.style.display = "none";
+            }
+          })
+          .catch(() => {
+            emailError.textContent = "";
+            emailError.style.display = "none";
+          });
+      });
 
-      if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSymbol) {
-        e.preventDefault();
-        errorBox.textContent =
-          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., !@#$), and be at least 10 characters long.";
-      } else {
-        errorBox.textContent = "";
-      }
+      form.addEventListener("submit", function (e) {
+        const password = passwordInput.value;
+
+        const hasLength = password.length >= 10;
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSymbol) {
+          e.preventDefault();
+          passwordError.textContent =
+            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., !@#$), and be at least 10 characters long.";
+        } else {
+          passwordError.textContent = "";
+        }
+
+        if (emailError.style.display === "block") {
+          e.preventDefault();
+        }
+      });
     });
-  });
-</script>
+  </script>
 
-<script>
-  // 🔷 Menu mobile
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const mobileNav = document.getElementById("mobile-nav");
-
-  hamburgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("hidden");
-  });
-</script>
-
-<<<<<<< HEAD
-<script>
-document.getElementById("email").addEventListener("blur", function () {
-  const email = this.value;
-  const errorBox = document.getElementById("emailError");
-
-  fetch("check-email.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: "email=" + encodeURIComponent(email),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.exists) {
-        errorBox.textContent = "This email is already registered.";
-        errorBox.style.display = "block";
-      } else {
-        errorBox.textContent = "";
-        errorBox.style.display = "none";
-      }
-    });
-});
-</script>
-
-
-  </body>
+</body>
 </html>
-=======
-  </body>
-</html>
-
->>>>>>> 21d3262cfd36e62d594c2c6d3b35ba1e16e64013
 
 
