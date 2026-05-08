@@ -8,6 +8,19 @@ require 'square-config.php';
 $pdo = new PDO("mysql:host=localhost;dbname=monkybite;charset=utf8", "root", "");
 
 // ===============================
+//  CHECK EMAIL (para validação no get-started)
+// ===============================
+if (isset($_GET['check_email'])) {
+    $email = $_GET['check_email'];
+
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+
+    echo $stmt->fetch() ? "exists" : "ok";
+    exit;
+}
+
+// ===============================
 //  COLETA DOS CAMPOS DO FORM
 // ===============================
 $email     = trim($_POST['email'] ?? '');
@@ -54,3 +67,4 @@ $userId = $pdo->lastInsertId();
 header("Location: create-payment-link.php?user_id=" . $userId);
 exit;
 ?>
+
