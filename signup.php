@@ -1,70 +1,93 @@
 <?php
-session_start();
-require 'square-config.php';
 
-// ===============================
-//  CONEXÃO COM O BANCO
-// ===============================
-$pdo = new PDO("mysql:host=localhost;dbname=monkybite;charset=utf8", "root", "");
+// Enable error reporting (useful during setup; you can disable later)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// ===============================
-//  CHECK EMAIL (para validação no get-started)
-// ===============================
-if (isset($_GET['check_email'])) {
-    $email = $_GET['check_email'];
+// Replace with your Nextcloud details
+$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
+$ADMIN_USER = "admin";
+$ADMIN_PASS = "Cu214200@@$";
 
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-
-    echo $stmt->fetch() ? "exists" : "ok";
+// Helper: send an error and stop
+function fail($message, $httpCode = 400) {
+    http_response_code($httpCode);
+    echo "<h1>Sign Up Error</h1><p>$message</p>";
     exit;
 }
 
-// ===============================
-//  COLETA DOS CAMPOS DO FORM
-// ===============================
+// Ensure request method is POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    fail("Invalid request method.");
+}
+
+// Collect POST fields
 $email     = trim($_POST['email'] ?? '');
-$firstName = trim($_POST['firstName'] ?? '');
-$lastName  = trim($_POST['lastName'] ?? '');
+$firstName = trim($_POST['first-name'] ?? '');
+$lastName  = trim($_POST['last-name'] ?? '');
 $password  = $_POST['password'] ?? '';
 $plan      = $_POST['plan'] ?? 'free';
 
-// ===============================
-//  VALIDAÇÕES
-// ===============================
+// Basic validations
 if ($email === '' || $firstName === '' || $lastName === '' || $password === '') {
-    die("Missing required fields.");
+    fail("Missing required fields.");
 }
 
+// Password validations
 if (strlen($password) < 10) {
-    die("Password must be at least 10 characters long.");
+    fail("Password must be at least 10 characters long.");
 }
-
 if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-    die("Password must contain both letters and numbers.");
+    fail("Password must contain both letters and numbers.");
 }
 
-// ===============================
-//  HASH DA SENHA
-// ===============================
-$passwordHash = password_hash($password, PASSWORD_DEFAULT);
+// Prepare Nextcloud OCS API request
+$displayName = $firstName . " " . $lastName;
+$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users";
 
-// ===============================
-//  SALVA NO BANCO (STATUS = pending)
-// ===============================
-$stmt = $pdo->prepare("
-    INSERT INTO users (email, firstName, lastName, password, plan, status)
-    VALUES (?, ?, ?, ?, ?, 'pending')
-");
-$stmt->execute([$email, $firstName, $lastName, $passwordHash, $plan]);
+$ch = curl_init($endpoint);
+curl_setopt_array($ch, [
+    CURLOPT_USERPWD        => $ADMIN_USER . ":" . $ADMIN_PASS,
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => [
+        'userid'      => $email,
+        'password'    => $password,
+        'displayName' => $displayName
+    ],
+    CURLOPT_HTTPHEADER     => ["OCS-APIRequest: true"],
+    CURLOPT_RETURNTRANSFER => true,
+]);
 
-// ID do usuário recém-criado
-$userId = $pdo->lastInsertId();
+$response = curl_exec($ch);
+$curlErr  = curl_error($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
 
-// ===============================
-//  REDIRECIONA PARA CRIAR PAYMENT LINK
-// ===============================
-header("Location: create-payment-link.php?user_id=" . $userId);
-exit;
-?>
+if ($response === false) {
+    fail("Server connection error: " . htmlspecialchars($curlErr));
+}
 
+// Parse OCS XML response to read statuscode
+libxml_use_internal_errors(true);
+$xml = simplexml_load_string($response);
+if ($xml === false) {
+    fail("Unexpected response from server (not XML). Code: $httpCode");
+}
+
+$statuscode = (string)($xml->meta->statuscode ?? '');
+
+// Handle common outcomes
+if ($statuscode !== '100') {
+    $status = (string)($xml->meta->status ?? 'error');
+    $message = (string)($xml->meta->message ?? 'Unknown error');
+    fail("Nextcloud returned $status (code $statuscode): " . htmlspecialchars($message), 400);
+}
+
+// Success: redirect based on plan
+if (in_array(strtolower($plan), ['starter', 'pro', 'enterprise'])) {
+    header("Location: billing.html");
+    exit;
+} else {
+    header("Location: dashboard.html");
+    exit;
+}
