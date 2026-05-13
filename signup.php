@@ -1,93 +1,104 @@
 <?php
-
-// Enable error reporting (useful during setup; you can disable later)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Replace with your Nextcloud details
 $NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
 $ADMIN_USER = "admin";
-$ADMIN_PASS = "Cu214200@@$";
+$ADMIN_PASS = "SUA_SENHA_ADMIN_AQUI";
 
-// Helper: send an error and stop
 function fail($message, $httpCode = 400) {
-    http_response_code($httpCode);
-    echo "<h1>Sign Up Error</h1><p>$message</p>";
-    exit;
+http_response_code($httpCode);
+echo "<h1>Sign Up Error</h1><p>" . htmlspecialchars($message) . "</p>";
+exit;
 }
 
-// Ensure request method is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    fail("Invalid request method.");
+fail("Invalid request method.");
 }
 
-// Collect POST fields
-$email     = trim($_POST['email'] ?? '');
-$firstName = trim($_POST['first-name'] ?? '');
-$lastName  = trim($_POST['last-name'] ?? '');
-$password  = $_POST['password'] ?? '';
-$plan      = $_POST['plan'] ?? 'free';
+$email = trim($_POST['email'] ?? '');
+$firstName = trim($_POST['firstName'] ?? '');
+$lastName = trim($_POST['lastName'] ?? '');
+$password = $_POST['password'] ?? '';
+$plan = trim($_POST['plan'] ?? 'free');
 
-// Basic validations
 if ($email === '' || $firstName === '' || $lastName === '' || $password === '') {
-    fail("Missing required fields.");
+fail("Missing required fields.");
 }
 
-// Password validations
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+fail("Invalid email address.");
+}
+
 if (strlen($password) < 10) {
-    fail("Password must be at least 10 characters long.");
-}
-if (!preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
-    fail("Password must contain both letters and numbers.");
+fail("Password must be at least 10 characters long.");
 }
 
-// Prepare Nextcloud OCS API request
-$displayName = $firstName . " " . $lastName;
-$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users";
+if (
+!preg_match('/[A-Z]/', $password) ||
+!preg_match('/[a-z]/', $password) ||
+!preg_match('/[0-9]/', $password) ||
+!preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password)
+) {
+fail("Password must contain uppercase, lowercase, number and special character.");
+}
+
+$displayName = $firstName . ' ' . $lastName;
+$userid = $email; // se preferir separar userid e email, modifique aqui
+
+$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . '/ocs/v1.php/cloud/users';
+
+$postFields = http_build_query([
+'userid' => $userid,
+'password' => $password,
+'displayName' => $displayName
+]);
 
 $ch = curl_init($endpoint);
 curl_setopt_array($ch, [
-    CURLOPT_USERPWD        => $ADMIN_USER . ":" . $ADMIN_PASS,
-    CURLOPT_POST           => true,
-    CURLOPT_POSTFIELDS     => [
-        'userid'      => $email,
-        'password'    => $password,
-        'displayName' => $displayName
-    ],
-    CURLOPT_HTTPHEADER     => ["OCS-APIRequest: true"],
-    CURLOPT_RETURNTRANSFER => true,
+CURLOPT_RETURNTRANSFER => true,
+CURLOPT_USERPWD => $ADMIN_USER . ':' . $ADMIN_PASS,
+CURLOPT_POST => true,
+CURLOPT_POSTFIELDS => $postFields,
+CURLOPT_HTTPHEADER => [
+'OCS-APIRequest: true',
+'Content-Type: application/x-www-form-urlencoded',
+'Accept: application/xml'
+],
+CURLOPT_TIMEOUT => 15
 ]);
 
 $response = curl_exec($ch);
-$curlErr  = curl_error($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr = curl_error($ch);
 curl_close($ch);
 
 if ($response === false) {
-    fail("Server connection error: " . htmlspecialchars($curlErr));
+fail("Server connection error. Please try again later.");
 }
 
-// Parse OCS XML response to read statuscode
 libxml_use_internal_errors(true);
 $xml = simplexml_load_string($response);
 if ($xml === false) {
-    fail("Unexpected response from server (not XML). Code: $httpCode");
+fail("Unexpected server response. Please contact support.");
 }
 
 $statuscode = (string)($xml->meta->statuscode ?? '');
+$message = (string)($xml->meta->message ?? 'Unknown error');
 
-// Handle common outcomes
 if ($statuscode !== '100') {
-    $status = (string)($xml->meta->status ?? 'error');
-    $message = (string)($xml->meta->message ?? 'Unknown error');
-    fail("Nextcloud returned $status (code $statuscode): " . htmlspecialchars($message), 400);
+// se o usuário já existe, devolva uma mensagem amigável
+if (stripos($message, 'user') !== false || stripos($message, 'exists') !== false) {
+fail("An account with that email already exists.");
+}
+fail("Sign up failed: " . $message);
 }
 
-// Success: redirect based on plan
-if (in_array(strtolower($plan), ['starter', 'pro', 'enterprise'])) {
-    header("Location: billing.html");
-    exit;
-} else {
-    header("Location: dashboard.html");
-    exit;
+// criação bem sucedida: redireciona conforme plano
+if (in_array(strtolower($plan), ['starter','pro','enterprise'])) {
+header("Location: billing.html");
+exit;
 }
+header("Location: dashboard.html");
+exit;
+?>
