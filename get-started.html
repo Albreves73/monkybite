@@ -1,182 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Create your MonkyBite account</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    #emailError,
-    #passwordError {
-      color: red;
-      font-size: 14px;
-      margin-top: 4px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Create your MonkyBite account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="style.css" />
+<style>
+#emailError, #passwordError { color: red; font-size: 14px; margin-top:4px; display:none; }
+.hidden { display:none; }
+</style>
 </head>
 <body>
+<header>
+<a href="index.html" class="logo"><img src="logo.png" alt="MonkyBite Logo" /><span class="brand-name">MonkyBite</span></a>
+<nav>
+<a href="index.html">HOME</a>
+<a href="login.html">LOGIN</a>
+<a href="plans.html">SIGN UP</a>
+<a href="contact.html">CONTACT</a>
+</nav>
+</header>
 
-  <!-- Header -->
-  <header>
-    <a href="index.html" class="logo">
-      <img src="logo.png" alt="MonkyBite Logo" />
-      <span class="brand-name">MonkyBite</span>
-    </a>
+<main class="signup-wrapper">
+<h1>Create your MonkyBite account</h1>
+<p id="selected-plan">You're signing up for the Free plan.</p>
 
-    <div class="nav-wrapper">
-      <nav class="nav-desktop">
-        <a href="index.html">HOME</a>
-        <a href="login.html">LOGIN</a>
-        <a href="plans.html">SIGN UP</a>
-        <a href="contact.html">CONTACT</a>
-      </nav>
+<form id="signup-form" method="post" action="signup.php">
+<label for="email">Email Address</label>
+<input type="email" id="email" name="email" required />
+<p id="emailError"></p>
 
-      <button class="hamburger" id="hamburger-btn">☰</button>
-      <nav class="nav-mobile hidden" id="mobile-nav">
-        <a href="index.html">HOME</a>
-        <a href="login.html">LOGIN</a>
-        <a href="plans.html">SIGN UP</a>
-        <a href="contact.html">CONTACT</a>
-      </nav>
-    </div>
-  </header>
+<div class="name-row">
+<div>
+<label for="first-name">First Name</label>
+<input type="text" id="first-name" name="firstName" required />
+</div>
+<div>
+<label for="last-name">Last Name</label>
+<input type="text" id="last-name" name="lastName" required />
+</div>
+</div>
 
-  <!-- Go Back Button -->
-  <div class="go-back-wrapper">
-    <a href="plans.html" class="go-back">Go Back</a>
-  </div>
+<label for="password">Create Password</label>
+<input type="password" id="password" name="password" required minlength="10" />
+<small style="display:block; margin-top:4px;">
+Password must contain uppercase, lowercase, number and special character, and be at least 10 chars.
+</small>
+<p id="passwordError"></p>
 
-  <!-- Signup Form -->
-  <main class="signup-wrapper">
-    <h1 class="signup-title">Create your MonkyBite account</h1>
-    <p id="selected-plan">You're signing up for the Free plan.</p>
+<input type="hidden" id="plan" name="plan" value="free" />
 
-    <div class="social-signup">
-      <a href="#" class="social-login">Sign up with Google</a>
-      <a href="#" class="apple-login">Sign up with Apple</a>
-    </div>
+<button type="submit">Agree and Sign Up</button>
+</form>
+</main>
 
-    <div class="divider">or</div>
+<script>
+// show plan from URL and set hidden field
+const params = new URLSearchParams(window.location.search);
+const selectedPlan = params.get("plan");
+if (!selectedPlan) { window.location.href = "plans.html"; }
+document.getElementById("selected-plan").textContent = You're signing up for the ${selectedPlan.charAt(0).toUpperCase()+selectedPlan.slice(1)} plan.;
+document.getElementById("plan").value = selectedPlan;
 
-    <form id="signup-form" class="signup-form" method="post" action="signup.php">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required />
-      <p id="emailError" style="display: none;"></p>
+document.addEventListener("DOMContentLoaded", function () {
+const emailInput = document.getElementById("email");
+const emailError = document.getElementById("emailError");
+const form = document.getElementById("signup-form");
+const passwordInput = document.getElementById("password");
+const passwordError = document.getElementById("passwordError");
 
-      <div class="name-row">
-        <div>
-          <label for="first-name">First Name</label>
-          <input type="text" id="first-name" name="firstName" required />
-        </div>
-        <div>
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" name="lastName" required />
-        </div>
-      </div>
+// check email on blur (user finished typing and left field)
+emailInput.addEventListener("blur", function () {
+const email = this.value.trim();
+if (!email) { emailError.textContent = ""; emailError.style.display = "none"; return; }
 
-      <label for="password">Create Password</label>
-      <input type="password" id="password" name="password" required minlength="10" />
+fetch("check-email.php", {
+method: "POST",
+headers: { "Content-Type": "application/x-www-form-urlencoded" },
+body: "email=" + encodeURIComponent(email)
+})
+.then(r => r.json())
+.then(data => {
+if (data.exists) {
+emailError.textContent = "This email is already registered.";
+emailError.style.display = "block";
+} else {
+emailError.textContent = "";
+emailError.style.display = "none";
+}
+})
+.catch(() => { emailError.textContent = ""; emailError.style.display = "none"; });
+});
 
-      <small style="display: block; margin-top: 4px;">
-        Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 10 characters long.
-      </small>
+// client-side password rules + prevent submit if email exists
+form.addEventListener("submit", function (e) {
+const password = passwordInput.value;
+const hasLength = password.length >= 10;
+const hasUpper = /[A-Z]/.test(password);
+const hasLower = /[a-z]/.test(password);
+const hasNumber = /[0-9]/.test(password);
+const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-      <p id="passwordError"></p>
+if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSymbol) {
+e.preventDefault();
+passwordError.textContent = "Password must contain uppercase, lowercase, number and special character and be at least 10 chars.";
+passwordError.style.display = "block";
+} else {
+passwordError.textContent = "";
+passwordError.style.display = "none";
+}
 
-      <input type="hidden" id="plan" name="plan">
-
-      <p class="consent-notice">
-        By clicking <strong>Agree and Sign Up</strong>, you agree to our
-        <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
-      </p>
-
-      <button type="submit" class="signup-button">Agree and Sign Up</button>
-    </form>
-  </main>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const selectedPlan = params.get("plan");
-
-    if (!selectedPlan) {
-      window.location.href = "plans.html";
-    } else {
-      const planDisplay = document.getElementById("selected-plan");
-      const formatted = selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1);
-      planDisplay.textContent = `You're signing up for the ${formatted} plan.`;
-      document.getElementById("plan").value = selectedPlan;
-    }
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const form = document.getElementById("signup-form");
-      const passwordInput = document.getElementById("password");
-      const passwordError = document.getElementById("passwordError");
-      const emailInput = document.getElementById("email");
-      const emailError = document.getElementById("emailError");
-      const hamburgerBtn = document.getElementById("hamburger-btn");
-      const mobileNav = document.getElementById("mobile-nav");
-
-      hamburgerBtn.addEventListener("click", () => {
-        mobileNav.classList.toggle("hidden");
-      });
-
-      emailInput.addEventListener("blur", function () {
-        const email = this.value.trim();
-
-        if (!email) {
-          emailError.textContent = "";
-          emailError.style.display = "none";
-          return;
-        }
-
-        fetch("check-email.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: "email=" + encodeURIComponent(email),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.exists) {
-              emailError.textContent = "This email is already registered.";
-              emailError.style.display = "block";
-            } else {
-              emailError.textContent = "";
-              emailError.style.display = "none";
-            }
-          })
-          .catch(() => {
-            emailError.textContent = "";
-            emailError.style.display = "none";
-          });
-      });
-
-      form.addEventListener("submit", function (e) {
-        const password = passwordInput.value;
-
-        const hasLength = password.length >= 10;
-        const hasUpper = /[A-Z]/.test(password);
-        const hasLower = /[a-z]/.test(password);
-        const hasNumber = /[0-9]/.test(password);
-        const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-        if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSymbol) {
-          e.preventDefault();
-          passwordError.textContent =
-            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., !@#$), and be at least 10 characters long.";
-        } else {
-          passwordError.textContent = "";
-        }
-
-        if (emailError.style.display === "block") {
-          e.preventDefault();
-        }
-      });
-    });
-  </script>
-
+if (emailError.style.display === "block") {
+e.preventDefault();
+}
+});
+});
+</script>
 </body>
 </html>
-
 
