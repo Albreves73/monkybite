@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 
 $NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com"; // seu Nextcloud
 $ADMIN_USER = "admin"; // mantenha seguro
-$ADMIN_PASS = "SUA_SENHA_ADMIN_AQUI"; // substitua com a senha real
+$ADMIN_PASS = "Cu214200@@$"; // substitua com a senha real
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 echo json_encode(['exists' => false]);
