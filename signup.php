@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 $NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
 $ADMIN_USER = "admin";
-$ADMIN_PASS = "SUA_SENHA_ADMIN_AQUI";
+$ADMIN_PASS = "Cu214200@@$";
 
 function fail($message, $httpCode = 400) {
 http_response_code($httpCode);
