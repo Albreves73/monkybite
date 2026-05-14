@@ -7,24 +7,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  
-<!-- 🔷 Header com menu responsivo -->
 <header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
-
+  <a href="index.html" class="logo"><img src="logo.png" alt="MonkyBite Logo" /><span class="brand-name">MonkyBite</span></a>
   <div class="nav-wrapper">
-    <!-- Desktop menu -->
     <nav class="nav-desktop">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
       <a href="plans.html">SIGN UP</a>
       <a href="contact.html">CONTACT</a>
     </nav>
-
-    <!-- Mobile menu -->
     <button class="hamburger" id="hamburger-btn">☰</button>
     <nav class="nav-mobile hidden" id="mobile-nav">
       <a href="index.html">HOME</a>
@@ -35,40 +26,60 @@
   </div>
 </header>
 
+<main class="get-started-box">
+  <h1 id="welcome">Welcome to MonkyBite Cloud</h1>
+  <p id="plan-info">Loading plan...</p>
+  <p id="usage-info">Loading usage...</p>
+  <a id="open-files" class="button primary" href="#" target="_blank" rel="noopener">Open My Files</a>
+</main>
 
-
-  <main class="get-started-box">
-    <h1>Welcome to MonkyBite Cloud</h1>
-    <p id="plan-info"></p>
-    <p id="usage-info"></p>
-    <a href="https://nextcloud.monkybite.com/apps/files/" class="button primary">Open My Files</a>
-  </main>
-
-  <script>
-    const userName = sessionStorage.getItem("user_name") || "User";
-    const plan = sessionStorage.getItem("plan") || "free";
-
-    const planDetails = {
-      free: { label: "Free plan — 5 GB total", used: "1.2 GB" },
-      starter: { label: "Starter plan — 1 TB total", used: "80 GB" },
-      pro: { label: "Pro plan — 2 TB total", used: "320 GB" },
-      enterprise: { label: "Enterprise plan — 5 TB total", used: "1.1 TB" }
-    };
-
-    document.querySelector("h1").innerText = `Welcome to MonkyBite Cloud, ${userName}`;
-    document.getElementById("plan-info").innerText = `You're using the ${planDetails[plan].label}`;
-    document.getElementById("usage-info").innerText = `You've used ${planDetails[plan].used} so far`;
-  </script>
-
-  <!-- 🔷 Script no final da página -->
 <script>
+document.addEventListener('DOMContentLoaded', async () => {
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileNav = document.getElementById("mobile-nav");
+  hamburgerBtn.addEventListener("click", () => mobileNav.classList.toggle("hidden"));
 
-  hamburgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("hidden");
-  });
+  // get email and plan stored at signup/login
+  const email = sessionStorage.getItem('user_email');
+  const plan = sessionStorage.getItem('plan') || 'free';
+  const userName = sessionStorage.getItem('user_name') || 'User';
+
+  document.getElementById('welcome').innerText = `Welcome to MonkyBite Cloud, ${userName}`;
+
+  if (!email) {
+    document.getElementById('plan-info').innerText = 'No account information available.';
+    document.getElementById('usage-info').innerText = '';
+    document.getElementById('open-files').href = '#';
+    return;
+  }
+
+  try {
+    const res = await fetch('api/user-info.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'email=' + encodeURIComponent(email)
+    });
+    const data = await res.json();
+
+    if (!data.success) {
+      document.getElementById('plan-info').innerText = `You're using the ${plan} plan`;
+      document.getElementById('usage-info').innerText = `Usage: unknown`;
+      document.getElementById('open-files').href = data.files_url || '#';
+      return;
+    }
+
+    // show plan + quota and used
+    document.getElementById('plan-info').innerText = `You're using the ${data.plan_label}`;
+    document.getElementById('usage-info').innerText = `You've used ${data.used_readable} so far`;
+
+    // open files link — use cloud.monkybite.com or a vanity URL returned by backend
+    document.getElementById('open-files').href = data.files_url;
+  } catch (e) {
+    document.getElementById('plan-info').innerText = `You're using the ${plan} plan`;
+    document.getElementById('usage-info').innerText = `Usage: unavailable`;
+    document.getElementById('open-files').href = '#';
+  }
+});
 </script>
-
 </body>
 </html>
