@@ -7,8 +7,13 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
 <header>
-  <a href="index.html" class="logo"><img src="logo.png" alt="MonkyBite Logo" /><span class="brand-name">MonkyBite</span></a>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
+
   <div class="nav-wrapper">
     <nav class="nav-desktop">
       <a href="index.html">HOME</a>
@@ -16,7 +21,8 @@
       <a href="plans.html">SIGN UP</a>
       <a href="contact.html">CONTACT</a>
     </nav>
-    <button class="hamburger" id="hamburger-btn">☰</button>
+
+    <button class="hamburger" id="hamburger-btn" type="button">☰</button>
     <nav class="nav-mobile hidden" id="mobile-nav">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
@@ -30,56 +36,55 @@
   <h1 id="welcome">Welcome to MonkyBite Cloud</h1>
   <p id="plan-info">Loading plan...</p>
   <p id="usage-info">Loading usage...</p>
-  <a id="open-files" class="button primary" href="#" target="_blank" rel="noopener">Open My Files</a>
+  <a id="open-files" href="#" class="button primary" target="_blank" rel="noopener">Open My Files</a>
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const mobileNav = document.getElementById("mobile-nav");
-  hamburgerBtn.addEventListener("click", () => mobileNav.classList.toggle("hidden"));
-
-  // get email and plan stored at signup/login
-  const email = sessionStorage.getItem('user_email');
-  const plan = sessionStorage.getItem('plan') || 'free';
-  const userName = sessionStorage.getItem('user_name') || 'User';
-
-  document.getElementById('welcome').innerText = `Welcome to MonkyBite Cloud, ${userName}`;
-
-  if (!email) {
-    document.getElementById('plan-info').innerText = 'No account information available.';
-    document.getElementById('usage-info').innerText = '';
-    document.getElementById('open-files').href = '#';
-    return;
-  }
-
-  try {
-    const res = await fetch('api/user-info.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'email=' + encodeURIComponent(email)
+  document.addEventListener("DOMContentLoaded", async function () {
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const mobileNav = document.getElementById("mobile-nav");
+    hamburgerBtn.addEventListener("click", () => {
+      mobileNav.classList.toggle("hidden");
     });
-    const data = await res.json();
 
-    if (!data.success) {
-      document.getElementById('plan-info').innerText = `You're using the ${plan} plan`;
-      document.getElementById('usage-info').innerText = `Usage: unknown`;
-      document.getElementById('open-files').href = data.files_url || '#';
+    const userName = sessionStorage.getItem("user_name") || "User";
+    const email = sessionStorage.getItem("user_email") || "";
+    const plan = sessionStorage.getItem("plan") || "free";
+
+    document.getElementById("welcome").innerText = `Welcome to MonkyBite Cloud, ${userName}`;
+
+    if (!email) {
+      document.getElementById("plan-info").innerText = "No account email found.";
+      document.getElementById("usage-info").innerText = "";
+      document.getElementById("open-files").href = "https://cloud.monkybite.com/apps/files/";
       return;
     }
 
-    // show plan + quota and used
-    document.getElementById('plan-info').innerText = `You're using the ${data.plan_label}`;
-    document.getElementById('usage-info').innerText = `You've used ${data.used_readable} so far`;
+    try {
+      const response = await fetch("api/user-info.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "email=" + encodeURIComponent(email)
+      });
 
-    // open files link — use cloud.monkybite.com or a vanity URL returned by backend
-    document.getElementById('open-files').href = data.files_url;
-  } catch (e) {
-    document.getElementById('plan-info').innerText = `You're using the ${plan} plan`;
-    document.getElementById('usage-info').innerText = `Usage: unavailable`;
-    document.getElementById('open-files').href = '#';
-  }
-});
+      const data = await response.json();
+
+      if (data.success) {
+        document.getElementById("plan-info").innerText = `You're using the ${data.plan_label}`;
+        document.getElementById("usage-info").innerText = `You've used ${data.used_readable} so far`;
+        document.getElementById("open-files").href = data.files_url;
+      } else {
+        document.getElementById("plan-info").innerText = `You're using the ${plan} plan`;
+        document.getElementById("usage-info").innerText = "Usage unavailable";
+        document.getElementById("open-files").href = "https://cloud.monkybite.com/apps/files/";
+      }
+    } catch (error) {
+      document.getElementById("plan-info").innerText = `You're using the ${plan} plan`;
+      document.getElementById("usage-info").innerText = "Usage unavailable";
+      document.getElementById("open-files").href = "https://cloud.monkybite.com/apps/files/";
+    }
+  });
 </script>
+
 </body>
 </html>
