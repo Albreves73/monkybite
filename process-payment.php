@@ -10,6 +10,7 @@ $locationId  = "LTZ1WY5B11Q9Q";
 // -------------------------------
 // 2. Receive POST data
 // -------------------------------
+
 $token = $_POST['token'] ?? null;
 $email = $_POST['email'] ?? null;
 $plan  = $_POST['plan'] ?? null;
@@ -22,14 +23,11 @@ if (!$token || !$email || !$plan) {
     exit;
 }
 
-// -------------------------------
-// 3. Define plan prices (in cents)
-// -------------------------------
 $prices = [
     "free"       => 0,
-    "starter"    => 499,   // $4.99
-    "pro"        => 999,   // $9.99
-    "enterprise" => 1999   // $19.99
+    "starter"    => 499,
+    "pro"        => 999,
+    "enterprise" => 1999
 ];
 
 if (!isset($prices[$plan])) {
@@ -42,9 +40,6 @@ if (!isset($prices[$plan])) {
 
 $amount = $prices[$plan];
 
-// -------------------------------
-// 4. Create payment request
-// -------------------------------
 $body = [
     "source_id" => $token,
     "amount_money" => [
@@ -55,12 +50,9 @@ $body = [
     "autocomplete" => true,
     "buyer_email_address" => $email,
     "note" => "MonkyBite Subscription - $plan",
-    "idempotency_key" => uniqid() // prevents duplicate charges
+    "idempotency_key" => uniqid()
 ];
 
-// -------------------------------
-// 5. Send request to Square
-// -------------------------------
 $ch = curl_init("https://connect.squareup.com/v2/payments");
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
@@ -76,18 +68,12 @@ curl_close($ch);
 
 $result = json_decode($response, true);
 
-// -------------------------------
-// 6. Handle Square response
-// -------------------------------
 if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
-
-    // Payment successful — webhook will finish the process
     echo json_encode([
         "success" => true,
         "redirect" => "payment-success.html"
     ]);
     exit;
-
 } else {
     $errorMsg = $result["errors"][0]["detail"] ?? "Payment failed.";
     echo json_encode([
