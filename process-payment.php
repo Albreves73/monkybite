@@ -66,6 +66,8 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 $response = curl_exec($ch);
 curl_close($ch);
 
+file_put_contents("square-debug.log", "HTTP_CODE: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\nRESPONSE:\n$response\n\n", FILE_APPEND);
+
 $result = json_decode($response, true);
 
 if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
