@@ -1,25 +1,15 @@
 <?php
 header("Content-Type: application/json");
 
-// -------------------------------
-// 1. Square API credentials
-// -------------------------------
-$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"; // SECRET — do Square Dashboard
+$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"; // ← certifique-se de manter o token que você gerou
 $locationId  = "LTZ1WY5B11Q9Q";
-
-// -------------------------------
-// 2. Receive POST data
-// -------------------------------
 
 $token = $_POST['token'] ?? null;
 $email = $_POST['email'] ?? null;
 $plan  = $_POST['plan'] ?? null;
 
 if (!$token || !$email || !$plan) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Missing required fields."
-    ]);
+    echo json_encode(["success" => false, "message" => "Missing required fields."]);
     exit;
 }
 
@@ -31,10 +21,7 @@ $prices = [
 ];
 
 if (!isset($prices[$plan])) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid plan."
-    ]);
+    echo json_encode(["success" => false, "message" => "Invalid plan."]);
     exit;
 }
 
@@ -64,24 +51,44 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
 ]);
 
 $response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr = curl_error($ch);
 curl_close($ch);
 
-file_put_contents("square-debug.log", "HTTP_CODE: " . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "\nRESPONSE:\n$response\n\n", FILE_APPEND);
+// === DEBUG: gravar resposta da Square ===
+file_put_contents("square-debug.log", "HTTP_CODE: $httpCode\nCURL_ERROR: $curlErr\nRESPONSE:\n$response\n\n", FILE_APPEND);
+// =========================================
 
 $result = json_decode($response, true);
 
-if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
+if ($httpCode !== 200 || !$result) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Square returned HTTP $httpCode" . ($curlErr ? ": $curlErr" : "") . ". Check square-debug.log."
+    ]);
+    exit;
+}
+
+if (!$result) {
+    echo json_encode(["success" => false, "message" => "Invalid JSON from Square. Check square-debug.log."]);
+    exit;
+}
+
+if (isset($result["payment"]) && isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
     echo json_encode([
         "success" => true,
         "redirect" => "payment-success.html"
     ]);
     exit;
-} else {
-    $errorMsg = $result["errors"][0]["detail"] ?? "Payment failed.";
-    echo json_encode([
-        "success" => false,
-        "message" => $errorMsg
-    ]);
-    exit;
 }
+
+$errorMsg = "Payment failed.";
+if (isset($result["errors"]) && is_array($result["errors"]) && count($result["errors"]) > 0) {
+    $errorMsg = $result["errors"][0]["detail"] ?? $result["errors"][0]["category"] ?? "Payment failed.";
+}
+
+echo json_encode([
+    "success" => false,
+    "message" => $errorMsg
+]);
 ?>
