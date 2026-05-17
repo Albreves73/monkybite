@@ -1,7 +1,8 @@
+
 <?php
 header("Content-Type: application/json");
 
-$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"; // ← certifique-se de manter o token que você gerou
+$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"; // ← mantenha o token que você gerou
 $locationId  = "LTZ1WY5B11Q9Q";
 
 $token = $_POST['token'] ?? null;
@@ -55,22 +56,27 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlErr = curl_error($ch);
 curl_close($ch);
 
-// === DEBUG: gravar resposta da Square ===
-file_put_contents("square-debug.log", "HTTP_CODE: $httpCode\nCURL_ERROR: $curlErr\nRESPONSE:\n$response\n\n", FILE_APPEND);
-// =========================================
+// === LOG COM CAMINHO ABSOLUTO ===
+$logLine = "===== CORRETA: " . date("Y-m-d H:i:s") . " =====\n";
+$logLine .= "HTTP_CODE: $httpCode\n";
+$logLine .= "CURL_ERROR: $curlErr\n";
+$logLine .= "RESPONSE:\n$response\n\n";
+
+file_put_contents("/var/www/monkybite/square-debug.log", $logLine, FILE_APPEND);
+// =================================
 
 $result = json_decode($response, true);
 
 if ($httpCode !== 200 || !$result) {
     echo json_encode([
         "success" => false,
-        "message" => "Square returned HTTP $httpCode" . ($curlErr ? ": $curlErr" : "") . ". Check square-debug.log."
+        "message" => "Square returned HTTP $httpCode" . ($curlErr ? ": $curlErr" : "") . ". Check /var/www/monkybite/square-debug.log."
     ]);
     exit;
 }
 
 if (!$result) {
-    echo json_encode(["success" => false, "message" => "Invalid JSON from Square. Check square-debug.log."]);
+    echo json_encode(["success" => false, "message" => "Invalid JSON from Square. Check /var/www/monkybite/square-debug.log."]);
     exit;
 }
 
