@@ -4,7 +4,7 @@ header("Content-Type: application/json");
 // -------------------------------
 // 1. Square API credentials
 // -------------------------------
-$accessToken = "EAAAl4t1IxaAmz6YxxT8UAcNpIU2Y_fhmj-eooVFxQtEgY2OtsesFCU40X8Rvtc3"; // SECRET — do Square Dashboard
+$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"; // SECRET — do Square Dashboard
 $locationId  = "LTZ1WY5B11Q9Q";
 
 // -------------------------------
