@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 
 $NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
 $ADMIN_USER = "admin";
-$ADMIN_PASS = "Cu214200@@$";
+$ADMIN_PASS = "COLOQUE_SUA_SENHA_AQUI";
 
 function fail($message, $httpCode = 400) {
     http_response_code($httpCode);
@@ -20,7 +20,7 @@ $email      = trim($_POST['email'] ?? '');
 $firstName  = trim($_POST['firstName'] ?? '');
 $lastName   = trim($_POST['lastName'] ?? '');
 $password   = $_POST['password'] ?? '';
-$plan       = trim($_POST['plan'] ?? 'free');
+$plan       = trim($_POST['plan'] ?? 'Starter');
 
 if ($email === '' || $firstName === '' || $lastName === '' || $password === '') {
     fail("Missing required fields.");
@@ -46,12 +46,23 @@ if (
 $displayName = $firstName . ' ' . $lastName;
 $userid = $email;
 
+$quotaMap = [
+    'Starter' => '1 TB',
+    'Pro' => '2 TB',
+    'Premium' => '5 TB'
+];
+
+$quota = $quotaMap[$plan] ?? '1 TB';
+
 $endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . '/ocs/v1.php/cloud/users';
 
 $postFields = http_build_query([
     'userid'      => $userid,
     'password'    => $password,
-    'displayName' => $displayName
+    'displayName' => $displayName,
+    'email'       => $email,
+    'quota'       => $quota,
+    'groups[]'    => strtolower($plan)
 ]);
 
 $ch = curl_init($endpoint);
@@ -93,7 +104,12 @@ if ($statuscode !== '100') {
     fail("Sign up failed: " . $message);
 }
 
-if (in_array(strtolower($plan), ['starter', 'pro', 'enterprise'])) {
+session_start();
+$_SESSION['user_email'] = $email;
+$_SESSION['user_name'] = $displayName;
+$_SESSION['plan'] = $plan;
+
+if (in_array(strtolower($plan), ['starter', 'pro', 'premium'])) {
     header("Location: billing.html");
     exit;
 }
