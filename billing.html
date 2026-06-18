@@ -8,8 +8,6 @@
 </head>
 <body>
 
-  <!-- 🔷 Header -->
-  <!-- 🔷 Header com menu responsivo -->
 <header>
   <a href="index.html" class="logo">
     <img src="logo.png" alt="MonkyBite Logo" />
@@ -17,7 +15,6 @@
   </a>
 
   <div class="nav-wrapper">
-    <!-- Desktop menu -->
     <nav class="nav-desktop">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
@@ -25,8 +22,7 @@
       <a href="contact.html">CONTACT</a>
     </nav>
 
-    <!-- Mobile menu -->
-    <button class="hamburger" id="hamburger-btn">☰</button>
+    <button class="hamburger" id="hamburger-btn" type="button">☰</button>
     <nav class="nav-mobile hidden" id="mobile-nav">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
@@ -36,58 +32,57 @@
   </div>
 </header>
 
+<main class="get-started-box">
+  <h1>Billing Information</h1>
+  <p id="billing-plan">Loading plan...</p>
 
-  <!-- 🔷 Billing Section -->
-  <main class="get-started-box">
-    <h1>Billing Information</h1>
-    <p id="billing-plan">Loading plan...</p>
+  <div id="paypal-button-container" style="margin-top: 20px;"></div>
+</main>
 
-    <!-- 🅿️ PayPal Buttons -->
-    <div id="paypal-button-container" style="margin-top: 20px;"></div>
-  </main>
+<footer>
+  <p>© 2025 MonkyBite.</p>
+</footer>
 
-  
-  <!-- 🔷 Footer -->
-  <footer>
-    <p>© 2025 MonkyBite.</p>
-  </footer>
-
-  <!-- 🔷 PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD&enable-funding=card"></script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const plan = sessionStorage.getItem("plan") || "Starter";
+  document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
 
-  <!-- 🔷 Script: Show plan and render PayPal button -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const plan = sessionStorage.getItem("plan") || "Starter";
-      document.getElementById("billing-plan").textContent = `You're subscribing to the ${plan} plan.`;
+  const planPrices = {
+    Starter: "4.99",
+    Pro: "9.99",
+    Premium: "14.99"
+  };
 
-      const planPrices = {
-        Starter: "4.99",
-        Pro: "9.99",
-        Premium: "14.99"
-      };
-      const price = planPrices[plan];
+  const price = planPrices[plan] || "4.99";
 
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: { value: price }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert("Payment completed by " + details.payer.name.given_name);
-            window.location.href = "dashboard.html";
-          });
-        }
-      }).render("#paypal-button-container");
-    });
-  </script>
+  paypal.Buttons({
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: { value: price }
+        }]
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        alert("Payment completed by " + details.payer.name.given_name);
+        window.location.href = "payment-success.html";
+      });
+    },
+    onCancel: function () {
+      alert("Payment was canceled.");
+    },
+    onError: function (err) {
+      console.error(err);
+      alert("Payment error. Please try again.");
+    }
+  }).render("#paypal-button-container");
+});
+</script>
 
-  <!-- 🔷 Script no final da página -->
 <script>
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileNav = document.getElementById("mobile-nav");
@@ -96,7 +91,6 @@
     mobileNav.classList.toggle("hidden");
   });
 </script>
-
 
 </body>
 </html>
