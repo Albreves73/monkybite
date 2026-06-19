@@ -1,12 +1,12 @@
 <?php
 header("Content-Type: application/json");
 
-$accessToken = "COLOQUE_SEU_SQUARE_ACCESS_TOKEN_AQUI";
+$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw";
 $locationId  = "LTZ1WY5B11Q9Q";
 
 $NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
 $ADMIN_USER = "admin";
-$ADMIN_PASS = "COLOQUE_SUA_SENHA_NEXTCLOUD_AQUI";
+$ADMIN_PASS = "Cu214200@@$";
 
 $token = $_POST['token'] ?? null;
 $email = $_POST['email'] ?? null;
