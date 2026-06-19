@@ -18,15 +18,15 @@ if (!$token || !$email || !$plan) {
 }
 
 $prices = [
-    "starter"    => 499,
-    "pro"        => 999,
-    "premium"    => 1499
+    "Starter"    => 499,
+    "Pro"        => 999,
+    "Premium"    => 1499
 ];
 
 $quotas = [
-    "starter"    => "1 TB",
-    "pro"        => "2 TB",
-    "premium"    => "5 TB"
+    "Starter"    => "1 TB",
+    "Pro"        => "2 TB",
+    "Premium"    => "5 TB"
 ];
 
 if (!isset($prices[$plan])) {
