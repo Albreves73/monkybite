@@ -1,142 +1,217 @@
 <?php
-header("Content-Type: application/json");
+declare(strict_types=1);
 
-$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw";
-$locationId  = "LTZ1WY5B11Q9Q";
+header('Content-Type: text/html; charset=utf-8');
 
-$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
-$ADMIN_USER = "admin";
-$ADMIN_PASS = "Cu214200@@$";
+function getPlanGroup(string $plan): string {
+    $map = [
+        'free' => 'Free',
+        'starter' => 'Starter',
+        'pro' => 'Pro',
+        'enterprise' => 'Enterprise',
+    ];
 
-$token = $_POST['token'] ?? null;
-$email = $_POST['email'] ?? null;
-$plan  = $_POST['plan'] ?? null;
-
-if (!$token || !$email || !$plan) {
-    echo json_encode(["success" => false, "message" => "Missing required fields."]);
-    exit;
-}
-
-$prices = [
-    "Starter"    => 499,
-    "Pro"        => 999,
-    "Premium"    => 1499
-];
-
-$quotas = [
-    "Starter"    => "1 TB",
-    "Pro"        => "2 TB",
-    "Premium"    => "5 TB"
-];
-
-if (!isset($prices[$plan])) {
-    echo json_encode(["success" => false, "message" => "Invalid plan."]);
-    exit;
-}
-
-$amount = $prices[$plan];
-$quota = $quotas[$plan];
-
-$body = [
-    "source_id" => $token,
-    "amount_money" => [
-        "amount" => $amount,
-        "currency" => "USD"
-    ],
-    "location_id" => $locationId,
-    "autocomplete" => true,
-    "buyer_email_address" => $email,
-    "note" => "MonkyBite Subscription - $plan",
-    "idempotency_key" => uniqid()
-];
-
-$ch = curl_init("https://connect.squareup.com/v2/payments");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Square-Version: 2023-08-16",
-    "Authorization: Bearer $accessToken",
-    "Content-Type: application/json"
-]);
-
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-$curlErr = curl_error($ch);
-curl_close($ch);
-
-file_put_contents("/var/www/monkybite/square-debug.log", "HTTP_CODE: $httpCode\nCURL_ERROR: $curlErr\nRESPONSE:\n$response\n\n", FILE_APPEND);
-
-$result = json_decode($response, true);
-
-if ($httpCode !== 200 || !$result) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Square returned HTTP $httpCode" . ($curlErr ? ": $curlErr" : "") . ". Check square-debug.log."
-    ]);
-    exit;
-}
-
-if (!isset($result["payment"]["status"]) || $result["payment"]["status"] !== "COMPLETED") {
-    $errorMsg = "Payment failed.";
-    if (isset($result["errors"][0]["detail"])) {
-        $errorMsg = $result["errors"][0]["detail"];
+    $key = strtolower(trim($plan));
+    if (!isset($map[$key])) {
+        throw new Exception('Plano inválido.');
     }
-    echo json_encode(["success" => false, "message" => $errorMsg]);
-    exit;
+
+    return $map[$key];
 }
 
-$userid = rawurlencode($email);
-$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users/$userid";
+function getPlanQuota(string $plan): string {
+    $map = [
+        'free' => '2 GB',
+        'starter' => '10 GB',
+        'pro' => '50 GB',
+        'enterprise' => '100 GB',
+    ];
 
-$postFields = http_build_query([
-    "quota" => $quota
-]);
+    $key = strtolower(trim($plan));
+    if (!isset($map[$key])) {
+        throw new Exception('Plano inválido.');
+    }
 
-$ch2 = curl_init($endpoint);
-curl_setopt_array($ch2, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_USERPWD => $ADMIN_USER . ':' . $ADMIN_PASS,
-    CURLOPT_CUSTOMREQUEST => 'PUT',
-    CURLOPT_POSTFIELDS => $postFields,
-    CURLOPT_HTTPHEADER => [
-        'OCS-APIRequest: true',
-        'Content-Type: application/x-www-form-urlencoded',
-        'Accept: application/xml'
-    ],
-    CURLOPT_TIMEOUT => 15
-]);
+    return $map[$key];
+}
 
-$response2 = curl_exec($ch2);
-$httpCode2 = curl_getinfo($ch2, CURLINFO_HTTP_CODE);
-$curlErr2 = curl_error($ch2);
-curl_close($ch2);
+function squareCreatePayment(
+    string $accessToken,
+    string $locationId,
+    string $sourceId,
+    int $amountCents,
+    string $currency = 'USD'
+): array {
+    $url = 'https://connect.squareup.com/v2/payments';
 
-file_put_contents("/var/www/monkybite/nextcloud-debug.log", "HTTP_CODE: $httpCode2\nCURL_ERROR: $curlErr2\nRESPONSE:\n$response2\n\n", FILE_APPEND);
+    $payload = [
+        'source_id' => $sourceId,
+        'idempotency_key' => bin2hex(random_bytes(16)),
+        'amount_money' => [
+            'amount' => $amountCents,
+            'currency' => $currency,
+        ],
+        'location_id' => $locationId,
+        'autocomplete' => true,
+    ];
 
-libxml_use_internal_errors(true);
-$xml = simplexml_load_string($response2);
-
-if ($xml === false) {
-    echo json_encode([
-        "success" => false,
-        "message" => "Payment completed, but Nextcloud update failed. Check nextcloud-debug.log."
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . $accessToken,
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ],
+        CURLOPT_POSTFIELDS => json_encode($payload),
     ]);
-    exit;
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr = curl_error($ch);
+    curl_close($ch);
+
+    return [
+        'http_code' => $httpCode,
+        'response' => $response,
+        'curl_error' => $curlErr,
+        'payload' => $payload,
+    ];
 }
 
-$statuscode = (string)($xml->meta->statuscode ?? '');
-if ($statuscode !== '100') {
-    $message = (string)($xml->meta->message ?? 'Unknown error');
-    echo json_encode([
-        "success" => false,
-        "message" => "Payment completed, but Nextcloud quota update failed: " . $message
+function nextcloudRequest(string $method, string $url, string $user, string $pass, ?array $postFields = null): array {
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CUSTOMREQUEST => $method,
+        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+        CURLOPT_USERPWD => $user . ':' . $pass,
+        CURLOPT_HTTPHEADER => [
+            'OCS-APIRequest: true',
+            'Accept: application/json',
+        ],
     ]);
-    exit;
+
+    if ($postFields !== null) {
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
+    }
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr = curl_error($ch);
+    curl_close($ch);
+
+    return [
+        'http_code' => $httpCode,
+        'response' => $response,
+        'curl_error' => $curlErr,
+    ];
 }
 
-echo json_encode([
-    "success" => true,
-    "redirect" => "payment-success.html"
-]);
-?>
+try {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Método inválido.');
+    }
+
+    $squareAccessToken = 'EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw';
+    $squareLocationId = 'LTZ1WY5B11Q9Q';
+
+    $ncBaseUrl = 'https://cloud.monkybite.com';
+    $ncAdminUser = 'admin';
+    $ncAdminPass = 'Cu214200@@$';
+
+    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = (string)($_POST['password'] ?? '');
+    $plan = trim($_POST['plan'] ?? 'free');
+    $sourceId = trim($_POST['source_id'] ?? '');
+    $amount = trim($_POST['amount'] ?? '0');
+    $currency = strtoupper(trim($_POST['currency'] ?? 'USD'));
+
+    if ($username === '' || $email === '' || $password === '') {
+        throw new Exception('Usuário, email e senha são obrigatórios.');
+    }
+
+    $group = getPlanGroup($plan);
+    $quota = getPlanQuota($plan);
+
+    if ($sourceId === '') {
+        throw new Exception('source_id não informado.');
+    }
+
+    $amountCents = (int) round(((float) $amount) * 100);
+    if ($amountCents <= 0) {
+        throw new Exception('Valor do pagamento inválido.');
+    }
+
+    $squareRes = squareCreatePayment(
+        $squareAccessToken,
+        $squareLocationId,
+        $sourceId,
+        $amountCents,
+        $currency
+    );
+
+    if ($squareRes['curl_error']) {
+        throw new Exception('Erro cURL na Square: ' . $squareRes['curl_error']);
+    }
+
+    if ($squareRes['http_code'] < 200 || $squareRes['http_code'] >= 300) {
+        throw new Exception('Falha no pagamento Square: ' . ($squareRes['response'] ?? ''));
+    }
+
+    $squareBody = json_decode((string)$squareRes['response'], true);
+    if (!is_array($squareBody)) {
+        throw new Exception('Resposta inválida da Square.');
+    }
+
+    if (!isset($squareBody['payment']['status']) || $squareBody['payment']['status'] !== 'COMPLETED') {
+        throw new Exception('Pagamento não foi concluído: ' . ($squareRes['response'] ?? ''));
+    }
+
+    $createUserUrl = $ncBaseUrl . '/ocs/v2.php/cloud/users';
+    $createRes = nextcloudRequest(
+        'POST',
+        $createUserUrl,
+        $ncAdminUser,
+        $ncAdminPass,
+        [
+            'userid' => $username,
+            'password' => $password,
+            'displayName' => $username,
+            'email' => $email,
+            'groups[]' => $group,
+        ]
+    );
+
+    if ($createRes['curl_error']) {
+        throw new Exception('Erro cURL ao criar usuário no Nextcloud: ' . $createRes['curl_error']);
+    }
+
+    if ($createRes['http_code'] < 200 || $createRes['http_code'] >= 300) {
+        throw new Exception('Falha ao criar usuário no Nextcloud: ' . ($createRes['response'] ?? ''));
+    }
+
+    $setQuotaUrl = $ncBaseUrl . '/ocs/v2.php/cloud/users/' . rawurlencode($username);
+    $quotaRes = nextcloudRequest(
+        'PUT',
+        $setQuotaUrl,
+        $ncAdminUser,
+        $ncAdminPass,
+        ['key' => 'quota', 'value' => $quota]
+    );
+
+    if ($quotaRes['curl_error']) {
+        throw new Exception('Erro cURL ao atualizar quota no Nextcloud: ' . $quotaRes['curl_error']);
+    }
+
+    if ($quotaRes['http_code'] < 200 || $quotaRes['http_code'] >= 300) {
+        throw new Exception('Falha ao atualizar quota no Nextcloud: ' . ($quotaRes['response'] ?? ''));
+    }
+
+    echo 'Pagamento aprovado, usuário criado e quota atualizada com sucesso.';
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo 'Payment failed: ' . $e->getMessage();
+}
