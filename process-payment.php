@@ -1,9 +1,12 @@
-
 <?php
 header("Content-Type: application/json");
 
-$accessToken = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"; // ← mantenha o token que você gerou
+$accessToken = "COLOQUE_SEU_SQUARE_ACCESS_TOKEN_AQUI";
 $locationId  = "LTZ1WY5B11Q9Q";
+
+$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
+$ADMIN_USER = "admin";
+$ADMIN_PASS = "COLOQUE_SUA_SENHA_NEXTCLOUD_AQUI";
 
 $token = $_POST['token'] ?? null;
 $email = $_POST['email'] ?? null;
@@ -15,10 +18,15 @@ if (!$token || !$email || !$plan) {
 }
 
 $prices = [
-    "free"       => 0,
     "starter"    => 499,
     "pro"        => 999,
-    "enterprise" => 1999
+    "premium"    => 1499
+];
+
+$quotas = [
+    "starter"    => "1 TB",
+    "pro"        => "2 TB",
+    "premium"    => "5 TB"
 ];
 
 if (!isset($prices[$plan])) {
@@ -27,6 +35,7 @@ if (!isset($prices[$plan])) {
 }
 
 $amount = $prices[$plan];
+$quota = $quotas[$plan];
 
 $body = [
     "source_id" => $token,
@@ -56,45 +65,78 @@ $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $curlErr = curl_error($ch);
 curl_close($ch);
 
-// === LOG COM CAMINHO ABSOLUTO ===
-$logLine = "===== CORRETA: " . date("Y-m-d H:i:s") . " =====\n";
-$logLine .= "HTTP_CODE: $httpCode\n";
-$logLine .= "CURL_ERROR: $curlErr\n";
-$logLine .= "RESPONSE:\n$response\n\n";
-
-file_put_contents("/var/www/monkybite/square-debug.log", $logLine, FILE_APPEND);
-// =================================
+file_put_contents("/var/www/monkybite/square-debug.log", "HTTP_CODE: $httpCode\nCURL_ERROR: $curlErr\nRESPONSE:\n$response\n\n", FILE_APPEND);
 
 $result = json_decode($response, true);
 
 if ($httpCode !== 200 || !$result) {
     echo json_encode([
         "success" => false,
-        "message" => "Square returned HTTP $httpCode" . ($curlErr ? ": $curlErr" : "") . ". Check /var/www/monkybite/square-debug.log."
+        "message" => "Square returned HTTP $httpCode" . ($curlErr ? ": $curlErr" : "") . ". Check square-debug.log."
     ]);
     exit;
 }
 
-if (!$result) {
-    echo json_encode(["success" => false, "message" => "Invalid JSON from Square. Check /var/www/monkybite/square-debug.log."]);
+if (!isset($result["payment"]["status"]) || $result["payment"]["status"] !== "COMPLETED") {
+    $errorMsg = "Payment failed.";
+    if (isset($result["errors"][0]["detail"])) {
+        $errorMsg = $result["errors"][0]["detail"];
+    }
+    echo json_encode(["success" => false, "message" => $errorMsg]);
     exit;
 }
 
-if (isset($result["payment"]) && isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
+$userid = rawurlencode($email);
+$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users/$userid";
+
+$postFields = http_build_query([
+    "quota" => $quota
+]);
+
+$ch2 = curl_init($endpoint);
+curl_setopt_array($ch2, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_USERPWD => $ADMIN_USER . ':' . $ADMIN_PASS,
+    CURLOPT_CUSTOMREQUEST => 'PUT',
+    CURLOPT_POSTFIELDS => $postFields,
+    CURLOPT_HTTPHEADER => [
+        'OCS-APIRequest: true',
+        'Content-Type: application/x-www-form-urlencoded',
+        'Accept: application/xml'
+    ],
+    CURLOPT_TIMEOUT => 15
+]);
+
+$response2 = curl_exec($ch2);
+$httpCode2 = curl_getinfo($ch2, CURLINFO_HTTP_CODE);
+$curlErr2 = curl_error($ch2);
+curl_close($ch2);
+
+file_put_contents("/var/www/monkybite/nextcloud-debug.log", "HTTP_CODE: $httpCode2\nCURL_ERROR: $curlErr2\nRESPONSE:\n$response2\n\n", FILE_APPEND);
+
+libxml_use_internal_errors(true);
+$xml = simplexml_load_string($response2);
+
+if ($xml === false) {
     echo json_encode([
-        "success" => true,
-        "redirect" => "payment-success.html"
+        "success" => false,
+        "message" => "Payment completed, but Nextcloud update failed. Check nextcloud-debug.log."
     ]);
     exit;
 }
 
-$errorMsg = "Payment failed.";
-if (isset($result["errors"]) && is_array($result["errors"]) && count($result["errors"]) > 0) {
-    $errorMsg = $result["errors"][0]["detail"] ?? $result["errors"][0]["category"] ?? "Payment failed.";
+$statuscode = (string)($xml->meta->statuscode ?? '');
+if ($statuscode !== '100') {
+    $message = (string)($xml->meta->message ?? 'Unknown error');
+    echo json_encode([
+        "success" => false,
+        "message" => "Payment completed, but Nextcloud quota update failed: " . $message
+    ]);
+    exit;
 }
 
 echo json_encode([
-    "success" => false,
-    "message" => $errorMsg
+    "success" => true,
+    "redirect" => "payment-success.html"
 ]);
 ?>
