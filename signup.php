@@ -79,7 +79,7 @@ try {
     $password = (string)($_POST['password'] ?? '');
     $plan = trim($_POST['plan'] ?? 'free');
 
-    if ($username === '' || $email === '' || $password === '') {
+    if ($email === '' || $password === '') {
         throw new Exception('Please fill in username, email, and password.');
     }
 
