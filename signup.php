@@ -74,13 +74,13 @@ try {
     $ncAdminUser = 'admin';
     $ncAdminPass = 'Cu214200@@$';
 
-    $username = trim($_POST['username'] ?? '');
+    
     $email = trim($_POST['email'] ?? '');
     $password = (string)($_POST['password'] ?? '');
     $plan = trim($_POST['plan'] ?? 'free');
 
     if ($email === '' || $password === '') {
-        throw new Exception('Please fill in username, email, and password.');
+        throw new Exception('Please fill in email, and password.');
     }
 
     $group = planToGroup($plan);
@@ -93,9 +93,9 @@ try {
         $ncAdminUser,
         $ncAdminPass,
         [
-            'userid' => $username,
+            'userid' => $email,
             'password' => $password,
-            'displayName' => $username,
+            'displayName' => $email,
             'email' => $email,
             'groups[]' => $group,
             'quota' => $quota,
