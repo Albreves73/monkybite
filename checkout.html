@@ -5,10 +5,10 @@
   <title>MonkyBite — Checkout</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+  <script type="module" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
 </head>
 <body>
 
-<!-- 🔷 Header (same as all pages) -->
 <header>
   <a href="index.html" class="logo">
     <img src="logo.png" alt="MonkyBite Logo" />
@@ -16,7 +16,6 @@
   </a>
 
   <div class="nav-wrapper">
-    <!-- Desktop menu -->
     <nav class="nav-desktop">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
@@ -24,7 +23,6 @@
       <a href="contact.html">CONTACT</a>
     </nav>
 
-    <!-- Mobile menu -->
     <button class="hamburger" id="hamburger-btn">☰</button>
     <nav class="nav-mobile hidden" id="mobile-nav">
       <a href="index.html">HOME</a>
@@ -35,23 +33,19 @@
   </div>
 </header>
 
-<!-- 🔷 Go Back Button -->
 <div class="go-back-wrapper">
-  <a href="javascript:history.back()" class="go-back">Go Back</a>
+  <a href="plans.html" class="go-back">Back to Plans</a>
 </div>
 
-<!-- 🔷 Checkout Section -->
 <main class="checkout-wrapper">
   <h1 class="checkout-title">Complete Your Subscription</h1>
 
   <p id="plan-info">Loading plan...</p>
-  <p id="email-info">Loading email...</p>
 
   <div class="checkout-box">
     <h2>Payment</h2>
     <p>Your subscription will start immediately after payment.</p>
 
-    <!-- 🔷 Square Payment Form -->
     <div id="card-container"></div>
 
     <button id="card-button" class="plan-button" style="margin-top: 20px;">
@@ -62,12 +56,10 @@
   </div>
 </main>
 
-<!-- 🔷 Footer -->
 <footer>
   <p>© 2025 MonkyBite.</p>
 </footer>
 
-<!-- 🔷 Mobile Menu Script -->
 <script>
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileNav = document.getElementById("mobile-nav");
@@ -77,35 +69,25 @@
   });
 </script>
 
-<!-- 🔷 Load plan + email from URL -->
 <script>
   const params = new URLSearchParams(window.location.search);
   const plan = params.get("plan");
-  const email = params.get("email");
 
-  if (!plan || !email) {
+  if (!plan) {
     document.getElementById("plan-info").textContent = "Invalid checkout link.";
-    document.getElementById("email-info").textContent = "";
   } else {
     const formattedPlan = plan.charAt(0).toUpperCase() + plan.slice(1);
     document.getElementById("plan-info").textContent = `Selected Plan: ${formattedPlan}`;
-    document.getElementById("email-info").textContent = `Account Email: ${email}`;
   }
 </script>
 
-<!-- 🔷 Square Web Payments SDK -->
-<script src="https://web.squarecdn.com/v1/square.js"></script>
-
-<!-- 🔷 Square Payment Logic -->
 <script>
   document.addEventListener("DOMContentLoaded", async function () {
     const params = new URLSearchParams(window.location.search);
     const plan = params.get("plan");
-    const email = params.get("email");
 
-    // Square credentials (replace with your real keys)
-    const appId = "sq0idp-JHruqkfGcQdQfmgDQYjnUQ";
-    const locationId = "LTZ1WY5B11Q9Q";
+    const appId = "YOUR_APP_ID";
+    const locationId = "YOUR_LOCATION_ID";
 
     if (!window.Square) {
       document.getElementById("payment-status").textContent =
@@ -122,11 +104,9 @@
       return;
     }
 
-    // Create card form
     const card = await payments.card();
     await card.attach("#card-container");
 
-    // Handle payment
     const cardButton = document.getElementById("card-button");
     cardButton.addEventListener("click", async function () {
       cardButton.disabled = true;
@@ -137,17 +117,14 @@
       try {
         const result = await card.tokenize();
         if (result.status === "OK") {
-          // Send token to backend
-          const response = await fetch("process-payment.php", {
+
+          const response = await fetch("/api/process-payment", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body:
-              "token=" +
-              encodeURIComponent(result.token) +
-              "&email=" +
-              encodeURIComponent(email) +
-              "&plan=" +
-              encodeURIComponent(plan),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token: result.token,
+              plan: plan
+            })
           });
 
           const data = await response.json();
@@ -155,9 +132,9 @@
           if (data.success) {
             status.style.color = "green";
             status.textContent = "Payment successful! Redirecting...";
-            window.location.href = data.redirect;
+            window.location.href = "/payment-success.php?plan=" + plan;
           } else {
-            status.textContent = "Payment failed: " + data.message;
+            status.textContent = "Payment failed.";
             cardButton.disabled = false;
           }
         } else {
