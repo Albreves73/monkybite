@@ -5,8 +5,9 @@
   <title>MonkyBite — Checkout</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-<script type="module" src="https://web.squarecdn.com/v1/square.js"></script>
 
+  <!-- Square Web Payments - PRODUÇÃO -->
+  <script type="module" src="https://web.squarecdn.com/v1/square.js"></script>
 </head>
 <body>
 
@@ -35,7 +36,7 @@
 </header>
 
 <div class="go-back-wrapper">
-  <a href="plans.html" class="go-back">Back to Plans</a>
+  <a href="signup.html" class="go-back">Back to Signup</a>
 </div>
 
 <main class="checkout-wrapper">
@@ -71,8 +72,10 @@
 </script>
 
 <script>
+  // Recebe plano e email do signup.php
   const params = new URLSearchParams(window.location.search);
   const plan = params.get("plan");
+  const email = params.get("email");
 
   if (!plan) {
     document.getElementById("plan-info").textContent = "Invalid checkout link.";
@@ -84,11 +87,14 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", async function () {
+
     const params = new URLSearchParams(window.location.search);
     const plan = params.get("plan");
+    const email = params.get("email");
 
-    const appId = "sq0idp-JHruqkfGcQdQfmgDQYjnUQ";
-    const locationId = "L6WGRARC1KT2R";
+    // 🔥 Coloque aqui seus IDs de PRODUÇÃO
+    const appId = "PRODUCTION_APP_ID_AQUI";
+    const locationId = "PRODUCTION_LOCATION_ID_AQUI";
 
     if (!window.Square) {
       document.getElementById("payment-status").textContent =
@@ -124,7 +130,8 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               token: result.token,
-              plan: plan
+              plan: plan,
+              email: email
             })
           });
 
@@ -133,7 +140,7 @@
           if (data.success) {
             status.style.color = "green";
             status.textContent = "Payment successful! Redirecting...";
-            window.location.href = "/payment-success.php?plan=" + plan;
+            window.location.href = "/payment-success.php?plan=" + plan + "&email=" + encodeURIComponent(email);
           } else {
             status.textContent = "Payment failed.";
             cardButton.disabled = false;
@@ -149,4 +156,8 @@
     });
   });
 </script>
+
+</body>
+</html>
+
 
