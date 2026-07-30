@@ -1,67 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Payment Successful — MonkyBite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
-  <meta http-equiv="refresh" content="3;url=signup.html<?php
-    $plan = isset($_GET['plan']) ? '?plan=' . urlencode($_GET['plan']) : '';
-    echo $plan;
-  ?>">
-</head>
-<body>
+<?php
+// =======================================
+// MonkyBite — PAYMENT SUCCESS HANDLER
+// =======================================
 
-<header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
+// Recebe dados enviados pelo checkout
+$plan  = $_GET['plan'] ?? 'free';
+$email = $_GET['email'] ?? '';
 
-  <div class="nav-wrapper">
-    <nav class="nav-desktop">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
+if (!$email) {
+    die("Missing email.");
+}
 
-    <button class="hamburger" id="hamburger-btn">☰</button>
-    <nav class="nav-mobile hidden" id="mobile-nav">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </div>
-</header>
+// Credenciais do Nextcloud
+$nextcloud_url = "http://localhost/ocs/v1.php/cloud/users";
+$admin_user    = "admin";
+$admin_pass    = "YOUR_ADMIN_PASSWORD";
 
-<main class="checkout-wrapper">
-  <h1 class="checkout-title">Payment Successful!</h1>
+// =======================================
+// 1. Definir quota e grupo baseado no plano
+// =======================================
 
-  <div class="checkout-box">
-    <p>Thank you for your purchase.</p>
-    <p>Your subscription is being activated.</p>
-    <p>You will be redirected to create your MonkyBite account.</p>
+$quota = "5 GB";
+$group = "free";
 
-    <a href="signup.html<?php echo $plan ? $plan : ''; ?>" class="plan-button" style="margin-top: 20px;">
-      Continue to Sign Up
-    </a>
-  </div>
-</main>
+switch ($plan) {
+    case "starter":
+        $quota = "1 TB";
+        $group = "starter";
+        break;
 
-<footer>
-  <p>© 2025 MonkyBite.</p>
-</footer>
+    case "pro":
+        $quota = "2 TB";
+        $group = "pro";
+        break;
 
-<script>
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const mobileNav = document.getElementById("mobile-nav");
+    case "enterprise":
+        $quota = "5 TB";
+        $group = "enterprise";
+        break;
 
-  hamburgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("hidden");
-  });
-</script>
+    case "free":
+    default:
+        $quota = "5 GB";
+        $group = "free";
+        break;
+}
 
-</body>
-</html>
+// =======================================
+// 2. Aplicar quota real no Nextcloud
+// =======================================
+
+$quota_url = $nextcloud_url . "/" . urlencode($email);
+
+$ch = curl_init($quota_url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["quota" => $quota]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$admin_user:$admin_pass");
+curl_setopt($ch, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
+curl_exec($ch);
+curl_close($ch);
+
+// =======================================
+// 3. Adicionar usuário ao grupo correto
+// =======================================
+
+$group_url = "http://localhost/ocs/v1.php/cloud/users/" . urlencode($email) . "/groups";
+
+$ch = curl_init($group_url);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["groupid" => $group]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$admin_user:$admin_pass");
+curl_setopt($ch, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
+curl_exec($ch);
+curl_close($ch);
+
+// =======================================
+// 4. Redirecionar para congratulations
+// =======================================
+
+header("Location: /congratulations.html?plan=" . urlencode($plan));
+exit;
+
+?>
