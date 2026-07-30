@@ -118,7 +118,7 @@
         const result = await card.tokenize();
         if (result.status === "OK") {
 
-          const response = await fetch("/api/process-payment", {
+          const response = await fetch("/process-payment.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -149,5 +149,3 @@
   });
 </script>
 
-</body>
-</html>
