@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+  document.getElementById("plan").value = plan;
+</script>
+
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
