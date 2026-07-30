@@ -2,24 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Redirecting to Sign Up — MonkyBite</title>
+  <title>MonkyBite — Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>
-    // Captura o plano da URL, se houver
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedPlan = urlParams.get("plan");
-
-    // Redireciona para get-started.html com modo=signup e plano (se houver)
-    let redirectURL = "get-started.html?mode=signup";
-    if (selectedPlan) {
-      redirectURL += `&plan=${selectedPlan}`;
-    }
-
-    window.location.replace(redirectURL);
-  </script>
+  <link rel="stylesheet" href="style.css" />
 </head>
+<body>
 
-<!-- 🔷 Header com menu responsivo -->
 <header>
   <a href="index.html" class="logo">
     <img src="logo.png" alt="MonkyBite Logo" />
@@ -27,7 +15,6 @@
   </a>
 
   <div class="nav-wrapper">
-    <!-- Desktop menu -->
     <nav class="nav-desktop">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
@@ -35,7 +22,6 @@
       <a href="contact.html">CONTACT</a>
     </nav>
 
-    <!-- Mobile menu -->
     <button class="hamburger" id="hamburger-btn">☰</button>
     <nav class="nav-mobile hidden" id="mobile-nav">
       <a href="index.html">HOME</a>
@@ -46,22 +32,77 @@
   </div>
 </header>
 
-
 <div class="go-back-wrapper">
-  <a href="javascript:history.back()" class="go-back">Go Back</a>
+  <a href="index.html" class="go-back">Home</a>
 </div>
 
+<main class="checkout-wrapper">
+  <h1 class="checkout-title">Create Your MonkyBite Account</h1>
 
-<body>
-  <p>Redirecting to sign up...</p>
+  <div class="checkout-box">
+    <form id="signup-form" method="POST" action="signup.php">
+      <input type="hidden" name="plan" id="plan-field" />
 
-  <!-- 🔷 Script no final da página -->
+      <label>Email</label>
+      <input type="email" name="email" id="email" required />
+
+      <label>Password</label>
+      <input type="password" name="password" id="password" required />
+
+      <p id="email-status" style="margin-top: 10px; color: red;"></p>
+
+      <button type="submit" class="plan-button" style="margin-top: 20px;">
+        Create Account
+      </button>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 MonkyBite.</p>
+</footer>
+
 <script>
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan") || "free";
+  document.getElementById("plan-field").value = plan;
+
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileNav = document.getElementById("mobile-nav");
 
   hamburgerBtn.addEventListener("click", () => {
     mobileNav.classList.toggle("hidden");
+  });
+
+  const emailInput = document.getElementById("email");
+  const emailStatus = document.getElementById("email-status");
+
+  emailInput.addEventListener("blur", async () => {
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    emailStatus.textContent = "Checking email...";
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+
+      const res = await fetch("check-email.php", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+      if (data.exists) {
+        emailStatus.style.color = "red";
+        emailStatus.textContent = "This email is already registered.";
+      } else {
+        emailStatus.style.color = "green";
+        emailStatus.textContent = "Email available.";
+      }
+    } catch (e) {
+      emailStatus.style.color = "red";
+      emailStatus.textContent = "Could not verify email.";
+    }
   });
 </script>
 
