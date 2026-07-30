@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MonkyBite — Account Created</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
+
+  <div class="nav-wrapper">
+    <nav class="nav-desktop">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <nav class="nav-mobile hidden" id="mobile-nav">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main class="checkout-wrapper">
+  <h1 class="checkout-title">Congratulations!</h1>
+
+  <div class="checkout-box">
+    <p>Your MonkyBite account has been created successfully.</p>
+    <p>You can now log in to your cloud space.</p>
+
+    <a href="https://cloud.monkybite.com" class="plan-button" style="margin-top: 20px;">
+      Go to Cloud Login
+    </a>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 MonkyBite.</p>
+</footer>
+
+<script>
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileNav = document.getElementById("mobile-nav");
+
+  hamburgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("hidden");
+  });
+</script>
+
+</body>
+</html>
