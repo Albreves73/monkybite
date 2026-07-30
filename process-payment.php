@@ -45,8 +45,8 @@ switch ($plan) {
 // 2. Square API (produção)
 // =======================================
 
-$SQUARE_ACCESS_TOKEN = "PRODUCTION_ACCESS_TOKEN_AQUI";  // 🔥 Coloque seu token real
-$SQUARE_LOCATION_ID  = "PRODUCTION_LOCATION_ID_AQUI";   // 🔥 Coloque seu location real
+$SQUARE_ACCESS_TOKEN = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw";  // 🔥 Coloque seu token real
+$SQUARE_LOCATION_ID  = "L6WGRARC1KT2R";   // 🔥 Coloque seu location real
 
 $payload = [
     "idempotency_key" => uniqid(),
