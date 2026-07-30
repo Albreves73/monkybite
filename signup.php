@@ -74,7 +74,6 @@ try {
     $ncAdminUser = 'admin';
     $ncAdminPass = 'Cu214200@@$';
 
-    
     $email = trim($_POST['email'] ?? '');
     $password = (string)($_POST['password'] ?? '');
     $plan = trim($_POST['plan'] ?? 'free');
@@ -110,7 +109,8 @@ try {
         throw new Exception('Failed to create Nextcloud user: ' . ($createRes['response'] ?? ''));
     }
 
-    echo 'Signup completed successfully.';
+    header('Location: congratulations.html');
+    exit;
 } catch (Throwable $e) {
     http_response_code(500);
     echo 'Sign up failed: ' . $e->getMessage();
