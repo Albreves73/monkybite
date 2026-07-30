@@ -1,117 +1,85 @@
 <?php
-declare(strict_types=1);
+// ===============================
+// MonkyBite — SIGNUP BACKEND
+// ===============================
 
-header('Content-Type: text/html; charset=utf-8');
+// Recebe dados do formulário
+$name     = $_POST['name'] ?? '';
+$email    = $_POST['email'] ?? '';
+$password = $_POST['password'] ?? '';
+$plan     = $_POST['plan'] ?? 'free';
 
-function planToGroup(string $plan): string {
-    $map = [
-        'free' => 'Free',
-        'starter' => 'Starter',
-        'pro' => 'Pro',
-        'enterprise' => 'Enterprise',
-    ];
-
-    $key = strtolower(trim($plan));
-    if (!isset($map[$key])) {
-        throw new Exception('Invalid plan.');
-    }
-
-    return $map[$key];
+// Verifica campos obrigatórios
+if (!$name || !$email || !$password) {
+    die("Missing required fields.");
 }
 
-function planToQuota(string $plan): string {
-    $map = [
-        'free' => '2 GB',
-        'starter' => '10 GB',
-        'pro' => '50 GB',
-        'enterprise' => '100 GB',
-    ];
+// ===============================
+// 1. Verificar se o email já existe
+// ===============================
 
-    $key = strtolower(trim($plan));
-    if (!isset($map[$key])) {
-        throw new Exception('Invalid plan.');
-    }
+$nextcloud_url = "http://localhost/ocs/v1.php/cloud/users";
+$admin_user    = "admin";
+$admin_pass    = "YOUR_ADMIN_PASSWORD";
 
-    return $map[$key];
+$check_url = $nextcloud_url . "?search=" . urlencode($email);
+
+$ch = curl_init($check_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$admin_user:$admin_pass");
+curl_setopt($ch, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
+
+$response = curl_exec($ch);
+curl_close($ch);
+
+if (strpos($response, $email) !== false) {
+    die("Email already exists.");
 }
 
-function nextcloudRequest(string $method, string $url, string $user, string $pass, ?array $postFields = null): array {
-    $ch = curl_init($url);
+// ===============================
+// 2. Criar usuário no Nextcloud
+// ===============================
 
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CUSTOMREQUEST => $method,
-        CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
-        CURLOPT_USERPWD => $user . ':' . $pass,
-        CURLOPT_HTTPHEADER => [
-            'OCS-APIRequest: true',
-            'Accept: application/json',
-        ],
-    ]);
+$data = [
+    "userid"   => $email,
+    "password" => $password,
+    "displayName" => $name
+];
 
-    if ($postFields !== null) {
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
-    }
+$ch = curl_init($nextcloud_url);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$admin_user:$admin_pass");
+curl_setopt($ch, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
 
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlErr = curl_error($ch);
-    curl_close($ch);
+$response = curl_exec($ch);
+curl_close($ch);
 
-    return [
-        'http_code' => $httpCode,
-        'response' => $response,
-        'curl_error' => $curlErr,
-    ];
-}
+// ===============================
+// 3. Aplicar plano temporário (free)
+//    O plano real será aplicado após o pagamento
+// ===============================
 
-try {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        throw new Exception('Invalid request method.');
-    }
+$quota = "5 GB"; // plano temporário até pagar
 
-    $ncBaseUrl = 'https://cloud.monkybite.com';
-    $ncAdminUser = 'admin';
-    $ncAdminPass = 'Cu214200@@$';
+$quota_url = "http://localhost/ocs/v1.php/cloud/users/$email";
 
-    $email = trim($_POST['email'] ?? '');
-    $password = (string)($_POST['password'] ?? '');
-    $plan = trim($_POST['plan'] ?? 'free');
+$ch = curl_init($quota_url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(["quota" => $quota]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$admin_user:$admin_pass");
+curl_setopt($ch, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
 
-    if ($email === '' || $password === '') {
-        throw new Exception('Please fill in email, and password.');
-    }
+curl_exec($ch);
+curl_close($ch);
 
-    $group = planToGroup($plan);
-    $quota = planToQuota($plan);
+// ===============================
+// 4. Redirecionar para o checkout
+// ===============================
 
-    $createUserUrl = $ncBaseUrl . '/ocs/v2.php/cloud/users';
-    $createRes = nextcloudRequest(
-        'POST',
-        $createUserUrl,
-        $ncAdminUser,
-        $ncAdminPass,
-        [
-            'userid' => $email,
-            'password' => $password,
-            'displayName' => $email,
-            'email' => $email,
-            'groups[]' => $group,
-            'quota' => $quota,
-        ]
-    );
+header("Location: /checkout.html?plan=" . urlencode($plan) . "&email=" . urlencode($email));
+exit;
 
-    if ($createRes['curl_error']) {
-        throw new Exception('Nextcloud cURL error: ' . $createRes['curl_error']);
-    }
-
-    if ($createRes['http_code'] < 200 || $createRes['http_code'] >= 300) {
-        throw new Exception('Failed to create Nextcloud user: ' . ($createRes['response'] ?? ''));
-    }
-
-    header('Location: congratulations.html');
-    exit;
-} catch (Throwable $e) {
-    http_response_code(500);
-    echo 'Sign up failed: ' . $e->getMessage();
-}
+?>
