@@ -8,9 +8,7 @@
 </head>
 <body>
 
-
-  <!-- 🔷 Header -->
-  <!-- 🔷 Header com menu responsivo -->
+<!-- 🔷 Header -->
 <header>
   <a href="index.html" class="logo">
     <img src="logo.png" alt="MonkyBite Logo" />
@@ -18,7 +16,6 @@
   </a>
 
   <div class="nav-wrapper">
-    <!-- Desktop menu -->
     <nav class="nav-desktop">
       <a href="index.html">HOME</a>
       <a href="login.html">LOGIN</a>
@@ -26,7 +23,6 @@
       <a href="contact.html">CONTACT</a>
     </nav>
 
-    <!-- Mobile menu -->
     <button class="hamburger" id="hamburger-btn">☰</button>
     <nav class="nav-mobile hidden" id="mobile-nav">
       <a href="index.html">HOME</a>
@@ -37,61 +33,61 @@
   </div>
 </header>
 
-
-  <div class="go-back-wrapper">
+<div class="go-back-wrapper">
   <a href="javascript:history.back()" class="go-back">Go Back</a>
 </div>
 
+<!-- 🔷 Plans Section -->
+<section class="plans-container">
+  <div class="plans-header">
+    <h1>Welcome to MonkyBite!</h1>
+    <p>Select your plan to continue:</p>
+  </div>
 
-  <!-- 🔷 Plans Section -->
-  <section class="plans-container">
-    <div class="plans-header">
-      <h1>Welcome to MonkyBite!</h1>
-      <p>Select your plan to continue:</p>
+  <div class="plan-grid">
+
+    <!-- Basic Plan -->
+    <div class="plan-card">
+      <h2>Basic</h2>
+      <h3>Free — 5 GB</h3>
+      <p>Basic storage and collaboration tools. Great for individuals.</p>
+      <a href="signup.html?plan=free" class="plan-button">Choose Free</a>
     </div>
 
-    <div class="plan-grid">
-      <!-- Basic Plan -->
-      <div class="plan-card">
-        <h2>Basic</h2>
-        <h3>Free — 5 GB</h3>
-        <p>Basic storage and collaboration tools. Great for individuals.</p>
-       <a href="signup.html?plan=free" class="plan-button">Choose Free</a>
-      </div>
-
-      <!-- Starter Plan -->
-      <div class="plan-card recommended">
-        <h2>Starter</h2>
-        <span class="badge">Recommended</span>
-        <h3>$4.99/month — 1 TB</h3>
-        <p>Perfect for individuals who need more space without the full Pro features.</p>
+    <!-- Starter Plan -->
+    <div class="plan-card recommended">
+      <h2>Starter</h2>
+      <span class="badge">Recommended</span>
+      <h3>$4.99/month — 1 TB</h3>
+      <p>Perfect for individuals who need more space without the full Pro features.</p>
       <a href="signup.html?plan=starter" class="plan-button">Choose Starter</a>
-      </div>
-
-      <!-- Pro Plan -->
-      <div class="plan-card">
-        <h2>Pro</h2>
-        <h3>$9.99/month — 2 TB</h3>
-        <p>Ideal for professionals who need secure, scalable storage with priority support.</p>
-     <a href="signup.html?plan=pro" class="plan-button">Choose Pro</a>
-      </div>
-
-      <!-- Enterprise Plan -->
-      <div class="plan-card">
-        <h2>Enterprise</h2>
-        <h3>$19.99/month — 5 TB</h3>
-        <p>Built for teams and organizations with advanced needs and dedicated support.</p>
-       <a href="signup.html?plan=enterprise" class="plan-button">Choose Enterprise</a>
-      </div>
     </div>
-  </section>
 
-  <!-- 🔷 Footer -->
-  <footer>
-    <p>© 2025 MonkyBite.</p>
-  </footer>
+    <!-- Pro Plan -->
+    <div class="plan-card">
+      <h2>Pro</h2>
+      <h3>$9.99/month — 2 TB</h3>
+      <p>Ideal for professionals who need secure, scalable storage with priority support.</p>
+      <a href="signup.html?plan=pro" class="plan-button">Choose Pro</a>
+    </div>
 
-  <!-- 🔷 Script no final da página -->
+    <!-- Enterprise Plan -->
+    <div class="plan-card">
+      <h2>Enterprise</h2>
+      <h3>$19.99/month — 5 TB</h3>
+      <p>Built for teams and organizations with advanced needs and dedicated support.</p>
+      <a href="signup.html?plan=enterprise" class="plan-button">Choose Enterprise</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- 🔷 Footer -->
+<footer>
+  <p>© 2025 MonkyBite.</p>
+</footer>
+
+<!-- 🔷 Script no final da página -->
 <script>
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileNav = document.getElementById("mobile-nav");
@@ -101,8 +97,6 @@
   });
 </script>
 
-
 </body>
 </html>
-
 
