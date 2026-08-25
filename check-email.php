@@ -1,52 +1,31 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
 
-$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
-$ADMIN_USER = "admin";
-$ADMIN_PASS = "Cu214200@@$";
+$config = include "config.php";
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['exists' => false]);
-    exit;
+$nextcloud = $config["nextcloud_host"] . "/ocs/v1.php/cloud/users";
+$admin     = $config["admin_user"];
+$pass      = $config["admin_pass"];
+
+$email = $_GET["email"] ?? "";
+
+if (!$email) {
+    die("missing");
 }
 
-$email = trim($_POST['email'] ?? '');
-if ($email === '') {
-    echo json_encode(['exists' => false]);
-    exit;
-}
+$url = $nextcloud . "?search=" . urlencode($email);
 
-$userid = rawurlencode($email);
-$endpoint = rtrim($NEXTCLOUD_BASE_URL, '/') . "/ocs/v1.php/cloud/users/$userid";
-
-$ch = curl_init($endpoint);
-curl_setopt_array($ch, [
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_USERPWD => $ADMIN_USER . ':' . $ADMIN_PASS,
-    CURLOPT_HTTPHEADER => [
-        'OCS-APIRequest: true',
-        'Accept: application/xml'
-    ],
-    CURLOPT_TIMEOUT => 10
-]);
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_USERPWD, "$admin:$pass");
+curl_setopt($ch, CURLOPT_HTTPHEADER, ["OCS-APIRequest: true"]);
 
 $response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-if ($response === false || $httpCode >= 400) {
-    echo json_encode(['exists' => false]);
-    exit;
+if (strpos($response, $email) !== false) {
+    echo "exists";
+} else {
+    echo "ok";
 }
 
-libxml_use_internal_errors(true);
-$xml = simplexml_load_string($response);
-
-if ($xml === false) {
-    echo json_encode(['exists' => false]);
-    exit;
-}
-
-$statuscode = (string)($xml->meta->statuscode ?? '');
-echo json_encode(['exists' => $statuscode === '100']);
 ?>
