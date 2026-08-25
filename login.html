@@ -1,141 +1,70 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login — MonkyBite</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .login-container {
-      background: white;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
-      margin: 60px auto;
-    }
+<meta charset="UTF-8">
+<title>MonkyBite — Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    .login-container h2 {
-      margin-bottom: 20px;
-      text-align: center;
-      color: #1a2a4f;
-    }
+<style>
+body {
+    background: #f5f6fa;
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 100%;
+    max-width: 420px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background: #43a047;
+}
+</style>
 
-    .login-container button,
-    .login-container input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    .social-login {
-      background-color: #4285F4;
-      color: white;
-      border: none;
-    }
-
-    .apple-login {
-      background-color: black;
-      color: white;
-      border: none;
-    }
-
-    .email-login {
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-    }
-
-    .email-login:hover {
-      background-color: #0049c6;
-    }
-
-    .signup-link {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.95rem;
-    }
-
-    .signup-link a {
-      color: #1a73e8;
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
 
+<div class="container">
+    <h2>Login</h2>
 
-  <!-- ✅ Navegação padronizada -->
-  <!-- 🔷 Header com menu responsivo -->
-<header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
+    <form action="https://cloud.monkybite.com/login" method="POST">
+        <input type="text" name="user" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
 
-  <div class="nav-wrapper">
-    <!-- Desktop menu -->
-    <nav class="nav-desktop">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-
-    <!-- Mobile menu -->
-    <button class="hamburger" id="hamburger-btn">☰</button>
-    <nav class="nav-mobile hidden" id="mobile-nav">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </div>
-</header>
-
-<div class="go-back-wrapper">
-  <a href="javascript:history.back()" class="go-back">Go Back</a>
-</div>
-
-
-  <!-- ✅ Conteúdo principal -->
-  <div class="login-container">
-    <h2>Login to MonkyBite</h2>
-    <button class="social-login">Continue with Google</button>
-    <button class="apple-login">Continue with Apple</button>
-    <hr />
-    <form>
-      <input type="email" placeholder="Email" required />
-      <input type="password" placeholder="Password" required />
-      <button class="email-login" type="submit">Login</button>
+        <button type="submit">Login</button>
     </form>
-    <div class="signup-link">
-      <p>New to MonkyBite? <a href="get-started.html">Create an account</a></p>
-    </div>
-  </div>
 
-  <!-- ✅ Rodapé -->
-  <footer>
-    <p>© 2025 MonkyBite</p>
-  </footer>
-
-  <!-- 🔷 Script no final da página -->
-<script>
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const mobileNav = document.getElementById("mobile-nav");
-
-  hamburgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("hidden");
-  });
-</script>
-
+    <button onclick="window.location.href='reset-password.html'" style="margin-top:15px;background:#777;">
+        Forgot Password?
+    </button>
+</div>
 
 </body>
 </html>
-
 
