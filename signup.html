@@ -1,163 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>MonkyBite — Sign Up</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>MonkyBite — Create Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="styles.css">
 
-  <style>
-    .signup-container {
-      background: white;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 450px;
-      margin: 60px auto;
-    }
+<style>
+body {
+    background: #f5f6fa;
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 100%;
+    max-width: 420px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.08);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+input, select {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+button:hover {
+    background: #43a047;
+}
+#error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+</style>
 
-    .signup-container h2 {
-      margin-bottom: 20px;
-      text-align: center;
-      color: #1a2a4f;
-    }
-
-    .signup-container input,
-    .signup-container button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-
-    .signup-button {
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-    }
-
-    .signup-button:hover {
-      background-color: #0049c6;
-    }
-
-    .agree-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .error-text {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: -5px;
-    }
-  </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="logo">
-    <img src="logo.png" alt="MonkyBite Logo" />
-    <span class="brand-name">MonkyBite</span>
-  </a>
+<div class="container">
+    <h2>Create your MonkyBite account</h2>
 
-  <div class="nav-wrapper">
-    <nav class="nav-desktop">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
+    <form id="signupForm" method="POST" action="signup.php">
 
-    <button class="hamburger" id="hamburger-btn">☰</button>
-    <nav class="nav-mobile hidden" id="mobile-nav">
-      <a href="index.html">HOME</a>
-      <a href="login.html">LOGIN</a>
-      <a href="plans.html">SIGN UP</a>
-      <a href="contact.html">CONTACT</a>
-    </nav>
-  </div>
-</header>
+        <input type="text" name="name" placeholder="Full Name" required>
 
-<div class="go-back-wrapper">
-  <a href="javascript:history.back()" class="go-back">Go Back</a>
+        <input type="email" name="email" id="email" placeholder="Email" required>
+
+        <input type="password" name="password" placeholder="Password" required>
+
+        <select name="plan">
+            <option value="free">Free — 5GB</option>
+            <option value="starter">Starter — 1TB</option>
+            <option value="pro">Pro — 2TB</option>
+            <option value="enterprise">Enterprise — 5TB</option>
+        </select>
+
+        <button type="submit">Continue</button>
+
+        <div id="error"></div>
+    </form>
 </div>
-
-<div class="signup-container">
-  <h2>Create Your MonkyBite Account</h2>
-
-  <form id="signup-form" method="POST" action="signup.php">
-
-    <input type="hidden" name="plan" id="plan-field" />
-
-    <input type="text" name="first_name" placeholder="First Name" required />
-    <input type="text" name="last_name" placeholder="Last Name" required />
-
-    <input type="email" name="email" id="email" placeholder="Email" required />
-    <input type="email" name="confirm_email" id="confirm_email" placeholder="Confirm Email" required />
-    <p id="email-error" class="error-text"></p>
-
-    <input type="password" name="password" id="password" placeholder="Password" required />
-    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" required />
-    <p id="password-error" class="error-text"></p>
-
-    <div class="agree-box">
-      <input type="checkbox" id="agree" required />
-      <label for="agree">I agree to the Terms & Conditions</label>
-    </div>
-
-    <button type="submit" class="signup-button">Sign Up</button>
-  </form>
-</div>
-
-<footer>
-  <p>© 2025 MonkyBite</p>
-</footer>
 
 <script>
-  const params = new URLSearchParams(window.location.search);
-  const plan = params.get("plan") || "free";
-  document.getElementById("plan-field").value = plan;
+// ===============================
+// CHECK IF EMAIL EXISTS
+// ===============================
+document.getElementById("email").addEventListener("blur", function() {
+    let email = this.value;
 
-  const hamburgerBtn = document.getElementById("hamburger-btn");
-  const mobileNav = document.getElementById("mobile-nav");
+    if (!email.includes("@")) return;
 
-  hamburgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("hidden");
-  });
-
-  const form = document.getElementById("signup-form");
-  form.addEventListener("submit", (e) => {
-    const email = document.getElementById("email").value.trim();
-    const confirmEmail = document.getElementById("confirm_email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const confirmPassword = document.getElementById("confirm_password").value.trim();
-
-    let valid = true;
-
-    if (email !== confirmEmail) {
-      document.getElementById("email-error").textContent = "Emails do not match.";
-      valid = false;
-    } else {
-      document.getElementById("email-error").textContent = "";
-    }
-
-    if (password !== confirmPassword) {
-      document.getElementById("password-error").textContent = "Passwords do not match.";
-      valid = false;
-    } else {
-      document.getElementById("password-error").textContent = "";
-    }
-
-    if (!valid) {
-      e.preventDefault();
-    }
-  });
+    fetch("check-email.php?email=" + encodeURIComponent(email))
+        .then(r => r.text())
+        .then(t => {
+            if (t === "exists") {
+                document.getElementById("error").innerText = "Email already exists.";
+            } else {
+                document.getElementById("error").innerText = "";
+            }
+        });
+});
 </script>
 
 </body>
 </html>
+
