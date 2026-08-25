@@ -109,12 +109,20 @@
 
     <input type="email" name="email" id="email" placeholder="Email" required />
 
-    <input type="password" name="password" placeholder="Password" required />
+   <input type="password" name="password" placeholder="Password" required />
 
-    <!-- Hidden plan (comes from plans.html) -->
-    <input type="hidden" name="plan" id="plan">
+<!-- Agreement box BELOW the password field -->
+<div class="agreement-box">
+  By creating an account, you agree to our  
+  <a href="terms.html">Terms of Service</a> and  
+  <a href="privacy.html">Privacy Policy</a>.
+</div>
 
-    <button class="email-signup" type="submit">Create Account</button>
+<!-- Hidden plan (comes from plans.html) -->
+<input type="hidden" name="plan" id="plan">
+
+<button class="email-signup" type="submit">Create Account</button>
+
 
     <div id="error"></div>
   </form>
