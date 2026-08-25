@@ -751,6 +751,22 @@ footer p {
     box-sizing: border-box;
   }
 
+  .agreement-box {
+  background: #f8f9fc;
+  border: 1px solid #dce1ef;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin: 15px 0;
+  color: #333;
+}
+
+.agreement-box a {
+  color: #1a73e8;
+  text-decoration: underline;
+}
+
+
 }
 
 
