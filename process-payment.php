@@ -1,9 +1,8 @@
 <?php
 // =======================================
-// MonkyBite — PROCESS PAYMENT (Square)
+// MonkyBite — PROCESS PAYMENT (FINAL)
 // =======================================
 
-// Recebe JSON do checkout
 $data = json_decode(file_get_contents("php://input"), true);
 
 $token = $data["token"] ?? null;
@@ -16,37 +15,28 @@ if (!$token || !$plan || !$email) {
 }
 
 // =======================================
-// 1. Definir valor baseado no plano
-// Valores em centavos (Square usa integer)
+// 1. Valores dos planos
 // =======================================
 
-$amount = 0;
+$amounts = [
+    "starter"    => 499,
+    "pro"        => 999,
+    "enterprise" => 1999
+];
 
-switch ($plan) {
-    case "starter":
-        $amount = 499;   // $4.99
-        break;
-
-    case "pro":
-        $amount = 999;   // $9.99
-        break;
-
-    case "enterprise":
-        $amount = 1999;  // $19.99
-        break;
-
-    case "free":
-    default:
-        echo json_encode(["success" => false, "error" => "Free plan has no payment"]);
-        exit;
+if (!isset($amounts[$plan])) {
+    echo json_encode(["success" => false, "error" => "Invalid plan"]);
+    exit;
 }
 
+$amount = $amounts[$plan];
+
 // =======================================
-// 2. Square API (produção)
+// 2. Square API
 // =======================================
 
-$SQUARE_ACCESS_TOKEN = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw";  // 🔥 Coloque seu token real
-$SQUARE_LOCATION_ID  = "L6WGRARC1KT2R";   // 🔥 Coloque seu location real
+$SQUARE_ACCESS_TOKEN = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw";
+$SQUARE_LOCATION_ID  = "L6WGRARC1KT2R";
 
 $payload = [
     "idempotency_key" => uniqid(),
@@ -74,19 +64,20 @@ curl_close($ch);
 $result = json_decode($response, true);
 
 // =======================================
-// 3. Verificar se o pagamento foi aprovado
+// 3. Verificar pagamento
 // =======================================
 
 if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
     echo json_encode(["success" => true]);
     exit;
-} else {
-    echo json_encode([
-        "success" => false,
-        "error" => $result["errors"][0]["detail"] ?? "Payment failed"
-    ]);
-    exit;
 }
 
+echo json_encode([
+    "success" => false,
+    "error" => $result["errors"][0]["detail"] ?? "Payment failed"
+]);
+exit;
+
 ?>
+
 
