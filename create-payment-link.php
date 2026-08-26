@@ -19,7 +19,7 @@ $amount = $prices[$plan];
 $payload = [
     "idempotency_key" => uniqid(),
     "order" => [
-        "location_id" => $config["square_location_id"],
+        "location_id" => $config["LTZ1WY5B11Q9Q"],
         "line_items" => [
             [
                 "name" => strtoupper($plan) . " PLAN",
@@ -42,7 +42,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Content-Type: application/json",
-    "Authorization: Bearer " . $config["square_access_token"]
+    "Authorization: Bearer " . $config["EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"]
 ]);
 
 $response = json_decode(curl_exec($ch), true);
