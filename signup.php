@@ -1,34 +1,29 @@
 <?php
-// =======================================
-// MonkyBite — SIGNUP (FINAL)
-// =======================================
+session_start();
 
-$config = include "config.php";
+$name = $_POST["name"];
+$email = $_POST["email"];
+$password = $_POST["password"];
+$plan = $_POST["plan"];
 
-$name     = $_POST['name'] ?? '';
-$email    = $_POST['email'] ?? '';
-$password = $_POST['password'] ?? '';
-$plan     = $_POST['plan'] ?? 'free';
+$_SESSION["pending_user"] = [
+    "name" => $name,
+    "email" => $email,
+    "password" => $password,
+    "plan" => $plan
+];
 
-if (!$name || !$email || !$password) {
-    die("Missing required fields.");
-}
+$ch = curl_init("https://monkybite.com/create-payment-link.php");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+    "plan" => $plan,
+    "email" => $email
+]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-// =======================================
-// 1. Verificar se email já existe (via check-email.php)
-// =======================================
+$checkoutUrl = curl_exec($ch);
+curl_close($ch);
 
-$check = file_get_contents("check-email.php?email=" . urlencode($email));
-
-if ($check === "exists") {
-    die("Email already exists.");
-}
-
-// =======================================
-// 2. Redirecionar para checkout
-// =======================================
-
-header("Location: /checkout.html?plan=" . urlencode($plan) . "&email=" . urlencode($email) . "&name=" . urlencode($name));
-exit;
-
+header("Location: " . $checkoutUrl);
+exit();
 ?>
