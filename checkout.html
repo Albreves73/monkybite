@@ -77,7 +77,7 @@ document.getElementById("planText").innerText = "Selected plan: " + plan.toUpper
 // ===============================
 
 async function startSquare() {
-    const payments = Square.payments("REPLACE_WITH_SQUARE_APP_ID", "L6WGRARC1KT2R");
+    const payments = Square.payments("sq0idp-JHruqkfGcQdQfmgDQYjnUQ", "LTZ1WY5B11Q9Q");
 
     const card = await payments.card();
     await card.attach("#card-container");
