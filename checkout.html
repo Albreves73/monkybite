@@ -1,119 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MonkyBite — Checkout</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — MonkyBite</title>
+  <link rel="stylesheet" href="style.css" />
 
-<script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+  <style>
+    .checkout-container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+      margin: 60px auto;
+    }
 
-<style>
-body {
-    background: #f5f6fa;
-    font-family: Arial, sans-serif;
-}
-.container {
-    width: 100%;
-    max-width: 420px;
-    margin: 60px auto;
-    background: #fff;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.08);
-}
-h2 {
-    text-align: center;
-    margin-bottom: 25px;
-}
-#card-container {
-    margin-top: 20px;
-}
-button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 20px;
-    background: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-}
-button:hover {
-    background: #43a047;
-}
-#error {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-}
-</style>
+    .checkout-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #1a2a4f;
+    }
 
+    #card-container {
+      margin-top: 20px;
+    }
+
+    #payButton {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #payButton:hover {
+      background-color: #0049c6;
+    }
+
+    #error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+
+  <!-- Square SDK -->
+  <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
 </head>
 <body>
 
-<div class="container">
-    <h2>Complete your payment</h2>
+<!-- 🔷 Header -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="MonkyBite Logo" />
+    <span class="brand-name">MonkyBite</span>
+  </a>
 
-    <p id="planText"></p>
+  <div class="nav-wrapper">
+    <nav class="nav-desktop">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
 
-    <div id="card-container"></div>
-    <button id="payButton">Pay Now</button>
+    <button class="hamburger" id="hamburger-btn">☰</button>
+    <nav class="nav-mobile hidden" id="mobile-nav">
+      <a href="index.html">HOME</a>
+      <a href="login.html">LOGIN</a>
+      <a href="plans.html">SIGN UP</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+  </div>
+</header>
 
-    <div id="error"></div>
+<div class="go-back-wrapper">
+  <a href="javascript:history.back()" class="go-back">Go Back</a>
 </div>
 
+<!-- 🔷 Checkout -->
+<div class="checkout-container">
+  <h2>Complete Your Payment</h2>
+
+  <p id="planText"></p>
+
+  <div id="card-container"></div>
+  <button id="payButton">Pay Now</button>
+
+  <div id="error"></div>
+</div>
+
+<!-- 🔷 Footer -->
+<footer>
+  <p>© 2025 MonkyBite</p>
+</footer>
+
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const plan  = urlParams.get("plan");
-const email = urlParams.get("email");
-const name  = urlParams.get("name");
-const passw = urlParams.get("password");
+  // Mobile menu
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const mobileNav = document.getElementById("mobile-nav");
+  hamburgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("hidden");
+  });
 
-document.getElementById("planText").innerText = "Selected plan: " + plan.toUpperCase();
+  // Get URL params
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get("plan");
+  const email = params.get("email");
+  const name = params.get("name");
+  const password = params.get("password");
 
-// ===============================
-// Square Payment
-// ===============================
+  document.getElementById("planText").innerText = "Selected plan: " + plan.toUpperCase();
 
-async function startSquare() {
-    const payments = Square.payments("sq0idp-JHruqkfGcQdQfmgDQYjnUQ", "LTZ1WY5B11Q9Q");
+  // Square Payment
+  async function startSquare() {
+    const payments = Square.payments(
+      "sq0idp-JHruqkfGcQdQfmgDQYjnUQ",
+      "LTZ1WY5B11Q9Q"
+    );
 
     const card = await payments.card();
     await card.attach("#card-container");
 
     document.getElementById("payButton").addEventListener("click", async () => {
-        const result = await card.tokenize();
+      const result = await card.tokenize();
 
-        if (result.status === "OK") {
-            fetch("process-payment.php", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({
-                    token: result.token,
-                    plan: plan,
-                    email: email
-                })
-            })
-            .then(r => r.json())
-            .then(r => {
-                if (r.success) {
-                    window.location.href =
-                        "payment-success.php?plan=" + encodeURIComponent(plan) +
-                        "&email=" + encodeURIComponent(email) +
-                        "&name=" + encodeURIComponent(name) +
-                        "&password=" + encodeURIComponent(passw);
-                } else {
-                    document.getElementById("error").innerText = r.error;
-                }
-            });
-        }
+      if (result.status === "OK") {
+        fetch("process-payment.php", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            token: result.token,
+            plan: plan,
+            email: email
+          })
+        })
+        .then(r => r.json())
+        .then(r => {
+          if (r.success) {
+            window.location.href =
+              "payment-success.php?plan=" + encodeURIComponent(plan) +
+              "&email=" + encodeURIComponent(email) +
+              "&name=" + encodeURIComponent(name) +
+              "&password=" + encodeURIComponent(password);
+          } else {
+            document.getElementById("error").innerText = r.error;
+          }
+        });
+      }
     });
-}
+  }
 
-startSquare();
+  startSquare();
 </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
 
