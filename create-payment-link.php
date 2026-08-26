@@ -1,86 +1,53 @@
 <?php
-require 'square-config.php';
 
-// ===============================
-//  CONEXÃO COM O BANCO
-// ===============================
-$pdo = new PDO("mysql:host=localhost;dbname=monkybite;charset=utf8", "root", "");
+$config = include "config.php";
 
-// ===============================
-//  RECEBE user_id
-// ===============================
-$userId = intval($_GET['user_id'] ?? 0);
-if ($userId <= 0) {
-    die("Invalid user ID");
-}
+$plan = $_POST["plan"];
+$email = $_POST["email"];
 
-// ===============================
-//  BUSCA USUÁRIO NO BANCO
-// ===============================
-$stmt = $pdo->prepare("SELECT email, plan FROM users WHERE id = ?");
-$stmt->execute([$userId]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+// Define price based on plan
+$prices = [
+    "free" => 0,
+    "starter" => 499,
+    "pro" => 999,
+    "enterprise" => 1999
+];
 
-if (!$user) {
-    die("User not found");
-}
+$amount = $prices[$plan];
 
-$email = $user['email'];
-$plan  = $user['plan'];
-
-// Preço em centavos (vem do square-config.php)
-$amount = $PLAN_PRICES[$plan] ?? 0;
-
-// ===============================
-//  MONTA PAYLOAD DO PAYMENT LINK
-// ===============================
-$body = [
-    "idempotency_key" => uniqid("mb_", true),
-    "quick_pay" => [
-        "name"        => "MonkyBite " . ucfirst($plan) . " Plan",
-        "price_money" => [
-            "amount"   => $amount,
-            "currency" => "USD"
-        ],
-        "location_id" => $SQUARE_LOCATION_ID
+// Square API payload
+$payload = [
+    "idempotency_key" => uniqid(),
+    "order" => [
+        "location_id" => $config["square_location_id"],
+        "line_items" => [
+            [
+                "name" => strtoupper($plan) . " PLAN",
+                "quantity" => "1",
+                "base_price_money" => [
+                    "amount" => $amount,
+                    "currency" => "USD"
+                ]
+            ]
+        ]
     ],
     "checkout_options" => [
         "redirect_url" => "https://monkybite.com/payment-success.php"
-    ],
-    "reference_id" => (string)$userId
+    ]
 ];
 
-// ===============================
-//  ENVIA PARA A API DA SQUARE
-// ===============================
-$ch = curl_init("https://connect.squareup.com/v2/online-checkout/payment-links");
+$ch = curl_init("https://connect.squareup.com/v2/checkout");
 curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Square-Version: 2023-08-16",
-    "Authorization: Bearer $SQUARE_ACCESS_TOKEN",
-    "Content-Type: application/json"
+    "Content-Type: application/json",
+    "Authorization: Bearer " . $config["square_access_token"]
 ]);
 
-$response = curl_exec($ch);
+$response = json_decode(curl_exec($ch), true);
 curl_close($ch);
 
-$result = json_decode($response, true);
-
-// ===============================
-//  REDIRECIONA PARA O LINK DE PAGAMENTO
-// ===============================
-if (isset($result["payment_link"]["url"])) {
-    header("Location: " . $result["payment_link"]["url"]);
-    exit;
-}
-
-// ===============================
-//  SE DER ERRO, MOSTRA O RETORNO
-// ===============================
-echo "Erro ao criar Payment Link:<br><br>";
-echo "<pre>";
-print_r($result);
-echo "</pre>";
+// Return checkout URL
+echo $response["checkout"]["checkout_page_url"];
 ?>
