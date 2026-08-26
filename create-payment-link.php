@@ -1,11 +1,13 @@
 <?php
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 $config = include "config.php";
 
 $plan = $_POST["plan"];
 $email = $_POST["email"];
 
-// Define price based on plan
 $prices = [
     "free" => 0,
     "starter" => 499,
@@ -15,11 +17,10 @@ $prices = [
 
 $amount = $prices[$plan];
 
-// Square API payload
 $payload = [
     "idempotency_key" => uniqid(),
     "order" => [
-        "location_id" => $config["LTZ1WY5B11Q9Q"],
+        "location_id" => $config["square_location_id"],
         "line_items" => [
             [
                 "name" => strtoupper($plan) . " PLAN",
@@ -30,24 +31,20 @@ $payload = [
                 ]
             ]
         ]
-    ],
-    "checkout_options" => [
-        "redirect_url" => "https://monkybite.com/payment-success.php"
     ]
 ];
 
-$ch = curl_init("https://connect.squareup.com/v2/checkout");
+$ch = curl_init("https://connect.squareup.com/v2/online-checkout/payment-links");
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Content-Type: application/json",
-    "Authorization: Bearer " . $config["EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw"]
+    "Authorization: Bearer " . $config["square_access_token"]
 ]);
 
 $response = json_decode(curl_exec($ch), true);
 curl_close($ch);
 
-// Return checkout URL
-echo $response["checkout"]["checkout_page_url"];
+echo $response["payment_link"]["url"];
 ?>
