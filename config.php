@@ -15,7 +15,13 @@ return [
     // SQUARE CONFIGURATION
     // ============================================
 
+    // 🔥 OBRIGATÓRIO para Apple Pay, Google Pay e Cartão
+    "square_application_id" => "sq0idp-JHruqkfGcQdQfmgDQYjnUQ",
+
+    // 🔥 Token de produção (já está certo)
     "square_access_token" => "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw",
+
+    // 🔥 Location ID de produção (já está certo)
     "square_location_id" => "LTZ1WY5B11Q9Q",
 
     // ============================================
