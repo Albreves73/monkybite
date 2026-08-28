@@ -7,9 +7,12 @@ $config = include "config.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$token = $data["token"] ?? null;
-$plan  = $data["plan"] ?? null;
-$email = $data["email"] ?? null;
+$token    = $data["token"]    ?? null;
+$plan     = $data["plan"]     ?? null;
+$email    = $data["email"]    ?? null;
+$name     = $data["name"]     ?? null;
+$password = $data["password"] ?? null;
+$method   = $data["method"]   ?? "card";
 
 if (!$token || !$plan || !$email) {
     echo json_encode(["success" => false, "error" => "Missing fields"]);
@@ -35,9 +38,9 @@ $payload = [
         "amount" => $amount,
         "currency" => "USD"
     ],
-    "source_id" => $token,
-    "location_id" => $config["square_location_id"], // LTZ1WY5B11Q9Q
-    "note" => "MonkyBite subscription for $email ($plan)"
+    "source_id"   => $token,
+    "location_id" => $config["square_location_id"],
+    "note"        => "MonkyBite subscription for $email ($plan) via $method"
 ];
 
 $ch = curl_init("https://connect.squareup.com/v2/payments");
@@ -55,6 +58,14 @@ curl_close($ch);
 $result = json_decode($response, true);
 
 if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
+
+    // Aqui entra a parte de criar usuário no Nextcloud:
+    // - usar $name, $email, $password, $plan
+    // - chamar API do Nextcloud (provisioning API)
+    // - colocar no grupo do plano
+    // - definir quota
+    // Por enquanto, só retornamos sucesso.
+
     echo json_encode(["success" => true]);
     exit;
 }
@@ -64,6 +75,3 @@ echo json_encode([
     "error" => $result["errors"][0]["detail"] ?? "Payment failed"
 ]);
 exit;
-
-?>
-
