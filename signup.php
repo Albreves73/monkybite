@@ -13,17 +13,6 @@ $_SESSION["pending_user"] = [
     "plan" => $plan
 ];
 
-$ch = curl_init("https://monkybite.com/create-payment-link.php");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-    "plan" => $plan,
-    "email" => $email
-]));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$checkoutUrl = curl_exec($ch);
-curl_close($ch);
-
-header("Location: " . $checkoutUrl);
+header("Location: checkout.php?plan=$plan&email=$email&name=$name&password=$password");
 exit();
 ?>
