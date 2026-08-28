@@ -1,7 +1,9 @@
 <?php
-// =======================================
-// MonkyBite — PROCESS PAYMENT (FINAL)
-// =======================================
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+$config = include "config.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -13,10 +15,6 @@ if (!$token || !$plan || !$email) {
     echo json_encode(["success" => false, "error" => "Missing fields"]);
     exit;
 }
-
-// =======================================
-// 1. Valores dos planos
-// =======================================
 
 $amounts = [
     "starter"    => 499,
@@ -31,13 +29,6 @@ if (!isset($amounts[$plan])) {
 
 $amount = $amounts[$plan];
 
-// =======================================
-// 2. Square API
-// =======================================
-
-$SQUARE_ACCESS_TOKEN = "EAAAlz_CU24QwkuDeXtJQQ6zg1qRviQZ2ESc7kLDmm1hHP3hPCOrC9qEp2TL4pYw";
-$SQUARE_LOCATION_ID  = "L6WGRARC1KT2R";
-
 $payload = [
     "idempotency_key" => uniqid(),
     "amount_money" => [
@@ -45,7 +36,7 @@ $payload = [
         "currency" => "USD"
     ],
     "source_id" => $token,
-    "location_id" => $SQUARE_LOCATION_ID,
+    "location_id" => $config["square_location_id"], // LTZ1WY5B11Q9Q
     "note" => "MonkyBite subscription for $email ($plan)"
 ];
 
@@ -55,17 +46,13 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Content-Type: application/json",
-    "Authorization: Bearer $SQUARE_ACCESS_TOKEN"
+    "Authorization: Bearer " . $config["square_access_token"]
 ]);
 
 $response = curl_exec($ch);
 curl_close($ch);
 
 $result = json_decode($response, true);
-
-// =======================================
-// 3. Verificar pagamento
-// =======================================
 
 if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
     echo json_encode(["success" => true]);
@@ -79,5 +66,4 @@ echo json_encode([
 exit;
 
 ?>
-
 
