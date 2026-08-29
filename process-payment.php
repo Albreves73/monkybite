@@ -19,6 +19,10 @@ if (!$token || !$plan || !$email) {
     exit;
 }
 
+// =======================================
+// PLANOS E VALORES
+// =======================================
+
 $amounts = [
     "starter"    => 499,
     "pro"        => 999,
@@ -32,10 +36,31 @@ if (!isset($amounts[$plan])) {
 
 $amount = $amounts[$plan];
 
+// =======================================
+// PAGAMENTO VIA PAYPAL
+// =======================================
+
+if ($method === "paypal") {
+
+    // Aqui você pode validar com Webhook do PayPal futuramente.
+    // Por enquanto, consideramos aprovado.
+
+    // Aqui é onde você vai criar o usuário no Nextcloud depois.
+    // Exemplo:
+    // create_nextcloud_user($name, $email, $password, $plan);
+
+    echo json_encode(["success" => true]);
+    exit;
+}
+
+// =======================================
+// PAGAMENTO VIA SQUARE (cartão / apple / google)
+// =======================================
+
 $payload = [
     "idempotency_key" => uniqid(),
     "amount_money" => [
-        "amount" => $amount,
+        "amount"   => $amount,
         "currency" => "USD"
     ],
     "source_id"   => $token,
@@ -57,21 +82,28 @@ curl_close($ch);
 
 $result = json_decode($response, true);
 
+// =======================================
+// VERIFICAR PAGAMENTO SQUARE
+// =======================================
+
 if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COMPLETED") {
 
-    // Aqui entra a parte de criar usuário no Nextcloud:
-    // - usar $name, $email, $password, $plan
-    // - chamar API do Nextcloud (provisioning API)
-    // - colocar no grupo do plano
-    // - definir quota
-    // Por enquanto, só retornamos sucesso.
+    // Aqui você vai criar o usuário no Nextcloud depois.
+    // Exemplo:
+    // create_nextcloud_user($name, $email, $password, $plan);
 
     echo json_encode(["success" => true]);
     exit;
 }
+
+// =======================================
+// ERRO NO PAGAMENTO
+// =======================================
 
 echo json_encode([
     "success" => false,
     "error" => $result["errors"][0]["detail"] ?? "Payment failed"
 ]);
 exit;
+
+?>
