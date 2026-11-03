@@ -1,21 +1,52 @@
-<?php
-session_start();
+<div class="login-container">
+  <h2>Create Your MonkyBite Account</h2>
 
-// Coleta os dados enviados pelo formulário
-$name     = $_POST["name"]     ?? "";
-$email    = $_POST["email"]    ?? "";
-$password = $_POST["password"] ?? "";
-$plan     = $_POST["plan"]     ?? "starter";
+  <button class="social-login">
+    Continue with Google
+  </button>
 
-// Guarda temporariamente na sessão (opcional)
-$_SESSION["pending_user"] = [
-    "name"     => $name,
-    "email"    => $email,
-    "password" => $password,
-    "plan"     => $plan
-];
+  <button class="apple-login">
+    Continue with Apple
+  </button>
 
-// Redireciona para o checkout 100% MonkyBite
-header("Location: checkout.php?plan=$plan&email=$email&name=$name&password=$password");
-exit();
-?>
+  <hr />
+
+  <form action="payment.html">
+
+    <input type="text"
+           placeholder="First Name"
+           required>
+
+    <input type="text"
+           placeholder="Last Name"
+           required>
+
+    <input type="email"
+           placeholder="Email"
+           required>
+
+    <input type="password"
+           placeholder="Create Password"
+           required>
+
+    <input type="password"
+           placeholder="Confirm Password"
+           required>
+
+    <label style="display:block; margin:15px 0;">
+      <input type="checkbox" required>
+      I agree to the Terms and Privacy Policy
+    </label>
+
+    <button class="email-login" type="submit">
+      Sign Up
+    </button>
+
+  </form>
+
+  <div class="signup-link">
+    Already have an account?
+    <a href="login.html">Login</a>
+  </div>
+</div>
+
