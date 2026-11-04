@@ -11,9 +11,11 @@ $email = $user["email"];
 $password = $user["password"];
 $plan = $user["plan"];
 
-$NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
-$ADMIN_USER = "admin";
-$ADMIN_PASS = "Cu214200@@$";
+$config = include "config.php";
+
+$NEXTCLOUD_BASE_URL = $config["nextcloud_host"];
+$ADMIN_USER = $config["admin_user"];
+$ADMIN_PASS = $config["admin_pass"];
 
 $displayName = $name;
 
