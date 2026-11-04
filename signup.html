@@ -12,6 +12,8 @@
   <hr />
 
   <form action="checkout.php" method="GET">
+    
+  <input type="hidden" name="plan" id="plan">
 
     <input
   type="text"
@@ -53,6 +55,15 @@
     </button>
 
   </form>
+
+  <script>
+const params = new URLSearchParams(window.location.search);
+const plan = params.get("plan");
+
+if (plan) {
+  document.getElementById("plan").value = plan;
+}
+</script>
 
   <div class="signup-link">
     Already have an account?
