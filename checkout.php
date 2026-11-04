@@ -3,7 +3,9 @@ $config = include "config.php";
 
 $plan     = $_GET["plan"]     ?? "starter";
 $email    = $_GET["email"]    ?? "";
-$name     = $_GET["name"]     ?? "";
+$firstName = $_GET["first_name"] ?? "";
+$lastName  = $_GET["last_name"] ?? "";
+$name = trim($firstName . " " . $lastName);
 $password = $_GET["password"] ?? "";
 ?>
 <!DOCTYPE html>
