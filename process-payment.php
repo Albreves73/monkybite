@@ -50,6 +50,13 @@ if ($method === "paypal") {
     // Exemplo:
     // create_nextcloud_user($name, $email, $password, $plan);
 
+    $_SESSION["pending_user"] = [
+    "name" => $name,
+    "email" => $email,
+    "password" => $password,
+    "plan" => $plan
+];
+
     echo json_encode(["success" => true]);
     exit;
 }
@@ -92,6 +99,13 @@ if (isset($result["payment"]["status"]) && $result["payment"]["status"] === "COM
     // Aqui você vai criar o usuário no Nextcloud depois.
     // Exemplo:
     // create_nextcloud_user($name, $email, $password, $plan);
+
+    $_SESSION["pending_user"] = [
+    "name" => $name,
+    "email" => $email,
+    "password" => $password,
+    "plan" => $plan
+];
 
     echo json_encode(["success" => true]);
     exit;
