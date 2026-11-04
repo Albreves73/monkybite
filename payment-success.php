@@ -83,8 +83,9 @@ unset($_SESSION["pending_user"]);
   <p>Your MonkyBite account has been created.</p>
   <p>You can now log in and start using your cloud.</p>
 
-  <a href="https://cloud.monkybite.com" class="email-login">Go to your Cloud</a>
-</div>
+  <a href="https://cloud.monkybite.com" class="email-login">
+  Go to your Cloud
+</a>
 
 <!-- FOOTER -->
 <footer>
