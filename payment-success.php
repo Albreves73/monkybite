@@ -13,7 +13,7 @@ $plan = $user["plan"];
 
 $NEXTCLOUD_BASE_URL = "https://cloud.monkybite.com";
 $ADMIN_USER = "admin";
-$ADMIN_PASS = "YOUR_ADMIN_PASSWORD";
+$ADMIN_PASS = "Cu214200@@$";
 
 $displayName = $name;
 
