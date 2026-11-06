@@ -136,60 +136,7 @@ $password = $_GET["password"] ?? "";
   const name     = "<?php echo htmlspecialchars($name); ?>";
   const password = "<?php echo htmlspecialchars($password); ?>";
 
-  // ============================
-  // PAYPAL
-  // ============================
-  paypal.Buttons({
-    style: {
-      layout: 'vertical',
-      color: 'blue',
-      shape: 'rect',
-      label: 'paypal'
-    },
-    createOrder: function(data, actions) {
-      const value =
-        plan === "starter"    ? "4.99" :
-        plan === "pro"        ? "9.99" :
-        plan === "enterprise" ? "19.99" : "4.99";
 
-      return actions.order.create({
-        purchase_units: [{
-          amount: { value: value },
-          description: "MonkyBite subscription (" + plan + ")"
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        fetch("process-payment.php", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({
-            token: details.id,
-            plan: plan,
-            email: email,
-            name: name,
-            password: password,
-            method: "paypal"
-          })
-        })
-        .then(r => r.json())
-        .then(r => {
-          if (r.success) {
-            window.location.href =
-              "payment-success.php?plan=" + encodeURIComponent(plan) +
-              "&email=" + encodeURIComponent(email) +
-              "&name=" + encodeURIComponent(name);
-          } else {
-            document.getElementById("error").innerText = r.error || "Payment failed.";
-          }
-        });
-      });
-    },
-    onError: function(err) {
-      document.getElementById("error").innerText = "PayPal error: " + err;
-    }
-  }).render('#paypal-button-container');
 
   // ============================
   // SQUARE (Apple Pay, Google Pay, Card)
