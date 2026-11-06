@@ -72,10 +72,10 @@ $password = $_GET["password"] ?? "";
   </style>
 
   <!-- Square SDK (produção) -->
-  <script src="https://web.squarecdn.com/v1/square.js"></script>
+<script src="https://web.squarecdn.com/v1/square.js"></script>
 
-  <!-- PayPal SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=SEU_CLIENT_ID_PAYPAL&currency=USD"></script>
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=SEU_CLIENT_ID_PAYPAL&currency=USD"></script>
 </head>
 <body>
 
