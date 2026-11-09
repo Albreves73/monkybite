@@ -75,7 +75,8 @@ $password = $_GET["password"] ?? "";
 <script src="https://web.squarecdn.com/v1/square.js"></script>
 
 <!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-id=SEU_CLIENT_ID_PAYPAL&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37...
+&currency=USD"></script>
 </head>
 <body>
 
@@ -113,9 +114,10 @@ $password = $_GET["password"] ?? "";
 
   <!-- Wallet buttons -->
   <div class="wallet-buttons">
+    <div id="paypal-button-container"></div>
     <div id="apple-pay-button"></div>
     <div id="google-pay-button"></div>
-    <div id="paypal-button-container"></div>
+    
   </div>
 
   <div class="divider">Or pay with card</div>
@@ -146,6 +148,48 @@ $password = $_GET["password"] ?? "";
       "<?php echo $config['square_application_id']; ?>",
       "<?php echo $config['square_location_id']; ?>"
     );
+
+    const planPrices = {
+    starter: "4.99",
+    pro: "9.99",
+    enterprise: "19.99"
+};
+
+paypal.Buttons({
+
+    createOrder: function(data, actions) {
+
+        return actions.order.create({
+            purchase_units: [{
+                amount: {
+                    value: planPrices[plan]
+                }
+            }]
+        });
+
+    },
+
+    onApprove: async function(data, actions) {
+
+        const details = await actions.order.capture();
+
+        await sendPayment(
+            details.id,
+            "paypal"
+        );
+
+    },
+
+    onError: function(err) {
+
+        console.error(err);
+
+        document.getElementById("error").innerText =
+            "PayPal payment failed.";
+
+    }
+
+}).render('#paypal-button-container');
 
     // Apple Pay
     try {
