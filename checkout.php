@@ -71,9 +71,7 @@ $password = $_GET["password"] ?? "";
     }
   </style>
 
-  <!-- Square SDK (produção) -->
-<script src="https://web.squarecdn.com/v1/square.js"></script>
-
+  
 <!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD"></script>
 
@@ -143,17 +141,6 @@ $password = $_GET["password"] ?? "";
   // ============================
   // SQUARE (Apple Pay, Google Pay, Card)
   // ============================
-  async function startSquare() {
-    const payments = Square.payments(
-      "<?php echo $config['square_application_id']; ?>",
-      "<?php echo $config['square_location_id']; ?>"
-    );
-
-    const planPrices = {
-    starter: "4.99",
-    pro: "9.99",
-    enterprise: "19.99"
-};
 
 paypal.Buttons({
 
@@ -262,8 +249,7 @@ paypal.Buttons({
     }
   }
 
-  startSquare();
-</script>
+ </script>
 
 </body>
 </html>
