@@ -75,8 +75,7 @@ $password = $_GET["password"] ?? "";
 <script src="https://web.squarecdn.com/v1/square.js"></script>
 
 <!-- PayPal SDK -->
-<script src="https://www.paypal.com/sdk/js?client-
-  id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AZsYp7y8oCYpRTVP1dG37awOkDytMe1FzjlcRlNZYH41DyKC7NQoZ1ZeP0f82E8rJK7xYN-EWoEbK8KQ&currency=USD"></script>
 </head>
 <body>
 
