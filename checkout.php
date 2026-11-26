@@ -113,7 +113,8 @@ $password = $_GET["password"] ?? "";
   <!-- Wallet buttons -->
   <div class="wallet-buttons">
     <div id="paypal-button-container"></div>
-    <div id="apple-pay-button"></div>
+  <button type="button" id="apple-pay-button" style="display:none;">
+</button>
     <div id="google-pay-button"></div>
     
   </div>
@@ -138,96 +139,113 @@ $password = $_GET["password"] ?? "";
   // ============================
   // SQUARE (Apple Pay, Google Pay, Card)
   // ============================
-  async function startSquare() {
-    const payments = Square.payments(
-      "<?php echo $config['square_application_id']; ?>",
-      "<?php echo $config['square_location_id']; ?>"
-    );
+async function startSquare() {
 
-    const planPrices = {
+  const payments = Square.payments(
+    "<?php echo $config['square_application_id']; ?>",
+    "<?php echo $config['square_location_id']; ?>"
+  );
+
+  // Prices
+  const planPrices = {
     starter: "4.99",
     pro: "9.99",
     enterprise: "19.99"
-};
+  };
 
-paypal.Buttons({
+  const amount = planPrices[plan];
+
+  if (!amount) {
+    document.getElementById("error").innerText =
+      "Invalid subscription plan.";
+    return;
+  }
+
+  // Create Payment Request
+  const paymentRequest = payments.paymentRequest({
+    countryCode: "US",
+    currencyCode: "USD",
+    total: {
+      amount: amount,
+      label: "MonkyBite Cloud Storage"
+    }
+  });
+
+  // PAYPAL - Keep existing integration
+  paypal.Buttons({
 
     createOrder: function(data, actions) {
-
-        return actions.order.create({
-            purchase_units: [{
-                amount: {
-                    value: planPrices[plan]
-                }
-            }]
-        });
-
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: amount
+          }
+        }]
+      });
     },
 
     onApprove: async function(data, actions) {
+      const details = await actions.order.capture();
 
-        const details = await actions.order.capture();
-
-        await sendPayment(
-            details.id,
-            "paypal"
-        );
-
+      await sendPayment(details.id, "paypal");
     },
 
     onError: function(err) {
-
-        console.error(err);
-
-        document.getElementById("error").innerText =
-            "PayPal payment failed.";
-
+      console.error(err);
+      document.getElementById("error").innerText =
+        "PayPal payment failed.";
     }
 
-}).render('#paypal-button-container');
+  }).render("#paypal-button-container");
 
-    // Apple Pay
-    try {
-      const applePay = await payments.applePay();
-      const canApplePay = await applePay.canMakePayment();
-      if (canApplePay) {
-        await applePay.attach('#apple-pay-button');
-        document.querySelector('#apple-pay-button button')
-          .addEventListener('click', async () => {
-            const result = await applePay.tokenize();
-            if (result.status === "OK") {
-              await sendPayment(result.token, "apple_pay");
-            }
-          });
+
+  // APPLE PAY
+  try {
+
+    const applePay = await payments.applePay(paymentRequest);
+
+    const appleButton = document.getElementById("apple-pay-button");
+
+    appleButton.innerHTML = "Apple Pay";
+    appleButton.style.display = "block";
+
+    appleButton.onclick = async function() {
+
+      const result = await applePay.tokenize();
+
+      if (result.status === "OK") {
+        await sendPayment(result.token, "apple_pay");
+      } else {
+        console.error(result.errors);
       }
-    } catch (e) {
-  console.error("APPLE PAY ERROR:", e);
-  document.getElementById("error").innerText =
-    "Apple Pay unavailable: " + e.message;
-}
 
-    // Google Pay
-    try {
-      const googlePay = await payments.googlePay();
-      const canGooglePay = await googlePay.canMakePayment();
-      if (canGooglePay) {
-        await googlePay.attach('#google-pay-button');
-        document.querySelector('#google-pay-button button')
-          .addEventListener('click', async () => {
-            const result = await googlePay.tokenize();
-            if (result.status === "OK") {
-              await sendPayment(result.token, "google_pay");
-            }
-          });
-      }
-    } catch (e) {
-  console.error("GOOGLE PAY ERROR:", e);
-  document.getElementById("error").innerText =
-    "Google Pay unavailable: " + e.message;
-}
+    };
 
+  } catch (e) {
+
+    console.error("APPLE PAY ERROR:", e);
+
+    document.getElementById("apple-pay-button").style.display = "none";
 
   }
+
+
+  // GOOGLE PAY
+  try {
+
+    const googlePay = await payments.googlePay(paymentRequest);
+
+    await googlePay.attach("#google-pay-button");
+
+  } catch (e) {
+
+    console.error("GOOGLE PAY ERROR:", e);
+
+    document.getElementById("google-pay-button").style.display = "none";
+
+  }
+
+}
 
   async function sendPayment(token, method) {
     const res = await fetch("process-payment.php", {
