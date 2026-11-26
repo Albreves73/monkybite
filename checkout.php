@@ -35,9 +35,7 @@ $password = $_GET["password"] ?? "";
       text-align: center;
       margin-bottom: 20px;
     }
-    #card-container {
-      margin-top: 20px;
-    }
+    
     #payButton {
       width: 100%;
       padding: 14px;
@@ -120,10 +118,7 @@ $password = $_GET["password"] ?? "";
     
   </div>
 
-  <div class="divider">Or pay with card</div>
 
-  <div id="card-container"></div>
-  <button id="payButton">Pay with Card</button>
 
   <div id="error"></div>
 </div>
@@ -223,18 +218,7 @@ paypal.Buttons({
       }
     } catch (e) {}
 
-    // Card
-    const card = await payments.card();
-    await card.attach("#card-container");
 
-    document.getElementById("payButton").addEventListener("click", async () => {
-      const result = await card.tokenize();
-      if (result.status === "OK") {
-        await sendPayment(result.token, "card");
-      } else {
-        document.getElementById("error").innerText = "Card payment failed.";
-      }
-    });
   }
 
   async function sendPayment(token, method) {
