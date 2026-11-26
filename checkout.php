@@ -112,11 +112,10 @@ $password = $_GET["password"] ?? "";
 
   <!-- Wallet buttons -->
   <div class="wallet-buttons">
-    <div id="paypal-button-container"></div>
- <button id="apple-pay-button" type="button"></button> 
-    <div id="google-pay-button"></div>
-    
-  </div>
+  <div id="paypal-button-container"></div>
+  <button id="apple-pay-button" type="button"></button>
+  <div id="google-pay-button"></div>
+</div>
 
 
 
