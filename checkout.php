@@ -200,7 +200,11 @@ paypal.Buttons({
             }
           });
       }
-    } catch (e) {}
+    } catch (e) {
+  console.error("APPLE PAY ERROR:", e);
+  document.getElementById("error").innerText =
+    "Apple Pay unavailable: " + e.message;
+}
 
     // Google Pay
     try {
@@ -216,7 +220,11 @@ paypal.Buttons({
             }
           });
       }
-    } catch (e) {}
+    } catch (e) {
+  console.error("GOOGLE PAY ERROR:", e);
+  document.getElementById("error").innerText =
+    "Google Pay unavailable: " + e.message;
+}
 
 
   }
