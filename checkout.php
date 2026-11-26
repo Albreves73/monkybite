@@ -221,11 +221,14 @@ async function startSquare() {
 
   } catch (e) {
 
-    console.error("APPLE PAY ERROR:", e);
+  console.error("APPLE PAY ERROR:", e);
 
-    document.getElementById("apple-pay-button").style.display = "none";
+  document.getElementById("apple-pay-button").style.display = "none";
 
-  }
+  document.getElementById("error").innerText =
+    "Apple Pay Error: " + (e.message || JSON.stringify(e));
+
+}
 
 
   // GOOGLE PAY
